@@ -3,18 +3,21 @@ import Head from "next/head";
 import Nav from "../Nav/Nav";
 
 import styles from "./layout.module.css";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 
 const Layout = ({ children }) => {
   const { mainContainer, container } = styles;
 
   return (
-    <main className={mainContainer}>
+    <div className={mainContainer}>
       <Head>
         <title>SoundQuest</title>
       </Head>
-      <Nav />
-      <section className={container}>{children}</section>
-    </main>
+      <Header/>
+      <div className={container}>{children}</div>
+      <Footer/>
+    </div>
   );
 };
 
