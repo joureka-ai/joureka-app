@@ -31,9 +31,6 @@ services:
   #   ports:
   #     - "5050:5050"
 
-  # flower:
-  #   ports:
-  #     - "5555:5555"
   db:
     ports:
       - "5432:5432"
@@ -71,20 +68,6 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-backend-http.rule=PathPrefix(`/api`) || PathPrefix(`/docs`) || PathPrefix(`/redoc`)
       - traefik.http.services.${STACK_NAME?Variable not set}-backend.loadbalancer.server.port=80
 
-  # celeryworker:
-  #   volumes:
-  #     - ./backend/app:/app
-  #   environment:
-  #     - RUN=celery worker -A app.worker -l info -Q main-queue -c 1
-  #     - JUPYTER=jupyter lab --ip=0.0.0.0 --allow-root --NotebookApp.custom_display_url=http://127.0.0.1:8888
-  #     - SERVER_HOST=http://${DOMAIN?Variable not set}
-  #   build:
-  #     context: ./backend
-  #     dockerfile: celeryworker.dockerfile
-  #     args:
-  #       INSTALL_DEV: ${INSTALL_DEV-true}
-  #       INSTALL_JUPYTER: ${INSTALL_JUPYTER-true}
-
   # frontend:
   #   build:
   #     context: ./frontend
@@ -97,6 +80,6 @@ services:
   #     - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=80
 
 networks:
-  traefik-public:
+  j-traefik-public:
     # For local dev, don't expect an external Traefik network
     external: false
