@@ -9,6 +9,7 @@ from app import crud
 from app.api import deps
 from app.transcription import aws
 from app.schemas.document import Language
+from app import models
 
 from ..router import router
 
@@ -26,6 +27,7 @@ def transcribe_with_aws(
     aws_bucket_name: str = "soundqesstt",
     lang: str = "de-DE",
     db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Get a specific document by id.

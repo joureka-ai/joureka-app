@@ -24,6 +24,7 @@ async def create_document(
     *,
     document_in: schemas.DocumentCreate,
     db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> schemas.Document:
 
     document = crud.document.create(db, obj_in=document_in)
@@ -36,6 +37,7 @@ def read_documents(
     db: Session = Depends(deps.get_db),
     skip: int = 0,
     limit: int = 100,
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> List[schemas.Document]:
     """
     Retrieve documents.
@@ -48,6 +50,7 @@ def read_documents(
 def read_document_by_id(
     document_id: int,
     db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Get a specific document by id.
@@ -62,6 +65,7 @@ def update_document(
     db: Session = Depends(deps.get_db),
     document_id: int,
     document_in: schemas.DocumentUpdate,
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> schemas.Document:
     """
     Update a document.
@@ -80,6 +84,7 @@ def update_document(
 def delete_document(
     document_id: int,
     db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
     Get a specific document by id.
@@ -91,6 +96,7 @@ def delete_document(
 async def download_file(
     document_id: int,
     db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
 
     document = crud.document.get(db, id=document_id)
@@ -123,6 +129,7 @@ async def upload_file(
     document_id: int,
     db: Session = Depends(deps.get_db),
     file: UploadFile = File(...),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
     settings = file_store.Settings()
 
