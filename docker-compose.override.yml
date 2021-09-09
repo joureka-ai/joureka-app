@@ -34,9 +34,17 @@ services:
   # flower:
   #   ports:
   #     - "5555:5555"
-  # db:
-  #   ports:
-  #     - "55433:5432"
+  db:
+    ports:
+      - "5432:5432"
+
+  schemaspy:
+    image: schemaspy/schemaspy:latest
+    volumes:
+      - ./backend/schemaspy/output:/output
+      - ./backend/schemaspy/config:/config
+    command:
+      ["-configFile", "/config/schemaspy.properties", "-imageformat", "svg"]
 
   backend:
     ports:
