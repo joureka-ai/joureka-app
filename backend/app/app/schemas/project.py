@@ -5,7 +5,7 @@ from pydantic import BaseModel
 # Shared properties
 class ProjectBase(BaseModel):
     name: str
-    description: str
+    description: Optional[str]
 
 # Properties to receive via API on creation
 class ProjectCreate(ProjectBase):
@@ -14,7 +14,7 @@ class ProjectCreate(ProjectBase):
 
 # Properties to receive via API on update
 class ProjectUpdate(ProjectBase):
-    pass
+    name: Optional[str]
 
 
 class ProjectInDBBase(ProjectBase):

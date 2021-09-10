@@ -26,8 +26,14 @@ def create_project(
     db: Session = Depends(deps.get_db),
     current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> schemas.Project:
-
-    project = crud.project.create(db, obj_in=project_in)
+    try:
+        project = crud.project.create(db, obj_in=project_in)
+    # Handle creation of unique project names
+    except Exception as e:
+        raise HTTPException(
+            status_code=409,
+            detail=str(e),
+        )
 
     return project
 
