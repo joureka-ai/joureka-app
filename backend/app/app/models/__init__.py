@@ -8,3 +8,4 @@ force_auto_coercion()
 from .user import User
 from .document import Document
 from .word import Word
+from .project import Project

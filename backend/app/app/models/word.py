@@ -11,7 +11,8 @@ from .transcript.aws import AWSTranscription
 
 class Word(Base):
     """ORM model for a document"""
-
+    __table_name__ = "word"
+    
     id = Column(Integer, primary_key=True, index=True)
     word = Column(String)
     order = Column(Integer)

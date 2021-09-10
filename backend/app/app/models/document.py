@@ -4,8 +4,6 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Index
 from sqlalchemy.orm import relationship
 from sqlalchemy_utils import TSVectorType
 
-# from sqlalchemy.orm import relationship
-
 from app.db.base_class import Base
 
 from .transcript.aws import AWSTranscription
@@ -14,7 +12,8 @@ from .word import Word
 
 class Document(Base):
     """ORM model for a document"""
-
+    
+    __table_name__ = "document"
     __table_args__ = (
         Index(
             "Document_fulltext_search_vector_idx",
@@ -36,6 +35,6 @@ class Document(Base):
     fulltext_regconfig = Column(String, nullable=True)
 
     words = relationship(Word, cascade="all, delete-orphan", order_by=Word.order)
-
+    fk_project = Column(Integer, ForeignKey("project.id"))
 
 Word.document = relationship(Document, back_populates="words")
