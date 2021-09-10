@@ -17,6 +17,41 @@ from app.schemas.document import (
 
 
 class CRUDDocument(CRUDBase[Document, DocumentCreate, DocumentUpdate]):
+    def get_by_p_id(
+        self, db: Session, id: int, fk_project: int
+    ) -> Optional[Document]:
+        return (
+            db.query(self.model)
+            .filter(self.model.fk_project == fk_project)
+            .filter(self.model.id == id)
+            .first()
+        )
+    
+    def get_multi_by_p_id(
+        self, db: Session, skip: int, limit: int, fk_project: int
+    ) -> List[Document]:
+        return (
+            db.query(self.model)
+            .filter(self.model.fk_project == fk_project)
+            .offset(skip)
+            .limit(limit)
+            .all()
+        )
+
+    def remove_by_p_id(
+        self, db: Session, id: int, fk_project: int
+    ) -> Any:
+        obj = (
+            db.query(self.model)
+            .filter(self.model.fk_project == fk_project)
+            .filter(self.model.id == id)
+            .first()
+        )
+        db.delete(obj)
+        db.commit()
+        return obj 
+
+
     def filter_document(
         self, db: Session, *, filter_str: str, skip: int = 0, limit: int = 100
     ) -> List[FilteredDocument]:
