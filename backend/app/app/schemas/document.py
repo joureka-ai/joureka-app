@@ -29,7 +29,7 @@ class AWSTranscription(BaseModel):
 class DocumentBase(BaseModel):
     title: Optional[str] = None
     language: Optional[Language] = Language.de_DE
-
+    fk_project: int
 
 # Properties to receive via API on creation
 class DocumentCreate(DocumentBase):
