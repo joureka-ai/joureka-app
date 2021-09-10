@@ -21,8 +21,9 @@ language_to_regconfig = {
 }
 
 
-@router.post("/{document_id}/transcribe/aws")  # , response_model=schemas.Document
+@router.post("{project_id}/docs/{document_id}/transcribe/aws")  # , response_model=schemas.Document
 def transcribe_with_aws(
+    project_id: int,
     document_id: int,
     aws_bucket_name: str = "soundqesstt",
     lang: str = "de-DE",
@@ -33,7 +34,7 @@ def transcribe_with_aws(
     Get a specific document by id.
     """
 
-    document = crud.document.get(db, id=document_id)
+    document = crud.document.get_by_p_id(db, id=document_id, fk_project=project_id)
 
     aws.transcribe_document(document, aws_bucket_name=aws_bucket_name, lang=lang)
 
