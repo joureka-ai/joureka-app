@@ -12,8 +12,8 @@ const LogIn = () => {
   const router = useRouter();
 
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required('Username is required'),
-    password: Yup.string().required('Password is required')
+    username: Yup.string().required('Benutzername ist erforderlich!'),
+    password: Yup.string().required('Passwort ist erforderlich!')
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
 
@@ -45,25 +45,27 @@ const LogIn = () => {
 
       <div className={`${styles.split} ${styles.right}`}>
         <div className='d-flex justify-content-center align-items-center flex-column flex-md-row'>
-          <div className='form-container'>
-            <h2 className='mb-5'>Log In</h2>
+          <div className='form-container p-1'>
+            <h2 className='mb-5'>Anmelden</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-group">
-                <label>Username</label>
-                <input name="username" type="text" {...register('username')} className={`form-control ${errors.username ? 'is-invalid' : ''}`} />
+                <label>Benutzername</label>
+                <input name="username" type="text" {...register('username')} className={`form-control custom-input ${errors.username ? 'is-invalid' : ''}`} />
                 <div className="invalid-feedback">{errors.username?.message}</div>
               </div>
               <div className="form-group">
-                <label>Password</label>
-                <input name="password" type="password" {...register('password')} className={`form-control ${errors.password ? 'is-invalid' : ''}`} />
+                <label>Passwort</label>
+                <input name="password" type="password" {...register('password')} className={`form-control custom-input ${errors.password ? 'is-invalid' : ''}`} />
                 <div className="invalid-feedback">{errors.password?.message}</div>
               </div>
-              <button disabled={formState.isSubmitting} className="btn btn-primary">
-                {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
-                Login
-              </button>
+              <div className="d-flex flex-row justify-content-end">
+                <button disabled={formState.isSubmitting} className="custom-button custom-button-orange">
+                  {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                  Anmelden
+                </button>
+              </div>
               {errors.apiError &&
-              <div className="alert alert-danger mt-3 mb-0">{errors.apiError?.message}</div>
+              <div className="alert alert-danger mt-3 mb-0">Benutzername oder Passwort ist falsch!</div>
               }
             </form>
             <div className='pt-4'><span>Du hast kein Konto? <b>Melde dich an.</b></span></div>
@@ -73,54 +75,4 @@ const LogIn = () => {
     </div>
   )
 };
-
-/*const LogIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  function validateForm() {
-    return email.length > 0 && password.length > 0;
-  }
-
-  function submit(event) {
-    console.log('SUBMIT');
-    event.preventDefault();
-  }
-
-  return (
-    <div>
-      <div className={`${styles.split} ${styles.left}`}>
-        <div className='d-flex justify-content-center align-items-center flex-column flex-md-row'>
-          <div className='mb-3'>
-            <Image src={Logo} alt="Picture of the author" />
-          </div>
-          <div className='p-5'><h3>Mit mehr Muße<br/>vom Interview<br/>zum Artikel!</h3></div>
-        </div>
-      </div>
-
-      <div className={`${styles.split} ${styles.right}`}>
-        <div className='d-flex justify-content-center align-items-center flex-column flex-md-row'>
-          <div className='form-container'>
-            <h2 className='mb-5'>Log In</h2>
-            <form onSubmit={submit}>
-              <div className="mb-3">
-                <label htmlFor="exampleInputEmail1" className="form-label">Benutzername/E-Mail Adresse</label>
-                <input type="email" onChange={(e) => setEmail(e.target.value)} className="custom-input" id="exampleInputEmail1" value={email} aria-describedby="emailHelp"/>
-              </div>
-              <div className="mb-3">
-                <label htmlFor="exampleInputPassword1" className="form-label">Passwort</label>
-                <input type="password" onChange={(e) => setPassword(e.target.value)} className="custom-input"  id="exampleInputPassword1" value={password}/>
-              </div>
-              <div className='d-flex justify-content-end'>
-                <button type="submit" className="custom-button custom-button-orange left" disabled={!validateForm()}>Submit</button>
-              </div>
-            </form>
-            <div className='pt-4'><span>Du hast kein Konto? <b>Melde dich an.</b></span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-*/
 export default LogIn;

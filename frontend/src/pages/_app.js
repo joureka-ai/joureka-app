@@ -3,7 +3,6 @@ import Layout from "../components/Layout/Layout";
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from '../utils/theme';
 import "../styles/global.scss";
-import 'bootstrap/dist/css/bootstrap.css';
 import {useRouter} from "next/router";
 import {userService} from "../services/user.service";
 

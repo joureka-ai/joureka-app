@@ -1,6 +1,19 @@
 @import "variables";
+$theme-colors: (
+        'primary': $Blue,
+        'secondary': $Orange,
+        'success': $Green,
+        'info': #ff7d50,
+        'warning': #ffbe0b,
+        'danger': $Red,
+        'light': $White,
+        'dark': $Black,
+);
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
 @import "buttons";
 @import "forms";
+
 
 * {
   padding: 0;

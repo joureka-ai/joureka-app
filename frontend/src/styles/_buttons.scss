@@ -3,7 +3,8 @@
 .custom-button {
   border-radius: $border-radius-pill;
   padding: $spacing-xxs;
-  min-width: 100px;
+  min-width: 150px;
+  text-transform: uppercase;
 
   &-orange {
     border: none;
