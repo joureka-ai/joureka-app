@@ -1,7 +1,4 @@
 import Head from "next/head";
-
-import Nav from "../Nav/Nav";
-
 import styles from "./layout.module.css";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";

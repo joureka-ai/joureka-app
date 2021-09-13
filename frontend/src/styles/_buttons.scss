@@ -1,0 +1,25 @@
+@import "variables";
+
+.custom-button {
+  border-radius: $border-radius-pill;
+  padding: $spacing-xxs;
+  min-width: 100px;
+
+  &-orange {
+    border: none;
+    background-color: $Orange;
+    color: $White;
+
+    &:hover {
+      background-color: $Blue;
+    }
+  }
+
+  &:disabled {
+    opacity: .5;
+
+    &:hover {
+      background-color: $Orange;
+    }
+  }
+}

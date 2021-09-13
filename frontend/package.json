@@ -2,17 +2,24 @@
   "name": "with-custom-reverse-proxy",
   "license": "MIT",
   "dependencies": {
+    "@hookform/resolvers": "^2.8.0",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@zeit/next-sass": "^1.0.1",
+    "bootstrap": "^5.0.0-beta3",
     "express": "^4.15.3",
+    "express-jwt": "^6.1.0",
     "next": "latest",
+    "qs": "^6.10.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-hook-form": "^7.15.3",
     "react-player": "^2.7.0",
+    "rxjs": "^7.3.0",
     "sass": "^1.39.0",
     "swr": "0.2.0",
-    "wavesurfer.js": "^4.3.0"
+    "wavesurfer.js": "^4.3.0",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "cross-env": "^5.0.1",
