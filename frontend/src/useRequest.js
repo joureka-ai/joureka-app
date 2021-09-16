@@ -1,16 +1,20 @@
 import useSWR from "swr"
+import {userService} from "./services";
 
-const fetcher = url => fetch(url).then(res => res.json())
-const baseUrl = "/api/v1/"
+const baseUrl = "/api/v1/";
 
-export const useGetCollection = path => {
-  if (!path) {
-    throw new Error("Path is required")
-  }
+export const useGetProjects = () => {
 
-  const url = baseUrl + path
+  const url = baseUrl + "projects/";
 
-  const { data: posts, error } = useSWR(url, fetcher)
+  const fetcher = (url) => fetch(url,{
+    headers: {
+      Authorization: `Bearer ${userService.accessTokenValue}`,
+      'Content-Type': 'application/json',
+    },
+  }).then((res) => res.json());
 
-  return { posts, error }
-}
+  const { data, error } = useSWR(url, fetcher);
+
+  return { data, error }
+};

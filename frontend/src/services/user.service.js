@@ -2,7 +2,7 @@ import { BehaviorSubject } from 'rxjs';
 import Router from 'next/router';
 import { fetchWrapper } from '../helpers/fetch-wrapper';
 
-const baseUrl = "http://localhost:8888/api/v1";
+const baseUrl = "api/v1";
 const userSubject = new BehaviorSubject(process.browser && JSON.parse(localStorage.getItem('user')));
 const accessTokenSubject = new BehaviorSubject(process.browser && localStorage.getItem('access-token'));
 

@@ -1,0 +1,52 @@
+@import "../../styles/variables";
+.navContainer {
+  padding-top: 4rem;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.listItemContainer {
+display: flex;
+  flex-direction: column;
+}
+
+.linkItem {
+  padding: 0.5rem 2rem;
+  margin-top: 0.5rem;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+
+  &.linkItemActive {
+    font-weight: $font-general-weight-bold;
+    border-left-style: solid;
+    border-left-width: 5px;
+    border-left-color: $Blue;
+   }
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 20%;
+
+  button {
+    margin-top: 1rem;
+  }
+
+}
+
+.logInBtn {
+  font-size: 2rem;
+  align-items: center;
+  margin: 0 3rem;
+
+  border: none;
+  background-color: inherit;
+  outline: none;
+}

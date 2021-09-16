@@ -26,8 +26,22 @@ body {
   background-color: $White;
 }
 
-h1 {
+h1, h2 {
   text-transform: uppercase;
   letter-spacing: 2px;
+}
+
+.disabled-link {
+  pointer-events: none;
+}
+
+.main-container {
+  max-width: 60%;
+  margin: 0 auto;
+}
+
+a, a:hover, a:focus, a:active {
+  text-decoration: none;
+  color: inherit;
 }
 

@@ -1,18 +1,40 @@
 @import "variables";
 
+button {
+  font-size: 0.8rem;
+}
 .custom-button {
   border-radius: $border-radius-pill;
   padding: $spacing-xxs;
   min-width: 150px;
   text-transform: uppercase;
 
+  &-sm {
+    min-width: 100px;
+    font-size: 0.7rem;
+  }
+
   &-orange {
+     border: none;
+     background-color: $Orange;
+     color: $White;
+
+     &:hover {
+       background-color: $Light_Blue;
+       color: $Blue;
+       font-weight: $font-general-weight-bold;
+     }
+   }
+
+  &-blue {
     border: none;
-    background-color: $Orange;
+    background-color: $Blue;
     color: $White;
 
     &:hover {
-      background-color: $Blue;
+      background-color: $Light_Orange;
+      color: $Orange;
+      font-weight: $font-general-weight-bold;
     }
   }
 
@@ -31,6 +53,10 @@
 
   &.icon-orange {
     color: $Orange;
+
+    &:hover {
+      color: $Blue;
+    }
   }
 }
 
@@ -41,4 +67,31 @@
   color: $White;
   height: 2rem;
   width: 2rem;
+
+  &:hover {
+    background: $Orange;
+  }
+}
+
+.border-button {
+  border-radius: $border-radius-default;
+  background-color: transparent;
+  color: $Orange;
+  text-transform: uppercase;
+  height: 2.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid $Orange;
+
+  &:hover {
+    border-color: $Blue;
+    color: $Blue;
+    font-weight: $font-general-weight-semibold;
+  }
+
+  span {
+    font-size: 0.7rem;
+  }
 }

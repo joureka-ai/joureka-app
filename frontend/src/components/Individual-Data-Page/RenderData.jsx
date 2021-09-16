@@ -4,10 +4,11 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "./renderData.module.css";
 import Player from "../MusicPlayer/Player";
+import {fetchWrapper} from "../../helpers/fetch-wrapper";
 
 const RenderData = ({ query }) => {
   const { document_id } = query;
-  const fetcher = (url) => fetch(url).then((res) => res.json());
+  const fetcher = (url) => fetchWrapper.get(url).then((res) => res.json());
   const { data, error } = useSWR(
     `http://localhost:8888/api/v1/docs/${document_id}`,
     fetcher

@@ -60,7 +60,7 @@ const LogIn = () => {
               </div>
               <div className="d-flex flex-row justify-content-end">
                 <button disabled={formState.isSubmitting} className="custom-button custom-button-orange">
-                  {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
+                  {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"/>}
                   Anmelden
                 </button>
               </div>
@@ -68,7 +68,7 @@ const LogIn = () => {
               <div className="alert alert-danger mt-3 mb-0">Benutzername oder Passwort ist falsch!</div>
               }
             </form>
-            <div className='pt-4'><span>Du hast kein Konto? <b>Melde dich an.</b></span></div>
+            {/*<div className='pt-4'><span>Du hast kein Konto? <b>Melde dich an.</b></span></div-->*/}
           </div>
         </div>
       </div>

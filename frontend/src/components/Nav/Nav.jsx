@@ -1,40 +1,41 @@
 import Link from "next/link";
-
-import styles from "./Nav.module.css";
+import { useRouter } from 'next/router';
+import styles from "./Nav.module.scss";
+import {useGetProjects} from "../../useRequest";
+import React from "react";
 
 const Nav = () => {
   const {
     navContainer,
     listItemContainer,
-    listItem,
+    linkItemActive,
     linkItem,
-    logInContainer,
-    logInBtn,
+    buttonContainer
   } = styles;
+  const router = useRouter();
+  const { pid } = router.query;
 
-  const pages = ["Home"];
-
-  const linkItems = pages.map((name) => {
-    let link;
-
-    if (name === "Home") {
-      link = "/";
-    } else {
-      link = `/${name}`;
-    }
-
-    return (
-      <Link href={`${link}`} className={linkItem}>
-        <li className={listItem}>{`${name}`}</li>
-      </Link>
-    );
-  });
-
+  const { data, error } = useGetProjects();
+  if (error) return <div>failed to load</div>;
+  if (!data) return <div>loading...</div>;
   return (
     <nav className={navContainer}>
-      <ul className={listItemContainer}>{linkItems}</ul>
-      <div className={logInContainer}>
-        <button className={logInBtn}>Log-In</button>
+      <div className={listItemContainer}>
+        {data.map(project => (
+          <Link href={`/project/${project.id}`}>
+              <div className={`${linkItem} ${pid == project.id ? linkItemActive : ""}`}>
+                {project.name}
+              </div>
+          </Link>
+        ))}
+      </div>
+      <div className={buttonContainer}>
+        <button className="custom-button custom-button-blue">
+          Aufnahme hinzufügen
+        </button>
+        <button className="custom-button custom-button-orange">
+          Neues <br/>Projekt
+        </button>
       </div>
     </nav>
   );
