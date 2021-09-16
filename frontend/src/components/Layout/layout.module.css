@@ -1,7 +1,5 @@
 .mainContainer {
-}
-
-.container {
-  min-height: 450px;
+  min-height: 90vh;
   margin: 0 auto;
 }
+

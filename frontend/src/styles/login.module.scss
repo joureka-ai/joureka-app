@@ -7,16 +7,18 @@
   top: 0;
   display: flex;
   justify-content: center;
+
+
+  &.left {
+    left: 0;
+    width: 60%;
+    background-color: $Light_Blue;
+  }
+
+  &.right {
+    right: 0;
+    width: 40%;
+    background-color: $White;
+  }
 }
 
-.left {
-  left: 0;
-  width: 60%;
-  background-color: $Light_Blue;
-}
-
-.right {
-  right: 0;
-  width: 40%;
-  background-color: $White;
-}

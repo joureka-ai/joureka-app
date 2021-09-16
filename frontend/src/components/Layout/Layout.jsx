@@ -4,15 +4,14 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 
 const Layout = ({ children }) => {
-  const { mainContainer, container } = styles;
 
   return (
-    <div className={mainContainer}>
+    <div>
       <Head>
         <title>SoundQuest</title>
       </Head>
       <Header/>
-      <div className={container}>{children}</div>
+      <div className={styles.mainContainer}>{children}</div>
       <Footer/>
     </div>
   );

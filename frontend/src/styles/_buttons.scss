@@ -24,3 +24,21 @@
     }
   }
 }
+
+.icon-button-transparent {
+  border: none;
+  background: transparent;
+
+  &.icon-orange {
+    color: $Orange;
+  }
+}
+
+.icon-button-round {
+  border-radius: 50%;
+  background: $Blue;
+  border: none;
+  color: $White;
+  height: 2rem;
+  width: 2rem;
+}
