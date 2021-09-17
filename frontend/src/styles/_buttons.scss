@@ -5,9 +5,9 @@ button {
 }
 .custom-button {
   border-radius: $border-radius-pill;
-  padding: $spacing-xxs;
   min-width: 150px;
   text-transform: uppercase;
+  padding: 0.5rem;
 
   &-sm {
     min-width: 100px;

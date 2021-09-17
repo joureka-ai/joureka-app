@@ -1,0 +1,28 @@
+@import "variables";
+
+.custom-card {
+  background-color: $White;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  border-radius: $border-radius-default;
+  margin: 1rem;
+  min-width: 250px;
+
+  .custom-card-header {
+    .custom-card-title {
+      font-size: 1.2em;
+      font-weight: $font-general-weight-semibold;
+    }
+  }
+
+  .custom-card-body {
+    padding: 1rem 0;
+    font-size: 0.8em;
+  }
+
+  .custom-card-action {
+    display: flex;
+    justify-content: end;
+  }
+}

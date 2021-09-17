@@ -9,10 +9,10 @@ $theme-colors: (
         'light': $White,
         'dark': $Black,
 );
-
-@import "../../node_modules/bootstrap/scss/bootstrap";
+@import "card";
 @import "buttons";
 @import "forms";
+@import "../../node_modules/bootstrap/scss/bootstrap";
 
 
 * {
@@ -52,5 +52,22 @@ a, a:hover, a:focus, a:active {
 
 .full-width {
   width: 100%;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 4px;
+  padding: 34px;
+}
+
+*::-webkit-scrollbar-track {
+  background: $Light_Blue;
+  opacity: 0.3;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $Blue;
+  border-radius: 20px;
+  border: 1px solid transparent;
 }
 

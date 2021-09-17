@@ -2,11 +2,12 @@
 
 .sideNavContainer {
   width: 20%;
+  height: 100vh;
 }
 
 .projectPageContainer {
   right: 0;
   width: 80%;
-  background-color: $Light_Blue;
-  border-radius: $border-radius-default 0  0 $border-radius-default;
+  display: flex;
+  flex-direction: column;
 }
