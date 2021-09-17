@@ -3,7 +3,7 @@ import styles from "./projectBar.module.scss"
 import Link from "next/link";
 
 const ProjectBar = ({project}) => {
-  project.done = true;
+  project.done = project.id % 2 === 0;
   const {projectBar, loader, loaderBar, inactive} = styles;
   return (
     <Link href={project.done ? `/project/${project.id}` : ""} className="disabled-link">
