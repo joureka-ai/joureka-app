@@ -54,13 +54,13 @@ services:
   #   env_file:
   #     - .env
   
-  schemaspy:
-    image: schemaspy/schemaspy:latest
-    volumes:
-      - ./backend/schemaspy/output:/output
-      - ./backend/schemaspy/config:/config
-    command:
-      ["-configFile", "/config/schemaspy.properties", "-imageformat", "svg"]
+  #schemaspy:
+  #  image: schemaspy/schemaspy:latest
+  #  volumes:
+  #    - ./backend/schemaspy/output:/output
+  #    - ./backend/schemaspy/config:/config
+  #  command:
+  #    ["-configFile", "/config/schemaspy.properties", "-imageformat", "svg"]
 
   backend:
     image: "${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}"
