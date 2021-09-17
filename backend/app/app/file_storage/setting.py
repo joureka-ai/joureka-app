@@ -2,13 +2,13 @@ from pathlib import Path
 from typing import Optional
 from pydantic import BaseSettings, Field
 
+
 import boto3
-import botocore
 from botocore.client import Config
 
 
 class Settings(BaseSettings):
-    MINIO_INTERN: Optional[str] = Field(None, env="file_storage_INTERN")
+    MINIO_INTERN: Optional[str] = Field(None, env="FILE_STORE_INTERN")
     MINIO_EXTERN: Optional[str] = Field(None, env="FILE_STORE_EXTERN")
     # For MINIO usage the "file-store" value is needed
     BUCKET_NAME: str = Field("file-store", env="FILE_STORE_BUCKET")
