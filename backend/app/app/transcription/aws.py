@@ -8,7 +8,7 @@ from datetime import timedelta
 import boto3, botocore
 
 from fastapi import Depends
-from app import file_store
+from app import file_storage
 from app.models import Document, Word
 from app.models.transcript.aws import AWSTranscription
 
@@ -23,11 +23,11 @@ def transcribe(
     """
     transcribe a file with AWS transcribe
     """
-    document_file = file_store.get_file_for_key(filekey)
+    document_file = file_storage.get_file_for_key(filekey)
     assert document_file.is_file()
 
-    transcript_key = file_store.get_transcript_key(filekey, lang=lang, platform="aws")
-    transcript_file = file_store.get_transcript_path(filekey, lang=lang, platform="aws")
+    transcript_key = file_storage.get_transcript_key(filekey, lang=lang, platform="aws")
+    transcript_file = file_storage.get_transcript_path(filekey, lang=lang, platform="aws")
     if transcript_file.is_file():
         return json.load(transcript_file.open())
 
@@ -43,7 +43,7 @@ def transcribe(
     transcript_obj = s3.Object(aws_bucket_name, transcript_key)
 
     # try to download the transcript. If this succeeds, we store it in
-    # the file_store and and return the transcript
+    # the file_storage and and return the transcript
 
     try:
         transcript_obj.download_file(str(transcript_file))
@@ -97,7 +97,7 @@ def transcribe_document(
     lang: str,
 ):
 
-    filekey = document.filename
+    filekey = document.audio_file_key
 
     job_raw = transcribe(
         filekey=filekey,

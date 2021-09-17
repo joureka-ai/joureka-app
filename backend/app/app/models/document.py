@@ -24,7 +24,8 @@ class Document(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, index=True)
-    filename = Column(String, nullable=True)
+    audio_file_key = Column(String, nullable=True)
+    peaks_file_key = Column(String, nullable=True)
     language = Column(String, nullable=True)
 
     fk_aws_transcription = Column(Integer, ForeignKey("aws_transcription.id"))

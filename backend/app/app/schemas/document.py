@@ -43,7 +43,7 @@ class DocumentUpdate(DocumentBase):
 
 class DocumentInDBBase(DocumentBase):
     id: Optional[int] = None
-    filename: Optional[str]
+    audio_file_key: Optional[str]
     fulltext: Optional[str]
     fulltext_regconfig: Optional[str]
     words: List[Word] = []

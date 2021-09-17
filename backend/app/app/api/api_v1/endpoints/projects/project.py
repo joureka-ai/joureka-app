@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from fastapi import File, UploadFile, Depends, HTTPException
 from fastapi.responses import FileResponse
 
-from app import crud, models, schemas, file_store
+from app import crud, models, schemas, file_storage
 from app.api import deps
 from app.core.config import settings
 from app.utils import send_new_account_email
@@ -195,22 +195,13 @@ async def download_file(
             detail="The document with this id does not exist in the system",
         )
 
-    if not document.filename:
+    if not document.audio_file_key:
         raise HTTPException(
             status_code=404,
             detail="The document with this id has no file",
         )
 
-    try:
-        target_path = file_store.get_file_for_doc(document)
-    except ValueError as err:
-        raise HTTPException(
-            status_code=404,
-            detail=str(err),
-        )
-    assert target_path.is_file()
-
-    return FileResponse(target_path)
+    return file_storage.create_presigned_url(document.audio_file_key)
 
 
 @router.post("/{project_id}/docs/{document_id}/file")
@@ -221,13 +212,24 @@ async def upload_file(
     file: UploadFile = File(...),
     current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
-    settings = file_store.Settings()
-
     document = crud.document.get_by_p_id(db, id=document_id, fk_project=project_id)
     if not document:
         raise HTTPException(
             status_code=404,
             detail="The document with this id does not exist in the system",
+        )
+
+    if document.audio_file_key:
+        raise HTTPException(
+            status_code=409,
+            detail="There is already a file attached to this document. Please delete the attached file first!",
+        )
+    
+    suffix = file_storage.create_suffix(file.filename)
+    if not suffix in [".mp3"]:
+        raise HTTPException(
+            status_code=422,
+            detail="The file you provided is not supported. Please only upload mp3 files",
         )
 
     LOG.warning(
@@ -236,13 +238,4 @@ async def upload_file(
         file.content_type,
     )
 
-    file_key = await file_store.get_hash(file)
-
-    target_file_name = file_key + Path(file.filename).suffix
-    target_path = settings.file_store / target_file_name
-
-    target_path.write_bytes(await file.read())
-
-    document.filename = target_file_name
-
-    db.commit()
+    await crud.document.create_audio_file(db, document, file, suffix)

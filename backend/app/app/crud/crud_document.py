@@ -2,11 +2,14 @@ from typing import Any, Dict, Optional, List
 
 from sqlalchemy import func, text
 from sqlalchemy.orm import Session
+from pathlib import Path
 
+from fastapi import UploadFile
 
 from app.core.security import get_password_hash, verify_password
 from app.crud.base import CRUDBase
 from app.models.document import Document
+from app import file_storage
 from app.schemas.document import (
     DocumentCreate,
     DocumentUpdate,
@@ -116,5 +119,17 @@ class CRUDDocument(CRUDBase[Document, DocumentCreate, DocumentUpdate]):
 
         return retval
 
+    async def create_audio_file(self, db: Session, document: Document, file: UploadFile, suffix: str) -> None:
+        """
+        Get a hash as a file_key. Upload the file to MINIO S3 and store with file_key and suffix.
+        Store the path under document.audio_file_key
+        """
+        file_key = await file_storage.get_hash(file)
+
+        audio_file_key = await file_storage.upload_to_bucket(file_key, file, suffix)
+
+        document.audio_file_key = audio_file_key
+
+        db.commit()
 
 document = CRUDDocument(Document)
