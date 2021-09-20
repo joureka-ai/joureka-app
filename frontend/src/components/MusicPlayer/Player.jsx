@@ -1,21 +1,24 @@
-import useSWR from "swr";
-import styles from "./player.module.css";
-import PlayerWaveForm from "./PlayerWaveForm";
+import React from "react";
+import dynamic from 'next/dynamic';
 
-const Player = ({ currentTime, document_id }) => {
-  const docUrl = `/api/v1/docs/${document_id}`;
-  const streamUrl = `/api/v1/docs/${document_id}/file`;
-  const { container } = styles;
+const PlayerWaveForm = dynamic(() => import('./PlayerWaveForm'), {
+  ssr: false
+});
 
-  const fetcher = (url) => fetch(url).then((res) => res.json());
-  const { data, error } = useSWR(docUrl, fetcher);
 
-  if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
-
+const Player = ({fileUrl}) => {
+  console.log(fileUrl);
   return (
-    <div className={container}>
-      <PlayerWaveForm url={streamUrl} />
+    <div className="custom-card">
+      <div className="custom-card-header">
+        <div className="custom-card-title"/>
+      </div>
+      <div className="custom-card-body">
+        <PlayerWaveForm url={fileUrl}/>
+      </div>
+      <div className="custom-card-action">
+
+      </div>
     </div>
   );
 };

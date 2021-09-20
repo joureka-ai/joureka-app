@@ -13,12 +13,12 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [pageIndex, setPageIndex] = useState(0);
 
-  let { data, error } = useGetProjects();
+  let { projects, error } = useGetProjects();
 
   if (error) return <div>failed to load</div>;
-  if (!data) return <LoadingSpinner beingLoaded={"Projekte"}/>;
+  if (!projects) return <LoadingSpinner beingLoaded={"Projekte"}/>;
 
-  const filteredProjects = filterProjects(data, searchQuery);
+  const filteredProjects = filterProjects(projects, searchQuery);
   const pageProjects = getPageData(filteredProjects, pageIndex);
   return (
     <React.Fragment>
@@ -35,7 +35,7 @@ const Home = () => {
         {pageProjects.map(project => (
           <ProjectBar project={project} key={project.id}/>
         ))}
-        {data.length === 0 &&
+        {projects.length === 0 &&
           <div className="d-flex justify-content-center align-items-center vh-80 flex-column">
             <h5>Sie haben kein Projekt angelegt!</h5>
             <p className="text-center">Beginnen Sie mit der Erkundung Ihrer Interviews, indem

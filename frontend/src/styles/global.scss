@@ -48,11 +48,37 @@ a, a:hover, a:focus, a:active {
 .loading-spinner {
   width: 9rem;
   height: 9rem;
+
+  &-small {
+    width: 4rem;
+    height: 4rem;
+  }
 }
 
 .full-width {
   width: 100%;
 }
+
+@import "variables";
+
+.sideNavContainer {
+  width: 20%;
+  height: 100vh;
+}
+
+.projectPageContainer, .recordingPageContainer {
+  right: 0;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+.recordingPageContainer {
+  background-color: $Light_Blue;
+  border-radius: $border-radius-default 0  0 $border-radius-default;
+  padding: 2rem;
+}
+
 
 /* Works on Chrome, Edge, and Safari */
 *::-webkit-scrollbar {

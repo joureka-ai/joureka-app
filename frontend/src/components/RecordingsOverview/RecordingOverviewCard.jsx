@@ -1,10 +1,12 @@
 import React from "react";
+import Link from "next/link";
 
-const RecordingOverviewCard = () => {
+const RecordingOverviewCard = ({recording}) => {
+  console.log(recording);
   return (
     <div className="custom-card">
       <div className="custom-card-header">
-        <div className="custom-card-title">Aufnahme 1</div>
+        <div className="custom-card-title">{recording.title}</div>
       </div>
       <div className="custom-card-body">
         <div className="d-flex flex-row justify-content-between">
@@ -17,9 +19,11 @@ const RecordingOverviewCard = () => {
         </div>
       </div>
       <div className="custom-card-action">
-        <button className="custom-button custom-button-sm custom-button-orange">
-          Zur Aufnahme
-        </button>
+        <Link href={`/project/${recording.fk_project}/recording/${recording.id}`} className="disabled-link">
+          <button className="custom-button custom-button-sm custom-button-orange">
+            Zur Aufnahme
+          </button>
+        </Link>
       </div>
     </div>
   )

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useRouter } from 'next/router';
 import styles from "./Nav.module.scss";
 import {useGetProjects} from "../../useRequest";
-import React, {useEffect} from "react";
+import React from "react";
 
 const Nav = () => {
   const {
@@ -24,15 +24,15 @@ const Nav = () => {
 
   }, []);*/
 
-  const { data, error } = useGetProjects();
+  const { projects, error } = useGetProjects();
   if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
+  if (!projects) return <div>loading...</div>;
   return (
     <nav className={navContainer}>
       <div className={listItemContainer} id="listItemContainer">
-        {data.map(project => (
+        {projects.map(project => (
           <Link href={`/project/${project.id}`} key={`linkItem_${project.id}`}>
-              <div id={`linkItem_${project.id}`} className={`${linkItem} ${pid === project.id ? linkItemActive : ""}`}>
+              <div id={`linkItem_${project.id}`} className={`${linkItem} ${pid == project.id ? linkItemActive : ""}`}>
                 {project.name}
               </div>
           </Link>
