@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
+import RegionsPlugin from "wavesurfer.js/src/plugin/regions";
 import styles from "./waveform.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPause, faPlay} from "@fortawesome/free-solid-svg-icons";
@@ -11,7 +12,15 @@ const formWaveSurferOptions = (ref) => ({
   progressColor: "#BDD4D7",
   cursorColor: "#EB8F49",
   cursorWidth: 2,
-
+  backend: 'WebAudio',
+  plugins: [
+    RegionsPlugin.create({
+      regions: [],
+      dragSelection: {
+        slop: 5
+      }
+    })
+  ],
   //plugins: [
   //  TimelinePlugin.create({
   //    container: "#wave-timeline",
@@ -28,20 +37,21 @@ const formWaveSurferOptions = (ref) => ({
   normalize: true,
   // Use the PeakCache to improve rendering speed of large waveforms.
   partialRender: true,
-  scrollbarWidth: 10
+  scrollbarWidth: 10,
+  dragSelection: true,
 });
 
 const PlayerWaveForm = ({ url }) => {
   const { waveFormContainer, wave, controls } = styles;
 
   const waveformRef = useRef(null);
-  const wavesurfer = useRef(null);
+  let wavesurfer = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [loading, setLoading] = useState(true);
   const [volume, setVolume] = useState(0.5);
   const [duration, setDuration] = useState(null);
   const [currentTime, setCurrentTime] = useState(null);
-
+  const [regions, setRegions] = useState(null);
   // create new WaveSurfer instance
   // On component mount and when url changes
   useEffect(() => {
@@ -60,27 +70,32 @@ const PlayerWaveForm = ({ url }) => {
       //setPlay(true);
       setLoading(false);
 
-      // make sure object stillavailable when file loaded
-      if (wavesurfer.current) {
+      // make sure object still available when file loaded
+      if (wavesurfer) {
         wavesurfer.current.setVolume(volume);
         setVolume(volume);
         const duration = wavesurfer.current.getDuration();
         setDuration(duration);
-        const currentTime = wavesurfer.current.getCurrentTime();
+        const currentTime = wavesurfer.cuurent.getCurrentTime();
         setCurrentTime(currentTime);
       }
     });
 
     wavesurfer.current.on("seek", () => {
       console.log("seek");
-      //setPlaying(false);
+
+      console.log(Object.entries(wavesurfer.current.regions.list));
+      setRegions(Object.entries(wavesurfer.current.regions.list));
+
       const currentTime = wavesurfer.current.getCurrentTime();
       setCurrentTime(currentTime);
     });
 
-    wavesurfer.current.on("audioprocess", () => {
-      const currentTime = wavesurfer.current.getCurrentTime();
-      setCurrentTime(currentTime);
+    wavesurfer.current.on("interaction", () => {
+      console.log("interaction");
+
+      console.log(Object.entries(wavesurfer.current.regions.list));
+      setRegions(Object.entries(wavesurfer.current.regions.list))
     });
 
     return () => wavesurfer.current.destroy();
@@ -116,17 +131,18 @@ const PlayerWaveForm = ({ url }) => {
     <React.Fragment>
       {loading && <LoadingSpinnerOverlay text={"Audiodatei wird geladen!"}/>
       }
-    <div className={waveFormContainer}>
-      <div className={controls}>
-        <button onClick={handlePlayPause} className="icon-button-round mx-2">
-          {!playing ? <FontAwesomeIcon icon={faPlay} /> : <FontAwesomeIcon icon={faPause} />}
-        </button>
+      <div className={waveFormContainer}>
+        <div className={controls}>
+          <button onClick={handlePlayPause} className="icon-button-round mx-2">
+            {!playing ? <FontAwesomeIcon icon={faPlay} /> : <FontAwesomeIcon icon={faPause} />}
+          </button>
+        </div>
+        <div id="wave-timeline" ref={waveformRef} className={wave}/>
       </div>
-      <div id="wave-timeline" ref={waveformRef} className={wave}/>
-    </div>
       <div className="d-flex justify-content-end align-items-center pt-1">
         {currentTime && <span>{getTimeFromSeconds(Math.round(currentTime))}</span>}/{duration && <span>{getTimeFromSeconds(Math.round(duration))}</span>}
       </div>
+      {regions && regions.map(region => <div>REGION {region[1].start} - {region[1].end}</div>)}
     </React.Fragment>
   );
 };

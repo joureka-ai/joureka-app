@@ -17,10 +17,9 @@ const Project = () => {
   }, []);
 
   return (
-
     <React.Fragment>
       <Head>
-        <title>Aufnahmen</title>
+        <title>Aufnahmeansicht</title>
       </Head>
       <div className="d-flex flex-row">
         <div className="sideNavContainer">

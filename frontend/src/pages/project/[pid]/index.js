@@ -19,7 +19,7 @@ const Project = () => {
   return (
     <React.Fragment>
       <Head>
-        <title>Projekt</title>
+        <title>Projektübersicht</title>
       </Head>
       <div className="d-flex flex-row">
         <div className="sideNavContainer">
