@@ -83,6 +83,7 @@ a, a:hover, a:focus, a:active {
 /* Works on Chrome, Edge, and Safari */
 *::-webkit-scrollbar {
   width: 4px;
+  height: 4px;
   padding: 34px;
 }
 
@@ -97,3 +98,20 @@ a, a:hover, a:focus, a:active {
   border: 1px solid transparent;
 }
 
+.overlay {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: $Blue;
+  opacity: 0.9;
+  overflow-x: hidden;
+  transition: 0.5s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: $White;
+}

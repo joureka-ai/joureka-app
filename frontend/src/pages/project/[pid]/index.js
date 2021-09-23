@@ -1,21 +1,20 @@
 import { useRouter } from 'next/router'
 import Head from "next/head";
-import React from "react";
-import styles from "../../../styles/project.module.scss";
+import React, {useEffect, useState} from "react";
 import Nav from "../../../components/Nav/Nav";
 import Tabs from "../../../components/Tabs/Tabs";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit} from "@fortawesome/free-solid-svg-icons";
-import { useGetProjectById} from "../../../useRequest";
-import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
+import {projectService} from "../../../services";
 
 const Project = () => {
   const router = useRouter();
   const { pid } = router.query;
-  let { project, error } = useGetProjectById(pid);
+  const [project, setProject] = useState(null);
 
-  if (error) return <div>failed to load</div>;
-  if (!project) return <LoadingSpinner beingLoaded={"Projekt"}/>;
+  useEffect(() => {
+   projectService.getProject(pid).then(pro => setProject(pro));
+  }, []);
 
   return (
     <React.Fragment>
@@ -26,7 +25,7 @@ const Project = () => {
         <div className="sideNavContainer">
           <Nav/>
         </div>
-       <div className="projectPageContainer ms-2 ms-md-3">
+        {project && <div className="projectPageContainer ms-2 ms-md-3">
          <div className="d-flex justify-content-start align-items-center flex-row mb-4">
            <h3>{project.name}</h3>
            <button className="icon-button-transparent icon-orange mx-2">
@@ -34,7 +33,7 @@ const Project = () => {
            </button>
          </div>
          <Tabs/>
-       </div>
+       </div>}
       </div>
     </React.Fragment>
   )

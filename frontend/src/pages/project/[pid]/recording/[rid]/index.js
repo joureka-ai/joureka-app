@@ -1,21 +1,23 @@
 import { useRouter } from 'next/router'
 import Head from "next/head";
-import React from "react";
-import {useGetFileForRecording, useGetRecording} from "../../../../../useRequest";
-import LoadingSpinner from "../../../../../components/LoadingSpinner/LoadingSpinner";
+import React, {useEffect, useState} from "react";
 import Nav from "../../../../../components/Nav/Nav";
 import Player from "../../../../../components/MusicPlayer/Player";
+import {projectService} from "../../../../../services";
 
 const Project = () => {
   const router = useRouter();
   const { pid, rid } = router.query;
-  let { recording, error } = useGetRecording(pid, rid);
-  let { file } = useGetFileForRecording(pid, rid);
+  const [recording, setRecording] = useState(null);
+  const [fileUrl, setFileUrl] = useState(null);
 
-  if (error) return <div>failed to load</div>;
-  if (!recording) return <LoadingSpinner beingLoaded={"Projekt"}/>;
+  useEffect(() => {
+    projectService.getDocumentById(pid, rid).then(rec => setRecording(rec));
+    projectService.getFileOfDocument(pid, rid).then(url => setFileUrl(url));
+  }, []);
 
   return (
+
     <React.Fragment>
       <Head>
         <title>Aufnahmen</title>
@@ -24,10 +26,10 @@ const Project = () => {
         <div className="sideNavContainer">
           <Nav/>
         </div>
-        <div className="recordingPageContainer ms-2 ms-md-3">
+        {recording && <div className="recordingPageContainer ms-2 ms-md-3">
           <h3>{recording.title}</h3>
-          <Player fileUrl={file}/>
-        </div>
+          {fileUrl && <Player fileUrl={fileUrl}/>}
+        </div>}
       </div>
     </React.Fragment>
   )

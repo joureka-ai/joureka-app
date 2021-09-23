@@ -2,14 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import styles from "./waveform.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPause, faPlay, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
+import {faPause, faPlay} from "@fortawesome/free-solid-svg-icons";
+import LoadingSpinnerOverlay from "../LoadingSpinner/LoadingSpinnerOverlay";
 
 const formWaveSurferOptions = (ref) => ({
   container: ref,
   waveColor: "#1E8F9E",
   progressColor: "#BDD4D7",
   cursorColor: "#EB8F49",
-
+  cursorWidth: 2,
 
   //plugins: [
   //  TimelinePlugin.create({
@@ -18,15 +19,16 @@ const formWaveSurferOptions = (ref) => ({
   //  }),
   //  MinimapPlugin.create(),
   //],
-
+  hideScrollbar: true,
   barWidth: 2,
   barRadius: 3,
   responsive: true,
-  height: 100,
+  height: 150,
   // If true, normalize by the maximum peak instead of 1.0.
   normalize: true,
   // Use the PeakCache to improve rendering speed of large waveforms.
   partialRender: true,
+  scrollbarWidth: 10
 });
 
 const PlayerWaveForm = ({ url }) => {
@@ -43,7 +45,7 @@ const PlayerWaveForm = ({ url }) => {
   // create new WaveSurfer instance
   // On component mount and when url changes
   useEffect(() => {
-    console.log("USE EFFECT")
+    console.log(url);
     setPlaying(false);
     setLoading(true);
 
@@ -57,7 +59,6 @@ const PlayerWaveForm = ({ url }) => {
       //wavesurfer.current.play();
       //setPlay(true);
       setLoading(false);
-      console.log(loading)
 
       // make sure object stillavailable when file loaded
       if (wavesurfer.current) {
@@ -105,22 +106,28 @@ const PlayerWaveForm = ({ url }) => {
     let minutes = Math.floor((secs - (hours * 3600)) / 60);
     let seconds = secs - (hours * 3600) - (minutes * 60);
 
-    if (hours < 10) {hours   = "0"+hours;}
-    if (minutes < 10) {minutes = "0"+minutes;}
-    if (seconds < 10) {seconds = "0"+seconds;}
-    return hours+':'+minutes+':'+seconds;
-  }
+    if (hours < 10) { hours   = "0"+ hours; }
+    if (minutes < 10) {minutes = "0"+ minutes; }
+    if (seconds < 10) {seconds = "0"+ seconds; }
+    return hours + ':' + minutes + ':' + seconds;
+  };
 
   return (
+    <React.Fragment>
+      {loading && <LoadingSpinnerOverlay text={"Audiodatei wird geladen!"}/>
+      }
     <div className={waveFormContainer}>
       <div className={controls}>
         <button onClick={handlePlayPause} className="icon-button-round mx-2">
           {!playing ? <FontAwesomeIcon icon={faPlay} /> : <FontAwesomeIcon icon={faPause} />}
         </button>
-        {currentTime && <span>{getTimeFromSeconds(Math.round(currentTime))}</span>}/{duration && <span>{getTimeFromSeconds(Math.round(duration))}</span>}
       </div>
       <div id="wave-timeline" ref={waveformRef} className={wave}/>
     </div>
+      <div className="d-flex justify-content-end align-items-center pt-1">
+        {currentTime && <span>{getTimeFromSeconds(Math.round(currentTime))}</span>}/{duration && <span>{getTimeFromSeconds(Math.round(duration))}</span>}
+      </div>
+    </React.Fragment>
   );
 };
 

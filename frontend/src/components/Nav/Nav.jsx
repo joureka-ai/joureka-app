@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { useRouter } from 'next/router';
 import styles from "./Nav.module.scss";
-import {useGetProjects} from "../../useRequest";
-import React from "react";
+import React, {useState, useEffect} from "react";
+import {projectService} from "../../services";
 
 const Nav = () => {
   const {
@@ -14,23 +14,16 @@ const Nav = () => {
   } = styles;
   const router = useRouter();
   const { pid } = router.query;
+  const [projects, setProjects] = useState(null);
 
+  useEffect(() => {
+    projectService.getAllProjects().then(projects => setProjects(projects));
+  }, []);
 
-  /*useEffect(() => {
-    const divToScrollTo = document.getElementById(`linkItem_${pid}`);
-    console.log(divToScrollTo.getBoundingClientRect().y)
-    let scrollPositionY = divToScrollTo.getBoundingClientRect().y;
-    document.getElementById('listItemContainer').scrollTo({top: scrollPositionY, behavior: 'smooth'});
-
-  }, []);*/
-
-  const { projects, error } = useGetProjects();
-  if (error) return <div>failed to load</div>;
-  if (!projects) return <div>loading...</div>;
   return (
     <nav className={navContainer}>
       <div className={listItemContainer} id="listItemContainer">
-        {projects.map(project => (
+        {projects && projects.map(project => (
           <Link href={`/project/${project.id}`} key={`linkItem_${project.id}`}>
               <div id={`linkItem_${project.id}`} className={`${linkItem} ${pid == project.id ? linkItemActive : ""}`}>
                 {project.name}

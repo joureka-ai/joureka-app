@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 
 const RecordingOverviewCard = ({recording}) => {
-  console.log(recording);
+
   return (
     <div className="custom-card">
       <div className="custom-card-header">
