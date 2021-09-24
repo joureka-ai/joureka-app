@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import RegionsPlugin from "wavesurfer.js/src/plugin/regions";
+import MarkersPlugin from "wavesurfer.js/src/plugin/markers";
 import styles from "./waveform.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPause, faPlay} from "@fortawesome/free-solid-svg-icons";
+import {faChevronLeft, faPause, faPlay, faPlus} from "@fortawesome/free-solid-svg-icons";
 import LoadingSpinnerOverlay from "../LoadingSpinner/LoadingSpinnerOverlay";
+import {waveformAnnotationService} from "../../services/waveformAnnotation.service";
 
 const formWaveSurferOptions = (ref) => ({
   container: ref,
@@ -15,11 +17,11 @@ const formWaveSurferOptions = (ref) => ({
   backend: 'WebAudio',
   plugins: [
     RegionsPlugin.create({
-      regions: [],
       dragSelection: {
         slop: 5
       }
-    })
+    }),
+    MarkersPlugin.create()
   ],
   //plugins: [
   //  TimelinePlugin.create({
@@ -52,6 +54,7 @@ const PlayerWaveForm = ({ url }) => {
   const [duration, setDuration] = useState(null);
   const [currentTime, setCurrentTime] = useState(null);
   const [regions, setRegions] = useState(null);
+  const [pins, setPins] = useState(null);
   // create new WaveSurfer instance
   // On component mount and when url changes
   useEffect(() => {
@@ -65,9 +68,6 @@ const PlayerWaveForm = ({ url }) => {
     wavesurfer.current.load(url);
 
     wavesurfer.current.on("ready", function () {
-      // https://wavesurfer-js.org/docs/methods.html
-      //wavesurfer.current.play();
-      //setPlay(true);
       setLoading(false);
 
       // make sure object still available when file loaded
@@ -76,26 +76,15 @@ const PlayerWaveForm = ({ url }) => {
         setVolume(volume);
         const duration = wavesurfer.current.getDuration();
         setDuration(duration);
-        const currentTime = wavesurfer.cuurent.getCurrentTime();
+        const currentTime = wavesurfer.curent.getCurrentTime();
         setCurrentTime(currentTime);
       }
     });
 
     wavesurfer.current.on("seek", () => {
       console.log("seek");
-
-      console.log(Object.entries(wavesurfer.current.regions.list));
-      setRegions(Object.entries(wavesurfer.current.regions.list));
-
       const currentTime = wavesurfer.current.getCurrentTime();
       setCurrentTime(currentTime);
-    });
-
-    wavesurfer.current.on("interaction", () => {
-      console.log("interaction");
-
-      console.log(Object.entries(wavesurfer.current.regions.list));
-      setRegions(Object.entries(wavesurfer.current.regions.list))
     });
 
     return () => wavesurfer.current.destroy();
@@ -127,6 +116,26 @@ const PlayerWaveForm = ({ url }) => {
     return hours + ':' + minutes + ':' + seconds;
   };
 
+  function addRegion() {
+    Object.entries(wavesurfer.current.regions.list).map(region => {
+      region[1].drag = false;
+    });
+    setRegions(Object.entries(wavesurfer.current.regions.list));
+    waveformAnnotationService.saveRegions(Object.entries(wavesurfer.current.regions.list));
+  }
+
+  function addPin() {
+    let pinId = wavesurfer.current.markers.markers.length;
+    wavesurfer.current.addMarker( {
+      time: currentTime,
+      label: "Pin " + pinId,
+      color: '#ff990a'
+    })
+    setPins(wavesurfer.current.markers.markers)
+    waveformAnnotationService.savePins(wavesurfer.current.markers.markers)
+    console.log(wavesurfer.current.markers.markers)
+  }
+
   return (
     <React.Fragment>
       {loading && <LoadingSpinnerOverlay text={"Audiodatei wird geladen!"}/>
@@ -139,10 +148,17 @@ const PlayerWaveForm = ({ url }) => {
         </div>
         <div id="wave-timeline" ref={waveformRef} className={wave}/>
       </div>
-      <div className="d-flex justify-content-end align-items-center pt-1">
-        {currentTime && <span>{getTimeFromSeconds(Math.round(currentTime))}</span>}/{duration && <span>{getTimeFromSeconds(Math.round(duration))}</span>}
+      <div className="d-flex justify-content-end align-items-end flex-column pt-1">
+        <div>{currentTime && <span>{getTimeFromSeconds(Math.round(currentTime))}</span>}/{duration && <span>{getTimeFromSeconds(Math.round(duration))}</span>}</div>
+        <div className="d-flex flex-row pt-2">
+          <button className="custom-button custom-button-blue mx-2" onClick={addRegion}>
+            <FontAwesomeIcon className="mx-1" icon={faPlus}/>Themengebiet hinzufügen
+          </button>
+          <button className="custom-button custom-button-orange" onClick={addPin}>
+            <FontAwesomeIcon className="mx-1" icon={faPlus}/>Pin hinzufügen
+          </button>
+        </div>
       </div>
-      {regions && regions.map(region => <div>REGION {region[1].start} - {region[1].end}</div>)}
     </React.Fragment>
   );
 };
