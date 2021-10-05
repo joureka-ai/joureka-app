@@ -14,7 +14,6 @@
     font-weight: 400;
     line-height: 1.5;
     color: $Black;
-    background-color: $Light_Blue;
     background-clip: padding-box;
     border: none;
     -webkit-appearance: none;
@@ -22,9 +21,22 @@
     appearance: none;
     border-radius: 0.25rem;
 
-    &:focus {
-      box-shadow: 0 0 0 0.25rem rgb(235 143 73 / 25%);
+    &-blue {
+      background-color: $Light_Blue;
+
+      &:focus {
+        box-shadow: 0 0 0 0.25rem rgb(235 143 73 / 25%);
+      }
     }
+
+    &-orange {
+      background-color: $Light_Orange;
+
+      &:focus {
+        box-shadow: 0 0 0 0.25rem rgb(30 143 158 / 25%);
+      }
+    }
+
   }
 
   .input-group-text {

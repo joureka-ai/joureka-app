@@ -1,0 +1,25 @@
+@import "../../styles/variables";
+
+.regionAnnotation {
+  border-radius: $border-radius-pill;
+  min-width: 150px;
+  padding: 0.5rem;
+  border: none;
+  background-color: $Blue;
+  color: $White;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  margin-right: 1rem;
+}
+
+.pinAnnotation {
+  border-radius: $border-radius-pill;
+  min-width: 150px;
+  padding: 0.5rem;
+  border: none;
+  background-color: $Orange;
+  color: $White;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+  margin-right: 1rem;
+}

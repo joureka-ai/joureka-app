@@ -5,7 +5,7 @@ import Nav from "../../../../../components/Nav/Nav";
 import Player from "../../../../../components/MusicPlayer/Player";
 import {projectService} from "../../../../../services";
 import styles from "../../../../../styles/recording.module.scss"
-import RegionsOverviewCard from "../../../../../components/RegionsOverviewCard/RegionsOverviewCard";
+import AnnotationsOverviewCard from "../../../../../components/AnnotationsOverviewCard/AnnotationsOverviewCard";
 
 const Project = () => {
   const router = useRouter();
@@ -50,8 +50,8 @@ const Project = () => {
                 </div>
               </div>
             </div>
-            <div className="regions-card-container vw-30">
-              <RegionsOverviewCard/>
+            <div className="regions-card-container mt-3 vw-30">
+              <AnnotationsOverviewCard/>
             </div>
           </div>
 

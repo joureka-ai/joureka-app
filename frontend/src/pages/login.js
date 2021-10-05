@@ -50,12 +50,12 @@ const LogIn = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="form-group">
                 <label>Benutzername</label>
-                <input name="username" type="text" {...register('username')} className={`form-control custom-input full-width ${errors.username ? 'is-invalid' : ''}`} />
+                <input name="username" type="text" {...register('username')} className={`form-control custom-input-blue full-width ${errors.username ? 'is-invalid' : ''}`} />
                 <div className="invalid-feedback">{errors.username?.message}</div>
               </div>
               <div className="form-group">
                 <label>Passwort</label>
-                <input name="password" type="password" {...register('password')} className={`form-control custom-input full-width ${errors.password ? 'is-invalid' : ''}`} />
+                <input name="password" type="password" {...register('password')} className={`form-control custom-input-blue full-width ${errors.password ? 'is-invalid' : ''}`} />
                 <div className="invalid-feedback">{errors.password?.message}</div>
               </div>
               <div className="d-flex flex-row justify-content-end">

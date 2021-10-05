@@ -7,6 +7,12 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faPause, faPlay, faPlus} from "@fortawesome/free-solid-svg-icons";
 import LoadingSpinnerOverlay from "../LoadingSpinner/LoadingSpinnerOverlay";
 import {waveformAnnotationService} from "../../services/waveformAnnotation.service";
+import * as Yup from "yup";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import {last} from "rxjs/operators";
+import RegionCreationForm from "./RegionCreationForm";
+import PinCreationForm from "./PinCreationForm";
 
 const formWaveSurferOptions = (ref) => ({
   container: ref,
@@ -16,11 +22,7 @@ const formWaveSurferOptions = (ref) => ({
   cursorWidth: 2,
   backend: 'WebAudio',
   plugins: [
-    RegionsPlugin.create({
-      dragSelection: {
-        slop: 5
-      }
-    }),
+    RegionsPlugin.create(),
     MarkersPlugin.create()
   ],
   //plugins: [
@@ -40,7 +42,7 @@ const formWaveSurferOptions = (ref) => ({
   // Use the PeakCache to improve rendering speed of large waveforms.
   partialRender: true,
   scrollbarWidth: 10,
-  dragSelection: true,
+  dragSelection: false,
 });
 
 const PlayerWaveForm = ({ url }) => {
@@ -55,10 +57,11 @@ const PlayerWaveForm = ({ url }) => {
   const [currentTime, setCurrentTime] = useState(null);
   const [regions, setRegions] = useState(null);
   const [pins, setPins] = useState(null);
-  // create new WaveSurfer instance
-  // On component mount and when url changes
+  const [toggleRegionForm, setToggleRegionForm] = useState(false);
+  const [togglePinForm, setTogglePinForm] = useState(false);
+
   useEffect(() => {
-    console.log(url);
+
     setPlaying(false);
     setLoading(true);
 
@@ -69,6 +72,23 @@ const PlayerWaveForm = ({ url }) => {
 
     wavesurfer.current.on("ready", function () {
       setLoading(false);
+      waveformAnnotationService.getRegions().subscribe(r => {
+        setRegions([...r]);
+        if(r){
+          r.forEach(function(region) {
+            wavesurfer.current.addRegion(region);
+          });
+        }
+      });
+
+      waveformAnnotationService.getPins().subscribe(p => {
+        setPins([...p]);
+        if(p){
+          p.forEach(function(pin) {
+            wavesurfer.current.addMarker(pin);
+          });
+        }
+      });
 
       // make sure object still available when file loaded
       if (wavesurfer) {
@@ -85,6 +105,25 @@ const PlayerWaveForm = ({ url }) => {
       console.log("seek");
       const currentTime = wavesurfer.current.getCurrentTime();
       setCurrentTime(currentTime);
+    });
+
+    wavesurfer.current.on("region-mouseenter", (region) => {
+      console.log("IN")
+      console.log(region)
+      let showNoteElem = document.querySelector('.annotation-subtitle');
+      showNoteElem.innerHTML = `Themengebiet: <b>${region.data.label}</b>`;
+    });
+
+    wavesurfer.current.on("region-mouseleave", (region) => {
+      let showNoteElem = document.querySelector('.annotation-subtitle');
+      showNoteElem.innerHTML = "";
+    });
+
+
+    wavesurfer.current.on('region-click', function(region, e) {
+      e.stopPropagation();
+      e.shiftKey ? region.playLoop() : region.play();
+      setPlaying(true);
     });
 
     return () => wavesurfer.current.destroy();
@@ -116,24 +155,14 @@ const PlayerWaveForm = ({ url }) => {
     return hours + ':' + minutes + ':' + seconds;
   };
 
-  function addRegion() {
-    Object.entries(wavesurfer.current.regions.list).map(region => {
-      region[1].drag = false;
-    });
-    setRegions(Object.entries(wavesurfer.current.regions.list));
-    waveformAnnotationService.saveRegions(Object.entries(wavesurfer.current.regions.list));
+  function showRegionForm() {
+    setToggleRegionForm(!toggleRegionForm);
+    setTogglePinForm(false);
   }
 
-  function addPin() {
-    let pinId = wavesurfer.current.markers.markers.length;
-    wavesurfer.current.addMarker( {
-      time: currentTime,
-      label: "Pin " + pinId,
-      color: '#ff990a'
-    })
-    setPins(wavesurfer.current.markers.markers)
-    waveformAnnotationService.savePins(wavesurfer.current.markers.markers)
-    console.log(wavesurfer.current.markers.markers)
+  function showPinForm() {
+    setTogglePinForm(!togglePinForm);
+    setToggleRegionForm(false);
   }
 
   return (
@@ -149,16 +178,21 @@ const PlayerWaveForm = ({ url }) => {
         <div id="wave-timeline" ref={waveformRef} className={wave}/>
       </div>
       <div className="d-flex justify-content-end align-items-end flex-column pt-1">
-        <div>{currentTime && <span>{getTimeFromSeconds(Math.round(currentTime))}</span>}/{duration && <span>{getTimeFromSeconds(Math.round(duration))}</span>}</div>
+        <div className="full-width d-flex justify-content-between align-items-center flex-row">
+          <div className="annotation-subtitle"></div>
+          <div>{currentTime && <span>{getTimeFromSeconds(Math.round(currentTime))}</span>}/{duration && <span>{getTimeFromSeconds(Math.round(duration))}</span>}</div>
+        </div>
         <div className="d-flex flex-row pt-2">
-          <button className="custom-button custom-button-blue mx-2" onClick={addRegion}>
+          <button className="custom-button custom-button-blue mx-2" onClick={showRegionForm}>
             <FontAwesomeIcon className="mx-1" icon={faPlus}/>Themengebiet hinzufügen
           </button>
-          <button className="custom-button custom-button-orange" onClick={addPin}>
+          <button className="custom-button custom-button-orange" onClick={showPinForm}>
             <FontAwesomeIcon className="mx-1" icon={faPlus}/>Pin hinzufügen
           </button>
         </div>
       </div>
+      {toggleRegionForm && <RegionCreationForm/>}
+      {togglePinForm && <PinCreationForm/>}
     </React.Fragment>
   );
 };
