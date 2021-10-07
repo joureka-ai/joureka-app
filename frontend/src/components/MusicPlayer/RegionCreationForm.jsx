@@ -34,20 +34,20 @@ const RegionCreationForm = () => {
         <div className="d-flex justify-content-between align-items-center flex-row">
           <div className="form-group full-width me-2">
             <label htmlFor="start">Start</label>
-            <input {...register('start')} className="form-control custom-input-blue full-width" type="time" id="start" name="start"
+            <input {...register('start')} className="form-control custom-input custom-input-blue full-width" type="time" id="start" name="start"
                    min="00:00:00" max="04:00:00" step="1" required/>
           </div>
 
           <div className="form-group full-width">
             <label htmlFor="end">Ende</label>
-            <input {...register('end')} className="form-control custom-input-blue full-width" type="time" id="end" name="end"
+            <input {...register('end')} className="form-control custom-input custom-input-blue full-width" type="time" id="end" name="end"
                    min="00:00:00" max="04:00:00" step="1" required/>
           </div>
         </div>
 
         <div className="form-group">
           <label htmlFor="regionLabel">Label</label>
-          <input {...register('regionLabel')} type="text" id="regionLabel" className="form-control custom-input-blue" name="regionLabel"></input>
+          <input {...register('regionLabel')} type="text" id="regionLabel" className="form-control custom-input custom-input-blue" name="regionLabel"></input>
           <div className="invalid-feedback">{errors.regionLabel?.message}</div>
         </div>
 

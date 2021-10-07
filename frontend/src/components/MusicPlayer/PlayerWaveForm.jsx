@@ -75,6 +75,7 @@ const PlayerWaveForm = ({ url }) => {
       waveformAnnotationService.getRegions().subscribe(r => {
         setRegions([...r]);
         if(r){
+          wavesurfer.current.clearRegions();
           r.forEach(function(region) {
             wavesurfer.current.addRegion(region);
           });
@@ -84,6 +85,7 @@ const PlayerWaveForm = ({ url }) => {
       waveformAnnotationService.getPins().subscribe(p => {
         setPins([...p]);
         if(p){
+          wavesurfer.current.clearMarkers();
           p.forEach(function(pin) {
             wavesurfer.current.addMarker(pin);
           });
@@ -132,16 +134,6 @@ const PlayerWaveForm = ({ url }) => {
   const handlePlayPause = () => {
     setPlaying(!playing);
     wavesurfer.current.playPause();
-  };
-
-  const onVolumeChange = (e) => {
-    const { target } = e;
-    const newVolume = +target.value;
-
-    if (newVolume) {
-      setVolume(newVolume);
-      wavesurfer.current.setVolume(newVolume || 1);
-    }
   };
 
   const getTimeFromSeconds = (secs) => {

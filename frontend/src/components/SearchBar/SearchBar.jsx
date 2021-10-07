@@ -12,7 +12,7 @@ const SearchBar = ({ searchQuery, setSearchQuery }) => (
         id="header-search"
         placeholder="Projekte durchsuchen"
         name="s"
-        className="form-control custom-input"
+        className="form-control custom-input custom-input-blue"
         aria-label="Username"
         aria-describedby="search-icon-addon"
       />

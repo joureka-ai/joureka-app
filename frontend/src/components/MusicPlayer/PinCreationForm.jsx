@@ -41,14 +41,14 @@ const PinCreationForm = () => {
 
           <div className="form-group full-width">
             <label htmlFor="time">Zeitpunkt</label>
-            <input {...register('time')} className="form-control custom-input-orange full-width" type="time" id="time" name="time"
+            <input {...register('time')} className="form-control custom-input custom-input-orange full-width" type="time" id="time" name="time"
                    min="00:00:00" max="04:00:00" step="1" required/>
           </div>
         </div>
 
         <div className="form-group">
           <label htmlFor="pinLabel">Label</label>
-          <input  {...register('pinLabel')}type="text" id="pinLabel" className="form-control custom-input-orange" name="pinLabel"></input>
+          <input  {...register('pinLabel')}type="text" id="pinLabel" className="form-control custom-input custom-input-orange" name="pinLabel"></input>
         </div>
 
         <button className="custom-button custom-button-orange">

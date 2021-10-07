@@ -38,6 +38,12 @@ button {
     }
   }
 
+  &-transparent {
+    border: none;
+    background-color: transparent;
+    color: $Black;
+  }
+
   &:disabled {
     opacity: .5;
 

@@ -6,6 +6,7 @@ import ProjectBar from "../components/ProjectBar/ProjectBar";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {projectService} from "../services";
 import LoadingSpinnerOverlay from "../components/LoadingSpinner/LoadingSpinnerOverlay";
+import Modal from "../components/Modal/Modal";
 
 const ITEMS_PER_PAGE = 10;
 
