@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import RegionsPlugin from "wavesurfer.js/src/plugin/regions";
 import MarkersPlugin from "wavesurfer.js/src/plugin/markers";
+import TimelinePlugin from "wavesurfer.js/src/plugin/timeline";
 import styles from "./waveform.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronLeft, faPause, faPlay, faPlus} from "@fortawesome/free-solid-svg-icons";
@@ -22,16 +23,14 @@ const formWaveSurferOptions = (ref) => ({
   cursorWidth: 2,
   backend: 'WebAudio',
   plugins: [
-    RegionsPlugin.create(),
-    MarkersPlugin.create()
+    RegionsPlugin.create({
+      maxRegions: 2
+    }),
+    MarkersPlugin.create(),
+    TimelinePlugin.create({
+      container: '#wave-timeline'
+    })
   ],
-  //plugins: [
-  //  TimelinePlugin.create({
-  //    container: "#wave-timeline",
-  //    deferInit: true, // stop the plugin from initialising immediately
-  //  }),
-  //  MinimapPlugin.create(),
-  //],
   hideScrollbar: true,
   barWidth: 2,
   barRadius: 3,
@@ -55,6 +54,7 @@ const PlayerWaveForm = ({ url }) => {
   const [volume, setVolume] = useState(0.5);
   const [duration, setDuration] = useState(null);
   const [currentTime, setCurrentTime] = useState(null);
+  const [newRegion, setNewRegion] = useState(null);
   const [regions, setRegions] = useState(null);
   const [pins, setPins] = useState(null);
   const [toggleRegionForm, setToggleRegionForm] = useState(false);
@@ -73,6 +73,9 @@ const PlayerWaveForm = ({ url }) => {
     wavesurfer.current.on("ready", function () {
       setLoading(false);
       waveformAnnotationService.getRegions().subscribe(r => {
+        setNewRegion(null);
+        setToggleRegionForm(false);
+        wavesurfer.current.regions.maxRegions = r.length + 1;
         setRegions([...r]);
         if(r){
           wavesurfer.current.clearRegions();
@@ -110,10 +113,8 @@ const PlayerWaveForm = ({ url }) => {
     });
 
     wavesurfer.current.on("region-mouseenter", (region) => {
-      console.log("IN")
-      console.log(region)
       let showNoteElem = document.querySelector('.annotation-subtitle');
-      showNoteElem.innerHTML = `Themengebiet: <b>${region.data.label}</b>`;
+      showNoteElem.innerHTML = `<div><b>Themengebiet: </b>${region.data.label}</div><div className="mt-3 me-5"><b>Beschreibung: </b>${region.data.description}</div>`;
     });
 
     wavesurfer.current.on("region-mouseleave", (region) => {
@@ -128,8 +129,34 @@ const PlayerWaveForm = ({ url }) => {
       setPlaying(true);
     });
 
+    wavesurfer.current.on('region-update-end', function(region) {
+      region.drag = false;
+      setNewRegion({...region});
+    });
+
     return () => wavesurfer.current.destroy();
   }, []);
+
+  useEffect(() => {
+    console.log('Do something after toggleRegionForm has changed', toggleRegionForm);
+    if(toggleRegionForm) {
+      wavesurfer.current.enableDragSelection({});
+    } else {
+      wavesurfer.current.disableDragSelection();
+      waveformAnnotationService.getRegions().subscribe(r => {
+        setNewRegion(null);
+        setToggleRegionForm(false);
+        wavesurfer.current.regions.maxRegions = r.length + 1;
+        setRegions([...r]);
+        if(r){
+          wavesurfer.current.clearRegions();
+          r.forEach(function(region) {
+            wavesurfer.current.addRegion(region);
+          });
+        }
+      });
+    }
+  }, [toggleRegionForm]);
 
   const handlePlayPause = () => {
     setPlaying(!playing);
@@ -144,7 +171,7 @@ const PlayerWaveForm = ({ url }) => {
     if (hours < 10) { hours   = "0"+ hours; }
     if (minutes < 10) {minutes = "0"+ minutes; }
     if (seconds < 10) {seconds = "0"+ seconds; }
-    return hours + ':' + minutes + ':' + seconds;
+    return ((hours + ':' + minutes + ':' + seconds).substring(0, 8));
   };
 
   function showRegionForm() {
@@ -157,6 +184,27 @@ const PlayerWaveForm = ({ url }) => {
     setToggleRegionForm(false);
   }
 
+  function onCancelCreateRegion() {
+    setToggleRegionForm(false);
+    waveformAnnotationService.getRegions().subscribe(r => {
+      setNewRegion(null);
+      setToggleRegionForm(false);
+      wavesurfer.current.regions.maxRegions = r.length + 1;
+
+      setRegions([...r]);
+      if(r){
+        wavesurfer.current.clearRegions();
+        r.forEach(function(region) {
+          wavesurfer.current.addRegion(region);
+        });
+      }
+    });
+  }
+
+  function onCancelCreatePin() {
+    setTogglePinForm(false)
+  }
+
   return (
     <React.Fragment>
       {loading && <LoadingSpinnerOverlay text={"Audiodatei wird geladen!"}/>
@@ -167,11 +215,14 @@ const PlayerWaveForm = ({ url }) => {
             {!playing ? <FontAwesomeIcon icon={faPlay} /> : <FontAwesomeIcon icon={faPause} />}
           </button>
         </div>
-        <div id="wave-timeline" ref={waveformRef} className={wave}/>
+        <div className={`${wave} d-flex flex-column justify-content-center`}>
+          <div id="wave" ref={waveformRef}/>
+          <div id="wave-timeline" className="mt-3"></div>
+        </div>
       </div>
       <div className="d-flex justify-content-end align-items-end flex-column pt-1">
-        <div className="full-width d-flex justify-content-between align-items-center flex-row">
-          <div className="annotation-subtitle"></div>
+        <div className="full-width d-flex justify-content-between align-items-start flex-row">
+          <div className="annotation-subtitle vw-50"></div>
           <div>{currentTime && <span>{getTimeFromSeconds(Math.round(currentTime))}</span>}/{duration && <span>{getTimeFromSeconds(Math.round(duration))}</span>}</div>
         </div>
         <div className="d-flex flex-row pt-2">
@@ -183,8 +234,8 @@ const PlayerWaveForm = ({ url }) => {
           </button>
         </div>
       </div>
-      {toggleRegionForm && <RegionCreationForm/>}
-      {togglePinForm && <PinCreationForm/>}
+      {toggleRegionForm && <RegionCreationForm region={newRegion}  onCancel={onCancelCreateRegion}/>}
+      {togglePinForm && <PinCreationForm currentTime={currentTime} onCancel={onCancelCreatePin}/>}
     </React.Fragment>
   );
 };

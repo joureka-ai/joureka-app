@@ -181,3 +181,8 @@ a, a:hover, a:focus, a:active {
   opacity: 1;
 }
 
+.input-error {
+  font-weight: $font-general-weight-semibold;
+  color: $Red;
+}
+

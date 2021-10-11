@@ -8,7 +8,8 @@ const regionsSubject = new BehaviorSubject([{
   "end": 1020,
   "drag": false,
   "data": {
-    "label": "Muster Themengebiet"
+    "label": "Muster Themengebiet",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc dapibus pharetra libero porta tempor. Phasellus ut nunc ante. Vivamus pretium pharetra semper. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus fringilla tristique eros, eu hendrerit ipsum malesuada sit amet. Aliquam luctus ut nulla non finibus. Fusce ultrices pulvinar libero, non dictum lacus iaculis a. Maecenas at tincidunt nunc. Curabitur orci nunc, vulputate ornare fringilla ut, placerat tincidunt metus. Nunc vehicula ante vitae lectus feugiat, at malesuada tellus interdum. Nulla scelerisque dolor et enim commodo, eget porta orci finibus. Aliquam eget magna in libero imperdiet malesuada in eget neque. Morbi ullamcorper pulvinar ante ac aliquam. Donec vel interdum ex, ut ultricies orci."
   },
   "color": "rgb(30, 143, 158, 0.2)"
 }]);
