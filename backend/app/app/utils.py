@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime, timedelta
+import time
 from pathlib import Path
 from typing import Any, Dict, Optional
 
@@ -7,7 +8,39 @@ import emails
 from emails.template import JinjaTemplate
 from jose import jwt
 
+from celery import states
+from app import schemas
+from app.core.celery_app import celery_app
 from app.core.config import settings
+
+def write_log(task_id: Any, doc_id: int):
+    start_time = time.time()
+    while True:
+        result = celery_app.AsyncResult(task_id)
+        # LOG.info(f"{result.state}")
+        if result.state in states.READY_STATES:
+            break
+
+    end_time = time.time()
+    logdata = schemas.TaskResult(
+        id=task_id,
+        doc_id=doc_id,
+        runtime= end_time - start_time,
+        status=result.state,
+        error=str(result.info) if result.failed() else None,
+        result=result.get() if result.state == states.SUCCESS else None
+    )
+        
+    with open("/home/celeryTaskLog", mode="a") as log:
+        log.write("#"*12 + "\n")
+        log.write(f"Celery Task Logging" + "\n")
+        log.write(f"Time: {str(datetime.now())}" + "\n")
+        log.write(f"Runtime: {str(logdata.runtime)}" + "\n")
+        log.write(f"Task ID: {logdata.id}" + "\n")
+        log.write(f"Document ID: {logdata.doc_id}" + "\n")
+        log.write(f"Status: {logdata.status}" + "\n")
+        log.write(f"Error: {logdata.error}" + "\n")
+        log.write(f"Result stored at: {logdata.result}" + "\n")
 
 
 def send_email(
