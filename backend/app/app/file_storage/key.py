@@ -25,16 +25,11 @@ def get_name_and_suffix(filekey:str) -> str:
 def get_transcript_key(
     filekey: str, lang: str, model: str
 ) -> str:
-    """construct a unique object key for transcripts"""
-
     return f"transcript/default_project/{filekey}.{lang}.{model}.json"
 
 
 def get_transcript_path(transcript_key: str) -> Path:
-
-    transcript_path = settings.file_storage / transcript_key
-
-    return transcript_path
+    return  settings.file_storage / transcript_key
 
 
 async def get_hash(upload: UploadFile) -> str:
