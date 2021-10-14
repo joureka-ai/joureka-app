@@ -2,6 +2,7 @@ from fastapi import UploadFile
 
 from pathlib import Path
 import hashlib
+from typing import Optional
 
 from pydantic import BaseSettings, Field
 
@@ -16,9 +17,21 @@ def create_suffix(filename: str) -> str:
     filetype = filename.rsplit(".", 1)
     return f".{filetype[-1]}"
 
-def get_transcript_path(filekey: str, lang: str, platform: str) -> Path:
+def get_name_and_suffix(filekey:str) -> str:
+    file_w_suffix = filekey.split("/", 1)[-1]
+    filename, suffix = file_w_suffix.rsplit(".", 1)
+    return filename, suffix
 
-    transcript_key = f"transcript/default_project/{filekey}.{lang}.{platform}.json"
+def get_transcript_key(
+    filekey: str, lang: str, model: str
+) -> str:
+    """construct a unique object key for transcripts"""
+
+    return f"transcript/default_project/{filekey}.{lang}.{model}.json"
+
+
+def get_transcript_path(transcript_key: str) -> Path:
+
     transcript_path = settings.file_storage / transcript_key
 
     return transcript_path
