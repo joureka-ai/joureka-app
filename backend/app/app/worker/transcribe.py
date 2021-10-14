@@ -1,8 +1,10 @@
 import importlib
 import boto3
 
-from app import crud
-from app import file_storage
+import time
+
+from app import crud, schemas
+from app.file_storage import get_name_and_suffix, dump_transcript, get_transcript_key, upload_to_bucket
 from app.core.celery_app import celery_app
 
 from . import SessionLocal
@@ -61,11 +63,11 @@ def transcribe(self,
     LOG.info("Running Transcription Job")
     transcription = self.model.transcribe(filekey)
 
-    filename, _ = file_storage.get_name_and_suffix(filekey)
-    transcript_key = file_storage.get_transcript_key(filename, lang=document.language, model="wav2vec2")
+    filename, _ = get_name_and_suffix(filekey)
+    transcript_key = get_transcript_key(filename, lang=document.language, model="wav2vec2")
 
-    tmp_file = file_storage.dump_transcript(transcription)
-    uploaded_file_key = file_storage.upload_to_bucket(transcript_key, tmp_file.file)
+    tmp_file = dump_transcript(transcription)
+    uploaded_file_key = upload_to_bucket(transcript_key, tmp_file.file)
     assert uploaded_file_key
 
     crud.document.update_fulltext(self.db, document, transcription[0]["transcription"])
