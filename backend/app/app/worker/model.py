@@ -20,7 +20,6 @@ class Wav2Vec2Engine:
         Predict on a single audio file.
         """
         audio_file = get_file_for_key(audio_path)
-        #ASREngine.transcribe
         assert audio_file
 
         audio_paths = [str(audio_file.path)]

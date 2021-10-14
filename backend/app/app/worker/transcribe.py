@@ -44,7 +44,7 @@ class TranscribeTask(Task):
     def after_return(self, status, retval, task_id, args, kwargs, einfo):
         self.db.close()
         self.db = None
-        LOG.info('PostgreSQL DB closed')
+        LOG.info('PostgreSQL DB connection closed')
 
 @celery_app.task(ignore_result=False,
     bind=True,
