@@ -9,6 +9,7 @@ from fastapi import UploadFile
 from app.core.security import get_password_hash, verify_password
 from app.crud.base import CRUDBase
 from app.models.document import Document
+from app.models.word import Word
 from app import file_storage
 from app.schemas.document import (
     DocumentCreate,
@@ -125,11 +126,21 @@ class CRUDDocument(CRUDBase[Document, DocumentCreate, DocumentUpdate]):
         Store the path under document.audio_file_key
         """
         file_key = await file_storage.get_hash(file)
+        file_key = f"file/{file_key}{suffix}"
 
-        audio_file_key = await file_storage.upload_to_bucket(file_key, file, suffix)
+        audio_file_key = file_storage.upload_to_bucket(file_key, file)
 
         document.audio_file_key = audio_file_key
 
         db.commit()
+
+    @staticmethod
+    def update_fulltext(db: Session, document: Document, fulltext) -> Document:
+        document.fulltext = fulltext
+        document.fulltext_search_vector = func.to_tsvector(
+        document.fulltext_regconfig, fulltext
+        )
+        db.commit()
+        db.refresh(document)
 
 document = CRUDDocument(Document)

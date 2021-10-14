@@ -126,6 +126,42 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-minio-http.rule=PathPrefix(`/minio`) || PathPrefix(`/file-store`)
       - traefik.http.services.${STACK_NAME?Variable not set}-minio.loadbalancer.server.port=9000
 
+  queue:
+    image: rabbitmq:3-management
+  
+  celeryworker:
+    image: '${DOCKER_IMAGE_CELERYWORKER?Variable not set}:${TAG-latest}'
+    depends_on:
+      - db
+      - queue
+    env_file:
+      - .env
+    volumes:
+      - ./backend/app:/app
+    environment:
+      - RUN=celery worker -A app.worker -l info -Q main-queue -c 1
+      - SERVER_HOST=http://${DOMAIN?Variable not set}
+      - SERVER_NAME=${DOMAIN?Variable not set}
+      # Allow explicit env var override for tests
+      - SMTP_HOST=${SMTP_HOST?Variable not set}
+    build:
+      context: ./backend
+      dockerfile: celeryworker.dockerfile
+      args: 
+        INSTALL_DEV: ${INSTALL_DEV-false}
+  
+  flower:
+    image: mher/flower:0.9.5
+    networks:
+      - ${TRAEFIK_PUBLIC_NETWORK?Variable not set}
+      - default
+    env_file:
+      - .env
+    command: ["flower", "--address=0.0.0.0", "--broker=amqp://guest@queue:5672/", "--broker_api=http://guest:guest@queue:15672/api//" ,"--port=5555", "--logging=DEBUG"]
+    ports:
+      - "5555:5555"
+
+
 volumes:
   app-db-data:
   file_store:

@@ -26,8 +26,9 @@ def transcribe(
     document_file = file_storage.get_file_for_key(filekey)
     assert document_file.is_file()
 
-    transcript_key = file_storage.get_transcript_key(filekey, lang=lang, platform="aws")
-    transcript_file = file_storage.get_transcript_path(filekey, lang=lang, platform="aws")
+    #TODO verify if this delete is correct
+    transcript_key = file_storage.get_transcript_key(filekey, lang=lang, model="aws")
+    transcript_file = file_storage.get_transcript_path(transcript_key)
     if transcript_file.is_file():
         return json.load(transcript_file.open())
 

@@ -2,8 +2,9 @@ from pathlib import Path
 from temppathlib import NamedTemporaryFile
 import logging
 from typing import Optional
-
+import json
 from fastapi import UploadFile
+from typing import Union
 
 from app import models
 from .setting import settings, s3_resource, s3_client
@@ -31,7 +32,7 @@ def get_file_for_doc(document: models.Document) -> Path:
 
     return get_file_for_key(document.audio_file_key)
 
-def get_file_for_key(file_key: str, suffix: Optional[str] = None) -> Optional[NamedTemporaryFile]:
+def get_file_for_key(file_key: str, suffix: Optional[str] = ".mp3") -> Optional[NamedTemporaryFile]:
     bucket = s3_resource.Bucket(settings.BUCKET_NAME)
 
     tmp_file = NamedTemporaryFile(suffix=suffix)
@@ -45,16 +46,14 @@ def get_file_for_key(file_key: str, suffix: Optional[str] = None) -> Optional[Na
     return tmp_file
 
 
-async def upload_to_bucket(file_key: str, file: UploadFile, suffix: str) -> Path:
+def upload_to_bucket(file_key: str, file: Union[UploadFile, NamedTemporaryFile]) -> Path:
     bucket = s3_resource.Bucket(settings.BUCKET_NAME)
 
     if not bucket.creation_date:
         bucket.create()
 
-    file_bytes = await file.read()
-
-    file_key = f"file/{file_key}{suffix}"
-
+    file_bytes = file.read()
+    
     if exist(file_key):
         LOG.warning("File with key %s already exists. Not uploading.", file_key)
     else:
@@ -62,6 +61,19 @@ async def upload_to_bucket(file_key: str, file: UploadFile, suffix: str) -> Path
         bucket.put_object(Body=file_bytes, Key=file_key)
 
     return file_key
+
+
+def dump_transcript(transcript: dict) -> NamedTemporaryFile:
+    tmp = NamedTemporaryFile(mode="r", suffix=".json")
+    json.dump(
+        obj=transcript,
+        ensure_ascii=False,
+        indent=4,
+        fp=open(
+            file=str(tmp.path),
+            mode="w",
+            encoding="utf-8"))
+    return tmp
 
 def create_presigned_url(file_key, expiration=3600):
     """Generate a presigned URL to share an S3 object
