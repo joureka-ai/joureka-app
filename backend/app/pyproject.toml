@@ -1,11 +1,11 @@
 [tool.poetry]
-name = "soundquest"
+name = "joureka"
 version = "0.1.0"
 description = ""
-authors = ["Jonas Schweiger <jonas.schweiger@gmx.de>"]
+authors = ["Felix Mertineit <fmertineit@gmail.com>", "Jonas Schweiger <jonas.schweiger@gmx.de>"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 uvicorn = "^0.11.3"
 fastapi = "^0.54.1"
 python-multipart = "^0.0.5"
@@ -27,6 +27,7 @@ aiofiles = "^0.6.0"
 boto3 = "^1.16.18"
 SQLAlchemy-Utils = "^0.36.8"
 temppathlib = "^1.1.0"
+asrecognition = "^0.0.4"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.770"
