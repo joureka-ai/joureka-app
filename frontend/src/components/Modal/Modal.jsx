@@ -31,8 +31,8 @@ const Modal = ({ show, onClose, onConfirm, children, title, onCloseButton, onCon
         <div className={styles.modalBody}>{children}</div>
         <div className={styles.modalActions}>
           <button onClick={handleCloseClick} className="custom-button custom-button-sm custom-button-transparent">{onCloseButton}</button>
-          <button onClick={handleConfirmClick} className="custom-button custom-button-sm custom-button-orange">{onConfirmButton}</button>
-
+          <button onClick={handleConfirmClick}
+                                className="custom-button custom-button-sm custom-button-orange">{onConfirmButton}</button>
         </div>
       </div>
     </div>

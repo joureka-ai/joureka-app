@@ -10,11 +10,14 @@
   justify-content: center;
   align-items: center;
   background-color: rgba(0, 0, 0, 0.5);
+  z-index: 5;
 
   .modal {
     background: $White;
     border-radius: $border-radius-default;
-    padding: 1rem;
+    padding: 1.5rem;
+    max-width: 60%;
+    min-width: 400px;
 
     .modalHeader {
       display: flex;
