@@ -7,7 +7,8 @@ export const projectService = {
   getProject,
   getAllDocuments,
   getDocumentById,
-  getFileOfDocument
+  getFileOfDocument,
+  createProject
 };
 
 function getAllProjects() {
@@ -28,4 +29,8 @@ function getDocumentById(projectId, documentId) {
 
 function getFileOfDocument(projectId, documentId) {
   return fetchWrapper.get(`${baseUrl}/projects/${projectId}/docs/${documentId}/file`)
+}
+
+function createProject(projectData) {
+  return fetchWrapper.post(`${baseUrl}/projects`, 'application/json', projectData)
 }

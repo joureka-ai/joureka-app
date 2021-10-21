@@ -20,11 +20,12 @@ function get(url) {
   return fetch(url, requestOptions).then(handleResponse);
 }
 
-function post(url, body) {
+function post(url,contentType, body) {
+  console.log(body)
   const requestOptions = {
     method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded', ...authHeader(url) },
-    body: body
+    headers: { 'Content-Type': contentType, ...authHeader(url) },
+    body: JSON.stringify(body)
   };
   return fetch(url, requestOptions).then(handleResponse);
 }
