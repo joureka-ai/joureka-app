@@ -72,6 +72,8 @@ const AnnotationsOverviewCard = () => {
             onClose={() => setShowPinDeleteModal(false)}
             onConfirm={() => deletePin()}
             show={showingPinDeleteModal}
+            onCloseButton={"Abbrechen"}
+            onConfirmButton={"Löschen"}
           >
             <div>Möchten Sie das ausgewählte Pin wirklich löschen?</div>
           </Modal>

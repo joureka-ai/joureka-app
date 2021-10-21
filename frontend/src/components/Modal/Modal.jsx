@@ -1,10 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import styles from "../../styles/modal.module.scss";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronRight} from "@fortawesome/free-solid-svg-icons";
 
-const Modal = ({ show, onClose, onConfirm, children, title }) => {
+const Modal = ({ show, onClose, onConfirm, children, title, onCloseButton, onConfirmButton }) => {
   const [isBrowser, setIsBrowser] = useState(false);
 
   useEffect(() => {
@@ -32,8 +30,8 @@ const Modal = ({ show, onClose, onConfirm, children, title }) => {
         </div>
         <div className={styles.modalBody}>{children}</div>
         <div className={styles.modalActions}>
-          <button onClick={handleCloseClick} className="custom-button custom-button-sm custom-button-transparent">Abbrechen</button>
-          <button onClick={handleConfirmClick} className="custom-button custom-button-sm custom-button-orange">Löschen</button>
+          <button onClick={handleCloseClick} className="custom-button custom-button-sm custom-button-transparent">{onCloseButton}</button>
+          <button onClick={handleConfirmClick} className="custom-button custom-button-sm custom-button-orange">{onConfirmButton}</button>
 
         </div>
       </div>
