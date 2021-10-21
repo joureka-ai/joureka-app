@@ -80,19 +80,19 @@ const PinCreationForm = ({currentTime, onCancel}) => {
         <div className="form-group">
           <label htmlFor="pinLabel">Titel</label>
           <input value={pinFormValues.pinLabel} onChange={handleChange} type="text" id="pinLabel"
-                 className="form-control custom-input custom-input-blue" name="pinLabel"/>
+                 className="form-control custom-input custom-input-orange" name="pinLabel"/>
           {pinFormErrors.pinLabel && (
             <span className="input-error">{pinFormErrors.pinLabel}</span>
           )}
         </div>
-        <div className="form-group">
+        {/*<div className="form-group">
           <label htmlFor="pinDescription">Beschreibung</label>
           <textarea value={pinFormValues.pinDescription} onChange={handleChange} type="textarea" id="pinDescription"
-                    className="form-control custom-input custom-input-blue" rows="4" name="pinDescription"/>
+                    className="form-control custom-input custom-input-orange" rows="4" name="pinDescription"/>
           {pinFormErrors.pinDescription && (
             <span className="input-error">{pinFormErrors.pinDescription}</span>
           )}
-        </div>
+        </div>*/}
         </form>
         <div className="d-flex flex-row justify-content-start">
           <button onClick={handleSubmit} className="custom-button custom-button-orange">

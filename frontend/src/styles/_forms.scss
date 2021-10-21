@@ -28,6 +28,16 @@
         box-shadow: 0 0 0 0.25rem rgb(235 143 73 / 25%);
         boder: none;
       }
+
+      &[readonly] {
+        background: $Light-Blue;
+        opacity: 0.6;
+
+        &:focus {
+          box-shadow: none;
+          border: none;
+        }
+      }
     }
 
     &-orange {
@@ -36,6 +46,15 @@
       &:focus {
         box-shadow: 0 0 0 0.25rem rgb(30 143 158 / 25%);
         border: none;
+      }
+      &[readonly] {
+        background: $Light-Orange;
+        opacity: 0.6;
+
+        &:focus {
+          box-shadow: none;
+          border: none;
+        }
       }
     }
 
