@@ -16,13 +16,13 @@ const TranscriptionCard = () => {
       <div className="custom-card-title">Transkription</div>
     </div>
     <div className="custom-card-body">
-      <p>
+      <div className={styles.transcriptionContent}>
         {transcription.words.map((word, index) =>
           <div key={index} className={`d-inline-block ${word.confidence < 0.5 && word.start_time ? `custom-tooltip ${styles.lowConfidenceWord}` : ""}`}>{word.word}&nbsp;
             {word.confidence < 0.5 && word.start_time && <span className="tooltiptext"> Wort könnten nicht erkannt werden!</span>}
           </div>
         )}
-      </p>
+      </div>
     </div>
     <div className="custom-card-action">
 
