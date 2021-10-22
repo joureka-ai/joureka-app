@@ -9,3 +9,4 @@ from .user import User
 from .document import Document
 from .word import Word
 from .project import Project
+from .annot import Annot

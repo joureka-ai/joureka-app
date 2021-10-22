@@ -1,7 +1,5 @@
 import logging
-from typing import List, Any
-from uuid import uuid4
-from pathlib import Path
+from typing import List, Any, Union
 
 from sqlalchemy.orm import Session
 
@@ -11,10 +9,10 @@ from fastapi.responses import FileResponse
 from app import crud, models, schemas, file_storage
 from app.api import deps
 from app.core.config import settings
-from app.utils import send_new_account_email
+from app.schemas import AnnotTopicIn, AnnotTopicOut, AnnotPin
 
 from .router import router
-
+from .helper import transform_to_annots, transform_annot_in
 
 LOG = logging.getLogger(__name__)
 
@@ -77,6 +75,7 @@ def update_project(
     project = crud.project.update(db, db_obj=project, obj_in=project_in)
     return project
 
+
 @router.delete("/{project_id}")
 def delete_project(
     project_id: int,
@@ -86,8 +85,13 @@ def delete_project(
     """
     Get a specific project by id.
     """
-    crud.project.remove(db, id=project_id)
-
+    try:
+        crud.project.remove(db, id=project_id)
+    except Exception as e:
+        raise HTTPException(
+            status_code=409,
+            detail=f"{e}"
+        )
 
 
 @router.post("/{project_id}/docs/", response_model=schemas.Document)
@@ -178,7 +182,13 @@ def delete_document(
     """
     Get a specific document by id.
     """
-    crud.document.remove_by_p_id(db, id=document_id, fk_project=project_id)
+    try:
+        crud.document.remove_by_p_id(db, id=document_id, fk_project=project_id)
+    except Exception as e:
+        raise HTTPException(
+            status_code=409,
+            detail=f"{e}"
+        )
 
 
 @router.get("/{project_id}/docs/{document_id}/file")
@@ -239,3 +249,137 @@ async def upload_file(
     )
 
     await crud.document.create_audio_file(db, document, file, suffix)
+
+
+@router.post("/{project_id}/docs/{document_id}/annots")
+def create_annotation(
+    *,
+    project_id: int,
+    document_id: int,
+    annot_in: schemas.AnnotTopicIn,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
+) -> Union[AnnotTopicOut,AnnotPin]:
+    """
+    Takes an annotation in the data structure of a topic by wavesurfer.js and stores it.
+    - Args: Project ID, document ID and the annotation - can be either Topic or Pin.
+    - Returns: The created single Annotation that is either Pin or Topic.
+    """
+    document = crud.document.get_by_p_id(db, id=document_id, fk_project=project_id)
+    if not document:
+        raise HTTPException(
+            status_code=404,
+            detail="The document with this id does not exist in the system",
+        )
+
+    if annot_in.start == annot_in.end:
+        type = "Pin"
+    else:
+        type = "Topic"
+
+    try:
+        annot = crud.annot.create(db, obj_in=annot_in, type=type, doc_id=document_id)
+    except Exception as e:
+        raise HTTPException(
+            status_code=409,
+            detail=f"{e}"
+        )
+
+    return transform_to_annots([annot])[0]
+
+
+@router.put("/{project_id}/docs/{document_id}/annots/{annot_id}")
+def update_annotation(
+    *,
+    project_id: int,
+    document_id: int,
+    annot_id: int,
+    db: Session = Depends(deps.get_db),
+    annot_in: schemas.AnnotUpdatePinTop,
+    current_user: models.User = Depends(deps.get_current_active_superuser),
+) -> Union[AnnotTopicOut,AnnotPin]:
+    """
+    Updates an annotation via its ID and the new annotationn data.
+    - Args: Project ID, document ID, annotation ID and the annotation - can be either Topic or Pin.
+    - Returns: The updated single Annotation that is either Pin or Topic.
+    """
+    annot = crud.annot.get_by_doc_id(db, id=annot_id, fk_document=document_id)
+    if not annot:
+        raise HTTPException(
+            status_code=404,
+            detail="The annotation with this id and document id does not exist in the system",
+        )
+
+    annot_in = transform_annot_in(annot_in)
+
+    annot = crud.annot.update(db, db_obj=annot, obj_in=annot_in)
+
+    return transform_to_annots([annot])[0]
+
+
+@router.delete("/{project_id}/docs/{document_id}/annots/{annot_id}")
+def delete_annotation(
+    project_id: int,
+    document_id: int,
+    annot_id: int,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
+) -> Any:
+    """
+    Delete a specific annotation by id.
+    """
+    try:
+        crud.annot.rem_by_doc_id(db, id=annot_id, fk_document=document_id)
+    except Exception as e:
+        raise HTTPException(
+            status_code=409,
+            detail=f"{e}"
+        )
+
+
+@router.get("/{project_id}/docs/{document_id}/annots/pins")
+def get_pins(
+    project_id: int,
+    document_id: int,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
+) -> List[AnnotPin]:
+    """
+    Get all Pins of a document.
+    - Args: Project ID and the document ID
+    - Returns: The list of Annotations for this document that are Pins.
+    """
+    annots = crud.annot.get_all_by_type(db, fk_document=document_id, type="Pin")
+
+    if not annots:
+        raise HTTPException(
+            status_code=404,
+            detail="There are no annotations attached to this document.",
+        )
+
+    return transform_to_annots(annots)
+
+
+@router.get("/{project_id}/docs/{document_id}/annots/topics")
+def get_topics(
+    project_id: int,
+    document_id: int,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
+) -> List[AnnotTopicOut]:
+    """
+    Get all Topics of a document.
+    - Args: Project ID and the document ID
+    - Returns: The list of Annotations for this document that are Topics.
+    """
+
+    annots = crud.annot.get_all_by_type(db, fk_document=document_id, type="Topic")
+
+    if not annots:
+        raise HTTPException(
+            status_code=404,
+            detail="There are no annotations attached to this document.",
+        )
+
+    return transform_to_annots(annots)
+    
