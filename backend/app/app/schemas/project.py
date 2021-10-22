@@ -5,7 +5,7 @@ from pydantic import BaseModel
 # Shared properties
 class ProjectBase(BaseModel):
     name: str
-    description: str
+    description: Optional[str]
 
 # Properties to receive via API on creation
 class ProjectCreate(ProjectBase):
