@@ -9,7 +9,8 @@ export const fetchWrapper = {
   get,
   post,
   put,
-  delete: _delete
+  delete: _delete,
+  postFile
 };
 
 function get(url) {
@@ -20,12 +21,22 @@ function get(url) {
   return fetch(url, requestOptions).then(handleResponse);
 }
 
-function post(url,contentType, body) {
-  console.log(body)
+function post(url, contentType, body) {
   const requestOptions = {
     method: 'POST',
     headers: { 'Content-Type': contentType, ...authHeader(url) },
-    body: JSON.stringify(body)
+    body: body
+  };
+  return fetch(url, requestOptions).then(handleResponse);
+}
+
+function postFile(url, file) {
+  let formData = new FormData();
+  formData.append('file', file);
+  const requestOptions = {
+    method: 'POST',
+    headers: { ...authHeader(url) },
+    body: formData
   };
   return fetch(url, requestOptions).then(handleResponse);
 }
@@ -34,7 +45,7 @@ function put(url, body) {
   const requestOptions = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json', ...authHeader(url) },
-    body: JSON.stringify(body)
+    body: body
   };
   return fetch(url, requestOptions).then(handleResponse);
 }

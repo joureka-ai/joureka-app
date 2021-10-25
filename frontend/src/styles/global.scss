@@ -12,7 +12,9 @@ $theme-colors: (
 @import "card";
 @import "buttons";
 @import "forms";
+@import "stepper";
 @import "../../node_modules/bootstrap/scss/bootstrap";
+@import "~dropzone/dist/dropzone.css";
 
 
 * {
@@ -185,4 +187,44 @@ a, a:hover, a:focus, a:active {
   font-weight: $font-general-weight-semibold;
   color: $Red;
 }
+
+.dropzone {
+  min-height: 50px;
+  border: 2px dashed $Blue;
+  border-radius: $border-radius-default;
+  background: $White;
+  padding: 20px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .dz-preview {
+    height: 100%;
+    min-height: unset;
+  }
+}
+
+.uploaded-files-container {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .uploaded-files-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $Light_Blue;
+    border-radius: $border-radius-default;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    color: $Black;
+    width: 70%;
+  }
+}
+
+
 

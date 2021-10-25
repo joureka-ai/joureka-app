@@ -1,6 +1,9 @@
 import { fetchWrapper } from '../helpers/fetch-wrapper';
+import {BehaviorSubject} from "rxjs";
 
 const baseUrl = "http://localhost:3000/api/v1";
+
+const createdProjectSubject = new BehaviorSubject();
 
 export const projectService = {
   getAllProjects,
@@ -8,7 +11,11 @@ export const projectService = {
   getAllDocuments,
   getDocumentById,
   getFileOfDocument,
-  createProject
+  createProject,
+  updateProject,
+  createDocument,
+  deleteDocument,
+  saveFile
 };
 
 function getAllProjects() {
@@ -32,5 +39,22 @@ function getFileOfDocument(projectId, documentId) {
 }
 
 function createProject(projectData) {
-  return fetchWrapper.post(`${baseUrl}/projects`, 'application/json', projectData)
+  return fetchWrapper.post(`${baseUrl}/projects`, 'application/json', JSON.stringify(projectData))
+}
+
+function updateProject(projectId, projectData) {
+  return fetchWrapper.put(`${baseUrl}/projects/${projectId}`, JSON.stringify(projectData))
+}
+
+function createDocument(projectId, documentData) {
+  return fetchWrapper.post(`${baseUrl}/projects/${projectId}/docs/`, 'application/json', JSON.stringify(documentData))
+}
+
+function deleteDocument(projectId, documentId) {
+  return fetchWrapper.delete(`${baseUrl}/projects/${projectId}/docs/${documentId}`)
+}
+
+function saveFile(projectId, documentId, file) {
+  return fetchWrapper.postFile(`${baseUrl}/projects/${projectId}/docs/${documentId}/file`, file)
+
 }

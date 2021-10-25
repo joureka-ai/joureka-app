@@ -13,7 +13,7 @@ const Project = () => {
   const [project, setProject] = useState(null);
 
   useEffect(() => {
-   projectService.getProject(pid).then(pro => setProject(pro));
+   if(pid) projectService.getProject(pid).then(pro => setProject(pro));
   }, []);
 
   return (
@@ -28,7 +28,7 @@ const Project = () => {
         {project && <div className="projectPageContainer ms-2 ms-md-3">
          <div className="d-flex justify-content-start align-items-center flex-row mb-4">
            <h3>{project.name}</h3>
-           <button className="icon-button-transparent icon-orange mx-2">
+           <button onClick={() => router.push(`/project/${pid}/update`)} className="icon-button-transparent icon-orange mx-2">
              <FontAwesomeIcon icon={faEdit} />
            </button>
          </div>

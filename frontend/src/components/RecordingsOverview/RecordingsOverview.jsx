@@ -23,7 +23,7 @@ const RecordingsOverview = () => {
      {recordings && recordings.length === 0 &&
      <div className="d-flex justify-content-center align-items-center vh-80 flex-column">
        <h5>Sie haben kein Aufnahmen hochgeladen!</h5>
-       <button className="custom-button custom-button-sm custom-button-blue">
+       <button onClick={() => router.push({pathname: `/project/${pid}/update`, query: {step: 2}})} className="custom-button custom-button-sm custom-button-blue">
          Aufnahme hinzufügen
        </button>
      </div>

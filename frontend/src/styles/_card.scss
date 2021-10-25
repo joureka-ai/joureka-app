@@ -10,6 +10,10 @@
   min-width: 250px;
   height: 100%;
 
+  &.custom-card-sm {
+    max-width: 100px;
+  }
+
   .custom-card-header {
     .custom-card-title {
       font-size: 1.2em;
@@ -19,7 +23,7 @@
 
   .custom-card-body {
     padding: 1rem 0;
-    font-size: 0.8em;
+    font-size: 1em;
     height: 100%;
   }
 

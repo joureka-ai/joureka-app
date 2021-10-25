@@ -7,10 +7,12 @@ import SearchBar from "../components/SearchBar/SearchBar";
 import {projectService} from "../services";
 import LoadingSpinnerOverlay from "../components/LoadingSpinner/LoadingSpinnerOverlay";
 import Modal from "../components/Modal/Modal";
+import {useRouter} from "next/router";
 
 const ITEMS_PER_PAGE = 10;
 
 const Home = () => {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [pageIndex, setPageIndex] = useState(0);
   const [projects, setProjects] = useState(null);
@@ -34,7 +36,7 @@ const Home = () => {
           <SearchBar searchQuery={searchQuery}
                      setSearchQuery={setSearchQuery}/>
         </div>
-        <button className="border-button"><FontAwesomeIcon icon={faPlus} /><span className="px-3">neues Projekt erstellen</span></button>
+        <button className="border-button" onClick={() => router.push("/project/create")}><FontAwesomeIcon icon={faPlus} /><span className="px-3">neues Projekt erstellen</span></button>
         {pageProjects && pageProjects.map(project => (
           <ProjectBar project={project} key={project.id}/>
         ))}

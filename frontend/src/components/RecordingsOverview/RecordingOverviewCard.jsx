@@ -4,7 +4,7 @@ import Link from "next/link";
 const RecordingOverviewCard = ({recording}) => {
 
   return (
-    <div className="custom-card">
+    <div className="custom-card custom-card-sm">
       <div className="custom-card-header">
         <div className="custom-card-title">{recording.title}</div>
       </div>
