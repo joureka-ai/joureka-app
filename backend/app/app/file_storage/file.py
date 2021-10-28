@@ -46,13 +46,13 @@ def get_file_for_key(file_key: str, suffix: Optional[str] = ".mp3") -> Optional[
     return tmp_file
 
 
-def upload_to_bucket(file_key: str, file: Union[UploadFile, NamedTemporaryFile]) -> Path:
+async def upload_to_bucket(file_key: str, file: Union[UploadFile, NamedTemporaryFile]) -> Path:
     bucket = s3_resource.Bucket(settings.BUCKET_NAME)
 
     if not bucket.creation_date:
         bucket.create()
 
-    file_bytes = file.read()
+    file_bytes = await file.read()
     
     if exist(file_key):
         LOG.warning("File with key %s already exists. Not uploading.", file_key)

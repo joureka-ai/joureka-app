@@ -116,6 +116,9 @@ async def create_document(
             detail="The project with this id does not exist in the system",
         )
 
+    if not document_in.fk_project:
+        document_in.fk_project = project_id
+
     document = crud.document.create(db, obj_in=document_in)
 
     return document
@@ -283,6 +286,9 @@ def create_annotation(
     else:
         type = "Topic"
 
+    if not annot_in.fk_document:
+        annot_in.fk_document = document_id
+
     try:
         annot = crud.annot.create(db, obj_in=annot_in, type=type, doc_id=document_id)
     except Exception as e:
@@ -358,10 +364,7 @@ def get_pins(
     annots = crud.annot.get_all_by_type(db, fk_document=document_id, type="Pin")
 
     if not annots:
-        raise HTTPException(
-            status_code=404,
-            detail="There are no annotations attached to this document.",
-        )
+        return []
 
     return transform_to_annots(annots)
 
@@ -382,10 +385,7 @@ def get_topics(
     annots = crud.annot.get_all_by_type(db, fk_document=document_id, type="Topic")
 
     if not annots:
-        raise HTTPException(
-            status_code=404,
-            detail="There are no annotations attached to this document.",
-        )
+        return []
 
     return transform_to_annots(annots)
     
