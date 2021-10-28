@@ -33,7 +33,7 @@ class DocumentBase(BaseModel):
 
 # Properties to receive via API on creation
 class DocumentCreate(DocumentBase):
-    pass
+    fk_project: Optional[int]
 
 
 # Properties to receive via API on update

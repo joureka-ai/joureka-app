@@ -14,7 +14,7 @@ class AnnotBase(BaseModel):
     
 # Properties to receive via API on creation
 class AnnotCreate(AnnotBase):
-    pass
+    fk_document: Optional[int]
 
 # Properties to receive via API on update
 class AnnotUpdate(BaseModel):
