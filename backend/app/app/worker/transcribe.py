@@ -67,6 +67,7 @@ def transcribe(self,
     transcript_key = get_transcript_key(filename, lang=document.language, model="wav2vec2")
 
     tmp_file = dump_transcript(transcription)
+    # TODO: Make async version of it.
     uploaded_file_key = upload_to_bucket(transcript_key, tmp_file.file)
     assert uploaded_file_key
 
