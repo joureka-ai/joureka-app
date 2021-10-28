@@ -1,7 +1,7 @@
 import {BehaviorSubject, Subject} from 'rxjs';
+import { fetchWrapper } from '../helpers/fetch-wrapper';
 
-
-const baseUrl = "api/v1";
+const baseUrl = "http://localhost:3000/api/v1";
 const regionsSubject = new BehaviorSubject([{
   "id": "96e2d02f-bb17-4070-9369-52c84cf6e6c7",
   "start": 750,
@@ -22,26 +22,51 @@ const pinsSubject = new BehaviorSubject([{
 }]);
 
 export const waveformAnnotationService = {
-  getRegions: () => regionsSubject.asObservable(),
-  addRegion: (region) => {
-    let regions = regionsSubject.getValue();
-    regions.push(region);
-    regionsSubject.next(regions);
+  getRegions: (projectId, documentId) => {
+    fetchWrapper.get(`${baseUrl}/projects/${projectId}/docs/${documentId}/annots/topics`).then(topics => {
+      regionsSubject.next(topics)
+    })
+    return regionsSubject.asObservable()
   },
-  deleteRegion: (region) => {
-    let regions = regionsSubject.getValue();
-    regions = regions.filter(r => r.id != region.id);
-    regionsSubject.next(regions);
+  addRegion: (projectId, documentId, region) => {
+    fetchWrapper.post(`${baseUrl}/projects/${projectId}/docs/${documentId}/annots`, 'application/json', JSON.stringify(region)).then(r => {
+      let regions = regionsSubject.getValue();
+      regions.push(r);
+      regionsSubject.next(regions);
+    })
   },
-  getPins: () => pinsSubject.asObservable(),
-  addPin: (pin) => {
-    let pins = pinsSubject.getValue();
-    pins.push(pin);
-    pinsSubject.next(pins);
+  deleteRegion: (projectId, documentId, annotId) => {
+    fetchWrapper.delete(`${baseUrl}/projects/${projectId}/docs/${documentId}/annots/${annotId}`).then(() => {
+      fetchWrapper.get(`${baseUrl}/projects/${projectId}/docs/${documentId}/annots/topics`).then(topics => {
+        regionsSubject.next(topics)
+      })
+    })
   },
-  deletePin: (pin) => {
-    let pins = pinsSubject.getValue();
-    pins = pins.filter(p => p.id != pin.id);
-    pinsSubject.next(pins);
+  getPins: (projectId, documentId) => {
+    fetchWrapper.get(`${baseUrl}/projects/${projectId}/docs/${documentId}/annots/pins`).then(pins => {
+      pins.map(p => addPinConfig(p))
+      pinsSubject.next(pins)
+    })
+    return pinsSubject.asObservable()
+  },
+  addPin: (projectId, documentId, pin) => {
+    fetchWrapper.post(`${baseUrl}/projects/${projectId}/docs/${documentId}/annots`, 'application/json', JSON.stringify(pin)).then(p => {
+      let pins = pinsSubject.getValue();
+      pins.push(addPinConfig(p));
+      pinsSubject.next(pins);
+    })
+  },
+  deletePin: (projectId, documentId, annotId) => {
+    fetchWrapper.delete(`${baseUrl}/projects/${projectId}/docs/${documentId}/annots/${annotId}`).then(() => {
+      fetchWrapper.get(`${baseUrl}/projects/${projectId}/docs/${documentId}/annots/pins`).then(pins => {
+        pinsSubject.next(pins)
+      })
+    })
   },
 };
+
+function addPinConfig(pin) {
+  pin.position = "top";
+  pin.color = "#ff990a"
+  return pin;
+}

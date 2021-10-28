@@ -1,8 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {waveformAnnotationService} from "../../services/waveformAnnotation.service";
 import {v4 as uuidv4} from "uuid";
+import { useRouter } from 'next/router'
+
 
 const RegionCreationForm = ({region, onCancel}) => {
+  const router = useRouter();
+  const { pid, rid } = router.query;
   const [regionFormValues, setRegionFormValues] = useState({
     regionLabel: "",
     regionDescription: ""
@@ -15,7 +19,18 @@ const RegionCreationForm = ({region, onCancel}) => {
     region.data.label = regionFormValues.regionLabel;
     region.data.description = regionFormValues.regionDescription;
     region.color = "rgb(30, 143, 158, 0.2)";
-    waveformAnnotationService.addRegion(region);
+    console.log(region)
+    let r = {
+      external_id: region.id,
+      start: region.start,
+      end: region.end,
+      data: {
+        label: region.data.label,
+        description: region.data.description
+      }
+    }
+    console.log(r)
+    waveformAnnotationService.addRegion(pid, rid, r);
   };
 
   const handleChange = (e) => {

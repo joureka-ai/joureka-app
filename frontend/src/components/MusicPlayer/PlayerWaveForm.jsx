@@ -14,6 +14,8 @@ import {yupResolver} from "@hookform/resolvers/yup";
 import {last} from "rxjs/operators";
 import RegionCreationForm from "./RegionCreationForm";
 import PinCreationForm from "./PinCreationForm";
+import { useRouter } from 'next/router'
+
 
 const formWaveSurferOptions = (ref) => ({
   container: ref,
@@ -46,7 +48,8 @@ const formWaveSurferOptions = (ref) => ({
 
 const PlayerWaveForm = ({ url }) => {
   const { waveFormContainer, wave, controls } = styles;
-
+  const router = useRouter();
+  const { pid, rid } = router.query;
   const waveformRef = useRef(null);
   let wavesurfer = useRef(null);
   const [playing, setPlaying] = useState(false);
@@ -72,7 +75,7 @@ const PlayerWaveForm = ({ url }) => {
 
     wavesurfer.current.on("ready", function () {
       setLoading(false);
-      waveformAnnotationService.getRegions().subscribe(r => {
+      waveformAnnotationService.getRegions(pid, rid).subscribe(r => {
         setNewRegion(null);
         setToggleRegionForm(false);
         wavesurfer.current.regions.maxRegions = r.length + 1;
@@ -85,7 +88,7 @@ const PlayerWaveForm = ({ url }) => {
         }
       });
 
-      waveformAnnotationService.getPins().subscribe(p => {
+      waveformAnnotationService.getPins(pid, rid).subscribe(p => {
         setPins([...p]);
         if(p){
           wavesurfer.current.clearMarkers();
@@ -143,7 +146,7 @@ const PlayerWaveForm = ({ url }) => {
       wavesurfer.current.enableDragSelection({});
     } else {
       wavesurfer.current.disableDragSelection();
-      waveformAnnotationService.getRegions().subscribe(r => {
+      waveformAnnotationService.getRegions(pid, rid).subscribe(r => {
         setNewRegion(null);
         setToggleRegionForm(false);
         wavesurfer.current.regions.maxRegions = r.length + 1;
@@ -186,7 +189,7 @@ const PlayerWaveForm = ({ url }) => {
 
   function onCancelCreateRegion() {
     setToggleRegionForm(false);
-    waveformAnnotationService.getRegions().subscribe(r => {
+    waveformAnnotationService.getRegions(pid, rid).subscribe(r => {
       setNewRegion(null);
       setToggleRegionForm(false);
       wavesurfer.current.regions.maxRegions = r.length + 1;

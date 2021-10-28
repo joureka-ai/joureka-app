@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import {waveformAnnotationService} from "../../services/waveformAnnotation.service";
 import {v4 as uuidv4} from "uuid";
+import { useRouter } from 'next/router'
 
 const PinCreationForm = ({currentTime, onCancel}) => {
+  const router = useRouter();
+  const { pid, rid } = router.query;
   const [pinFormValues, setPinFormValues] = useState({
     pinLabel: "",
     pinDescription: ""
@@ -12,14 +15,15 @@ const PinCreationForm = ({currentTime, onCancel}) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const submitForm = () => {
-    waveformAnnotationService.addPin({
-      id: uuidv4(),
-      time: currentTime,
-      position: "top",
-      color: '#ff990a',
-      label: pinFormValues.pinLabel,
-      description: pinFormValues.pinDescription
-    })
+    let p = {
+      external_id: uuidv4(),
+      start: currentTime,
+      end: currentTime,
+      data: {
+        label: pinFormValues.pinLabel
+      }
+    }
+    waveformAnnotationService.addPin(pid, rid, p)
     setPinFormValues({
       pinLabel: "",
       pinDescription: ""

@@ -23,3 +23,15 @@
   margin-bottom: 0.5rem;
   margin-right: 1rem;
 }
+
+.noContent {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    text-align: center;
+  }
+}

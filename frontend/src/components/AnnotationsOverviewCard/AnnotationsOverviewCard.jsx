@@ -1,15 +1,18 @@
 import React, {useEffect, useState} from "react";
 import {waveformAnnotationService} from "../../services/waveformAnnotation.service";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTimes} from "@fortawesome/free-solid-svg-icons";
+import {faHighlighter, faMarker, faThumbtack, faTimes} from "@fortawesome/free-solid-svg-icons";
 import styles from "./annotationsOverviewCard.module.scss"
 import Modal from "../Modal/Modal";
+import { useRouter } from 'next/router'
 
 const AnnotationsOverviewCard = () => {
-  const { regionAnnotation, pinAnnotation } = styles;
+  const { regionAnnotation, pinAnnotation, noContent } = styles;
+  const router = useRouter();
+  const { pid, rid } = router.query;
 
   const [regions, setRegions] = useState([]);
-  const [pins, setPins] = useState(null);
+  const [pins, setPins] = useState([]);
   const [currentRegion, setCurrentRegion] = useState(null);
   const [currentPin, setCurrentPin] = useState(null);
   const [showingRegionDeleteModal, setShowRegionDeleteModal] = useState(false);
@@ -17,10 +20,10 @@ const AnnotationsOverviewCard = () => {
 
 
   useEffect(() => {
-    waveformAnnotationService.getRegions().subscribe(r => {
+    waveformAnnotationService.getRegions(pid, rid).subscribe(r => {
       setRegions([...r]);
     });
-    waveformAnnotationService.getPins().subscribe(p => {
+    waveformAnnotationService.getPins(pid, rid).subscribe(p => {
       console.log("SUBSCRIBE PINS")
       setPins([...p]);
     });
@@ -38,12 +41,12 @@ const AnnotationsOverviewCard = () => {
   }
 
   function deleteRegion() {
-    if(currentRegion) waveformAnnotationService.deleteRegion(currentRegion);
+    if(currentRegion) waveformAnnotationService.deleteRegion(pid, rid, currentRegion.id);
     setShowRegionDeleteModal(false);
   }
 
   function deletePin() {
-    if(currentPin) waveformAnnotationService.deletePin(currentPin);
+    if(currentPin) waveformAnnotationService.deletePin(pid, rid, currentPin.id);
     setShowPinDeleteModal(false);
   }
 
@@ -77,6 +80,12 @@ const AnnotationsOverviewCard = () => {
           >
             <div>Möchten Sie das ausgewählte Pin wirklich löschen?</div>
           </Modal>
+          {regions.length == 0 && pins.length == 0 &&
+            <div className={noContent}>
+              <FontAwesomeIcon icon={faThumbtack} size="2x"/>
+              <p>Sie haben noch keine Themengebiete oder Pins erstellt!</p>
+            </div>
+          }
         </div>
   )
 };

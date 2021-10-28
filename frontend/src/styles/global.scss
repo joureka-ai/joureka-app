@@ -139,9 +139,41 @@ a, a:hover, a:focus, a:active {
   width: 70vw;
 }
 
-.wavesurfer-handle {
-  background-color: transparent !important;
+.vh-10 {
+  height: 10vh;
 }
+.vh-20 {
+  height: 20vh;
+}
+.vh-30 {
+   height: 30vh;
+}
+.vh-40 {
+  height: 40vh;
+}
+.vh-50 {
+  height: 50vh;
+}
+.vh-60 {
+  height: 60vh;
+}
+.vh-70 {
+  height: 70vh;
+}
+
+.vh-80 {
+  height: 80vh;
+}
+
+.wavesurfer-region{
+  background-color: $Blue !important;
+  opacity: 0.2;
+
+  .wavesurfer-handle {
+    background-color: transparent !important;
+  }
+}
+
 
 .custom-tooltip {
   position: relative;
