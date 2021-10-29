@@ -286,9 +286,6 @@ def create_annotation(
     else:
         type = "Topic"
 
-    if not annot_in.fk_document:
-        annot_in.fk_document = document_id
-
     try:
         annot = crud.annot.create(db, obj_in=annot_in, type=type, doc_id=document_id)
     except Exception as e:
