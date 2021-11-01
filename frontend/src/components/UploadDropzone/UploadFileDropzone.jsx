@@ -15,6 +15,8 @@ function UploadFileDropzone(props) {
   const [currentProject, setCurrentProject] = useState(JSON.parse(localStorage.getItem('created-project')));
   const [showingDocumentDeleteModal, setShowingDocumentDeleteModal] = useState(false);
   const [toBeRemovedDocument, setToBeRemovedDocument] = useState(null);
+  const [uploadError, setUploadError] = useState(false);
+
   const { getRootProps, getInputProps} = useDropzone({
     accept: "audio/*",
     maxFiles: 4,
@@ -34,6 +36,8 @@ function UploadFileDropzone(props) {
   }
 
   function saveFiles() {
+    let filesUploaded = 0;
+    let createdDoc;
     files.forEach(file => {
       console.log(file);
       setSavingFiles(true);
@@ -43,12 +47,24 @@ function UploadFileDropzone(props) {
         "language": "de-DE",
         "fk_project": currentProject.id
       };
-        projectService.createDocument(currentProject.id, fileData).then(document => {
-          setSavingFiles(false);
-          setFiles([]);
+      projectService.createDocument(currentProject.id, fileData).then(document => {
+        setFiles([]);
+        createdDoc = document;
+        projectService.saveFile(currentProject.id, document.id, file).then(() => {
           projectService.getAllDocuments(currentProject.id).then(docs => setUploadedDocuments(docs));
-         // projectService.saveFile(currentProject.id, document.id, file).then(() => setSavingFiles(true))
+          filesUploaded++;
+          if (filesUploaded === files.length) {
+            setSavingFiles(false);
+          }
+        }).catch(error => {
+          console.log(error)
+          setSavingFiles(false);
+          setUploadError(true);
+          /*projectService.deleteDocument(createdDoc.id).then(() => {
+            projectService.getAllDocuments(currentProject.id).then(docs => setUploadedDocuments(docs));
+          })*/
         });
+      });
       });
   }
 
@@ -91,6 +107,7 @@ function UploadFileDropzone(props) {
         </button>
         {uploadedDocuments.length === 0 && <button onClick={() => router.push(`/project/${currentProject.id}`)} className=" full-width custom-button custom-button-sm custom-button-transparent">Dateien Später hochladen</button>}
       </div>
+      {uploadError && <div>Datei konnte nich hochgeladet werden!</div>}
       {uploadedDocuments.length !== 0 &&
       <div className="mt-4">
         <div className="fw-bold">Hochgeladene Dateien:</div>

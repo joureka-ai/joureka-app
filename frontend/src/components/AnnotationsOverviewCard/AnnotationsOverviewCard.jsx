@@ -62,6 +62,8 @@ const AnnotationsOverviewCard = () => {
             onClose={() => setShowRegionDeleteModal(false)}
             onConfirm={() => deleteRegion()}
             show={showingRegionDeleteModal}
+            onCloseButton={"Abbrechen"}
+            onConfirmButton={"Löschen"}
           >
             <div>Möchten Sie das ausgewählte Themengebiet wirklich löschen?</div>
           </Modal>

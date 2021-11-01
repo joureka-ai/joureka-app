@@ -23,8 +23,9 @@ const pinsSubject = new BehaviorSubject([{
 
 export const waveformAnnotationService = {
   getRegions: (projectId, documentId) => {
-    fetchWrapper.get(`${baseUrl}/projects/${projectId}/docs/${documentId}/annots/topics`).then(topics => {
-      regionsSubject.next(topics)
+    fetchWrapper.get(`${baseUrl}/projects/${projectId}/docs/${documentId}/annots/topics`).then(regions => {
+      regions.map(r => addRegionConfig(r))
+      regionsSubject.next(regions)
     })
     return regionsSubject.asObservable()
   },
@@ -37,8 +38,9 @@ export const waveformAnnotationService = {
   },
   deleteRegion: (projectId, documentId, annotId) => {
     fetchWrapper.delete(`${baseUrl}/projects/${projectId}/docs/${documentId}/annots/${annotId}`).then(() => {
-      fetchWrapper.get(`${baseUrl}/projects/${projectId}/docs/${documentId}/annots/topics`).then(topics => {
-        regionsSubject.next(topics)
+      fetchWrapper.get(`${baseUrl}/projects/${projectId}/docs/${documentId}/annots/topics`).then(regions => {
+        regions.map(r => addRegionConfig(r))
+        regionsSubject.next(regions)
       })
     })
   },
@@ -67,6 +69,11 @@ export const waveformAnnotationService = {
 
 function addPinConfig(pin) {
   pin.position = "top";
-  pin.color = "#ff990a"
+  pin.color = "#ff990a";
   return pin;
+}
+
+function addRegionConfig(region) {
+  region.drag = false;
+  region.resize = false;
 }

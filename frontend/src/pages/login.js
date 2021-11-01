@@ -1,6 +1,6 @@
 import styles from "../styles/login.module.scss"
 import React from "react";
-import Logo from "../../public/logo.png"
+//import Logo from "../../public/logo.png"
 import Image from "next/image";
 import { userService } from "../services";
 import { useRouter } from "next/router";
@@ -37,7 +37,7 @@ const LogIn = () => {
       <div className={`${styles.split} ${styles.left}`}>
         <div className='d-flex justify-content-center align-items-center flex-column flex-md-row'>
           <div className='mb-3'>
-            <Image src={Logo} alt="Picture of the author" />
+            <img src="/logo.png" alt="Picture of the author" />
           </div>
           <div className='p-5'><h3>Mit mehr Muße<br/>vom Interview<br/>zum Artikel!</h3></div>
         </div>
