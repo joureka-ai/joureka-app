@@ -376,13 +376,13 @@ xxhash = "*"
 [package.extras]
 apache-beam = ["apache-beam (>=2.26.0)"]
 benchmarks = ["numpy (==1.18.5)", "tensorflow (==2.3.0)", "torch (==1.6.0)", "transformers (==3.0.2)"]
-dev = ["absl-py", "pytest", "pytest-xdist", "apache-beam (>=2.26.0)", "elasticsearch", "aiobotocore", "boto3", "botocore", "faiss-cpu", "fsspec", "moto[server,s3] (==2.0.4)", "rarfile (>=4.0)", "s3fs (==2021.08.1)", "tensorflow (>=2.3)", "torch", "transformers", "bs4", "conllu", "langdetect", "lxml", "mwparserfromhell", "nltk", "openpyxl", "py7zr", "tldextract", "zstandard", "bert-score (>=0.3.6)", "rouge-score", "sacrebleu", "scipy", "seqeval", "scikit-learn", "jiwer", "sentencepiece", "toml (>=0.10.1)", "requests-file (>=1.5.1)", "tldextract (>=3.1.0)", "texttable (>=1.6.3)", "Werkzeug (>=1.0.1)", "six (>=1.15.0,<1.16.0)", "wget (>=3.2)", "pytorch-nlp (==0.5.0)", "pytorch-lightning", "fastBPE (==0.1.0)", "fairseq", "black (==21.4b0)", "flake8 (==3.7.9)", "isort", "pyyaml (>=5.3.1)", "importlib-resources"]
+dev = ["absl-py", "pytest", "pytest-xdist", "apache-beam (>=2.26.0)", "elasticsearch", "aiobotocore", "boto3", "botocore", "faiss-cpu", "fsspec", "moto[s3,server] (==2.0.4)", "rarfile (>=4.0)", "s3fs (==2021.08.1)", "tensorflow (>=2.3)", "torch", "transformers", "bs4", "conllu", "langdetect", "lxml", "mwparserfromhell", "nltk", "openpyxl", "py7zr", "tldextract", "zstandard", "bert-score (>=0.3.6)", "rouge-score", "sacrebleu", "scipy", "seqeval", "scikit-learn", "jiwer", "sentencepiece", "toml (>=0.10.1)", "requests-file (>=1.5.1)", "tldextract (>=3.1.0)", "texttable (>=1.6.3)", "Werkzeug (>=1.0.1)", "six (>=1.15.0,<1.16.0)", "wget (>=3.2)", "pytorch-nlp (==0.5.0)", "pytorch-lightning", "fastBPE (==0.1.0)", "fairseq", "black (==21.4b0)", "flake8 (==3.7.9)", "isort", "pyyaml (>=5.3.1)", "importlib-resources"]
 docs = ["docutils (==0.16.0)", "recommonmark", "sphinx (==3.1.2)", "sphinx-markdown-tables", "sphinx-rtd-theme (==0.4.3)", "sphinxext-opengraph (==0.4.1)", "sphinx-copybutton", "fsspec", "s3fs", "sphinx-panels", "sphinx-inline-tabs", "myst-parser"]
 quality = ["black (==21.4b0)", "flake8 (==3.7.9)", "isort", "pyyaml (>=5.3.1)"]
 s3 = ["fsspec", "boto3", "botocore", "s3fs"]
 tensorflow = ["tensorflow (>=2.2.0)"]
 tensorflow_gpu = ["tensorflow-gpu (>=2.2.0)"]
-tests = ["absl-py", "pytest", "pytest-xdist", "apache-beam (>=2.26.0)", "elasticsearch", "aiobotocore", "boto3", "botocore", "faiss-cpu", "fsspec", "moto[server,s3] (==2.0.4)", "rarfile (>=4.0)", "s3fs (==2021.08.1)", "tensorflow (>=2.3)", "torch", "transformers", "bs4", "conllu", "langdetect", "lxml", "mwparserfromhell", "nltk", "openpyxl", "py7zr", "tldextract", "zstandard", "bert-score (>=0.3.6)", "rouge-score", "sacrebleu", "scipy", "seqeval", "scikit-learn", "jiwer", "sentencepiece", "toml (>=0.10.1)", "requests-file (>=1.5.1)", "tldextract (>=3.1.0)", "texttable (>=1.6.3)", "Werkzeug (>=1.0.1)", "six (>=1.15.0,<1.16.0)", "wget (>=3.2)", "pytorch-nlp (==0.5.0)", "pytorch-lightning", "fastBPE (==0.1.0)", "fairseq", "importlib-resources"]
+tests = ["absl-py", "pytest", "pytest-xdist", "apache-beam (>=2.26.0)", "elasticsearch", "aiobotocore", "boto3", "botocore", "faiss-cpu", "fsspec", "moto[s3,server] (==2.0.4)", "rarfile (>=4.0)", "s3fs (==2021.08.1)", "tensorflow (>=2.3)", "torch", "transformers", "bs4", "conllu", "langdetect", "lxml", "mwparserfromhell", "nltk", "openpyxl", "py7zr", "tldextract", "zstandard", "bert-score (>=0.3.6)", "rouge-score", "sacrebleu", "scipy", "seqeval", "scikit-learn", "jiwer", "sentencepiece", "toml (>=0.10.1)", "requests-file (>=1.5.1)", "tldextract (>=3.1.0)", "texttable (>=1.6.3)", "Werkzeug (>=1.0.1)", "six (>=1.15.0,<1.16.0)", "wget (>=3.2)", "pytorch-nlp (==0.5.0)", "pytorch-lightning", "fastBPE (==0.1.0)", "fairseq", "importlib-resources"]
 torch = ["torch"]
 
 [[package]]
@@ -1539,6 +1539,17 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
+name = "vosk"
+version = "0.3.32"
+description = "Offline open source speech recognition API based on Kaldi and Vosk"
+category = "main"
+optional = false
+python-versions = ">=3"
+
+[package.dependencies]
+cffi = ">=1.0"
+
+[[package]]
 name = "websockets"
 version = "8.1"
 description = "An implementation of the WebSocket Protocol (RFC 6455 & 7692)"
@@ -1577,7 +1588,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8, <3.10"
-content-hash = "efcdc3f11c2848883dce54cb002b9b401dd6d741a61e2d36182d851ed5bd7e62"
+content-hash = "735a777a23dc47e755a7867fef670e524b7c16f97771afa98872c83e96a8133d"
 
 [metadata.files]
 aiofiles = [
@@ -2755,6 +2766,13 @@ uvloop = [
 vine = [
     {file = "vine-1.3.0-py2.py3-none-any.whl", hash = "sha256:ea4947cc56d1fd6f2095c8d543ee25dad966f78692528e68b4fada11ba3f98af"},
     {file = "vine-1.3.0.tar.gz", hash = "sha256:133ee6d7a9016f177ddeaf191c1f58421a1dcc6ee9a42c58b34bed40e1d2cd87"},
+]
+vosk = [
+    {file = "vosk-0.3.32-py3-none-linux_armv7l.whl", hash = "sha256:12978cd72ef01923434e42a26b572a1e4ffbb90aaa41e71fdbd990da612b929f"},
+    {file = "vosk-0.3.32-py3-none-macosx_10_6_x86_64.whl", hash = "sha256:8ce44efe62cb27948b6ba8dbc153ce9e32474f8dbff850d38a8ea6b3af5068ff"},
+    {file = "vosk-0.3.32-py3-none-manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:cbc18e23abba1db37db5545c167f00133df8c040b54df7b11d53a1167b9bdbde"},
+    {file = "vosk-0.3.32-py3-none-win32.whl", hash = "sha256:d96b2ff0125642f802878e3848be0403fba97df269d7f748dabd8854d33ff30d"},
+    {file = "vosk-0.3.32-py3-none-win_amd64.whl", hash = "sha256:7eeb185e4821a4a894986f319cc989ebb45545c06721931991dbc33084c1add9"},
 ]
 websockets = [
     {file = "websockets-8.1-cp36-cp36m-macosx_10_6_intel.whl", hash = "sha256:3762791ab8b38948f0c4d281c8b2ddfa99b7e510e46bd8dfa942a5fff621068c"},
