@@ -133,7 +133,7 @@ class CRUDDocument(CRUDBase[Document, DocumentCreate, DocumentUpdate]):
         file_key = await file_storage.get_hash(file)
         file_key = f"file/{file_key}{suffix}"
 
-        audio_file_key = file_storage.upload_to_bucket_async(file_key, file)
+        audio_file_key = await file_storage.upload_to_bucket_async(file_key, file)
 
         document.audio_file_key = audio_file_key
 

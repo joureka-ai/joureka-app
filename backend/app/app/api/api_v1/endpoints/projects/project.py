@@ -110,6 +110,8 @@ async def create_document(
             detail="The project with this id does not exist in the system",
         )
 
+    if not document_in.fk_project:
+        document_in.fk_project = project_id
     document = crud.document.create(db, obj_in=document_in)
 
     return document
