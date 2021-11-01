@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from pydantic import BaseModel
 
+from typing import List, Optional
 
 class Word(BaseModel):
 
@@ -13,3 +14,6 @@ class Word(BaseModel):
 
     class Config:
         orm_mode = True
+
+class Words(BaseModel):
+    words: List[Word]
