@@ -6,7 +6,6 @@ from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
 
-from .transcript.aws import AWSTranscription
 
 
 class Word(Base):
