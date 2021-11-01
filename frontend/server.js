@@ -11,6 +11,8 @@ const devProxy = {
     pathRewrite: { "^/backend/": "/" },
     changeOrigin: true,
     logLevel: "debug",
+    timeout: 600000,
+    proxyTimeout: 600000,
   },
   // map all routes starting with /api unchanged to the backend
   "/api": {
@@ -18,6 +20,8 @@ const devProxy = {
     pathRewrite: { "^/": "/" },
     changeOrigin: true,
     logLevel: "info",
+    timeout: 600000,
+    proxyTimeout: 600000,
   },
 };
 
@@ -47,8 +51,7 @@ app
 
     // Default catch-all handler to allow Next.js to handle all other routes
     server.all("*", (req, res) => {
-      // res.setTimeout(600 * 60 * 1000)
-      // console.log(req)
+      req.setTimeout(0)
       handle(req, res)
     });
 
@@ -59,10 +62,6 @@ app
       console.log(`> Ready on port ${port} [${env}]`);
     });
 
-    /*server.on('connection', function (socket) {
-      // Do your thang here
-      socket.setTimeout(600 * 60 * 1000);
-    });*/
   })
   .catch((err) => {
     console.log("An error occurred, unable to start the server");
