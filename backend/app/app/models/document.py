@@ -6,7 +6,7 @@ from sqlalchemy_utils import TSVectorType
 
 from app.db.base_class import Base
 
-from .transcript.aws import AWSTranscription
+from .transcript import Transcription
 from .word import Word
 from .annot import Annot
 
@@ -29,8 +29,8 @@ class Document(Base):
     peaks_file_key = Column(String, nullable=True)
     language = Column(String, nullable=True)
 
-    fk_aws_transcription = Column(Integer, ForeignKey("aws_transcription.id"))
-    transcription = relationship(AWSTranscription)
+    fk_transcription = Column(Integer, ForeignKey("transcription.id"))
+    transcription = relationship(Transcription)
 
     fulltext = deferred(Column(String, nullable=True))
     fulltext_search_vector = deferred(Column(TSVectorType("fulltext")))

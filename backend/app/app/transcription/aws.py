@@ -4,13 +4,15 @@ import time
 import json
 from datetime import timedelta
 
+from sqlalchemy.orm import Session
 
 import boto3, botocore
 
 from fastapi import Depends
 from app import file_storage
 from app.models import Document, Word
-from app.models.transcript.aws import AWSTranscription
+from app.models.transcript import Transcription
+from app import crud
 
 LOG = logging.getLogger(__name__)
 
@@ -96,6 +98,7 @@ def transcribe_document(
     document: Document,
     aws_bucket_name: str,
     lang: str,
+    db: Session
 ):
 
     filekey = document.audio_file_key
@@ -105,23 +108,8 @@ def transcribe_document(
         aws_bucket_name=aws_bucket_name,
         lang=lang,
     )
-    full_text = job_raw["results"]["transcripts"][0]["transcript"]
 
-    transcription = AWSTranscription(raw=job_raw, full_text=full_text)
-    document.words = []
+    crud.document.update_transcription(db, document, job_raw)
 
-    for i, item in enumerate(job_raw["results"]["items"]):
-        if item["type"] == "punctuation":
-            continue
-        alternative = item["alternatives"][0]
-        assert "start_time" in item, item
-        word = Word(
-            word=alternative["content"],
-            order=i,
-            start_time=timedelta(seconds=float(item["start_time"])),
-            end_time=timedelta(seconds=float(item["end_time"])),
-            confidence=float(alternative["confidence"]),
-        )
-        document.words.append(word)
+    crud.document.update_words(db, document, job_raw)
 
-    document.transcription = transcription

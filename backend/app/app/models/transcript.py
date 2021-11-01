@@ -6,8 +6,8 @@ from sqlalchemy.dialects.postgresql import JSON
 from app.db.base_class import Base
 
 
-class AWSTranscription(Base):
-    __tablename__ = "aws_transcription"
+class Transcription(Base):
+    __tablename__ = "transcription"
 
     id = Column(Integer, primary_key=True, index=True)
 

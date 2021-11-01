@@ -10,7 +10,7 @@ class AnnotBase(BaseModel):
     description: Optional[str]
     start_time: timedelta
     end_time: timedelta
-    fk_document: int
+    fk_document: Optional[int] = None
     
 # Properties to receive via API on creation
 class AnnotCreate(AnnotBase):

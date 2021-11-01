@@ -2,7 +2,10 @@ from typing import Any, Dict, Optional, List
 
 from sqlalchemy import func, text
 from sqlalchemy.orm import Session
+
 from pathlib import Path
+
+from datetime import timedelta
 
 from fastapi import UploadFile
 
@@ -10,6 +13,7 @@ from app.core.security import get_password_hash, verify_password
 from app.crud.base import CRUDBase
 from app.models.document import Document
 from app.models.word import Word
+from app.models.transcript import Transcription
 from app import file_storage
 from app.schemas.document import (
     DocumentCreate,
@@ -18,6 +22,7 @@ from app.schemas.document import (
     Headline,
     HeadlineToken,
 )
+from app.schemas.transcription import TranscriptionResults
 
 
 class CRUDDocument(CRUDBase[Document, DocumentCreate, DocumentUpdate]):
@@ -128,7 +133,7 @@ class CRUDDocument(CRUDBase[Document, DocumentCreate, DocumentUpdate]):
         file_key = await file_storage.get_hash(file)
         file_key = f"file/{file_key}{suffix}"
 
-        audio_file_key = await file_storage.upload_to_bucket(file_key, file)
+        audio_file_key = await file_storage.upload_to_bucket_async(file_key, file)
 
         document.audio_file_key = audio_file_key
 
@@ -140,6 +145,35 @@ class CRUDDocument(CRUDBase[Document, DocumentCreate, DocumentUpdate]):
         document.fulltext_search_vector = func.to_tsvector(
         document.fulltext_regconfig, fulltext
         )
+        db.commit()
+        db.refresh(document)
+    
+    @staticmethod
+    def update_transcription(db: Session, document: Document, job_raw: TranscriptionResults) -> Document:
+        document.transcription = Transcription(
+            raw=job_raw,
+            full_text=job_raw["results"]["transcripts"][0]["transcript"])
+
+        db.commit()
+        db.refresh(document)
+
+    @staticmethod
+    def update_words(db: Session, document: Document, job_raw: TranscriptionResults) -> Document:
+        
+        document.words = []
+
+        for i, item in enumerate(job_raw["results"]["items"]):
+            #TODO: add punctuation
+            alternative = item["alternatives"][0]
+            assert "start_time" in item, item
+            word = Word(
+                word=alternative["content"],
+                order=i,
+                start_time=timedelta(seconds=float(item["start_time"])),
+                end_time=timedelta(seconds=float(item["end_time"])),
+                confidence=float(alternative["confidence"]),
+            )
+            document.words.append(word)
         db.commit()
         db.refresh(document)
 

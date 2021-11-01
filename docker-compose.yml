@@ -150,16 +150,16 @@ services:
       args: 
         INSTALL_DEV: ${INSTALL_DEV-false}
   
-  flower:
-    image: mher/flower:0.9.5
-    networks:
-      - ${TRAEFIK_PUBLIC_NETWORK?Variable not set}
-      - default
-    env_file:
-      - .env
-    command: ["flower", "--address=0.0.0.0", "--broker=amqp://guest@queue:5672/", "--broker_api=http://guest:guest@queue:15672/api//" ,"--port=5555", "--logging=DEBUG"]
-    ports:
-      - "5555:5555"
+  #flower:
+  #  image: mher/flower:0.9.5
+  #  networks:
+  #    - ${TRAEFIK_PUBLIC_NETWORK?Variable not set}
+  #    - default
+  #  env_file:
+  #    - .env
+  #  command: ["flower", "--address=0.0.0.0", "--broker=amqp://guest@queue:5672/", "--broker_api=http://guest:guest@queue:15672/api//" ,"--port=5555", "--logging=DEBUG"]
+  #  ports:
+  #    - "5555:5555"
 
 
 volumes:

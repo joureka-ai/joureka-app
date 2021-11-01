@@ -15,7 +15,7 @@ class Language(enum.Enum):
     es_ES = "es-ES"
 
 
-class AWSTranscription(BaseModel):
+class Transcription(BaseModel):
 
     id: int
 
@@ -29,7 +29,7 @@ class AWSTranscription(BaseModel):
 class DocumentBase(BaseModel):
     title: Optional[str] = None
     language: Optional[Language] = Language.de_DE
-    fk_project: int
+    fk_project: Optional[int] = None
 
 # Properties to receive via API on creation
 class DocumentCreate(DocumentBase):
