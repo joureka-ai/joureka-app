@@ -100,9 +100,11 @@ def transcribe(self,
     transcription = self.model.transcribe(audio_bytes, jobName)
     assert transcription
 
+    LOG.info("Uploading Transcription Job as file")
     tmp_file = dump_transcript(transcription)
     uploaded_file_key = upload_to_bucket_sync(transcript_key, tmp_file.file)
     assert uploaded_file_key
+    LOG.info(f"Transcription Job uploaded at: {uploaded_file_key}")
 
     full_text = transcription["results"]["transcripts"][0]["transcript"]
     crud.document.update_fulltext(self.db, document, full_text)

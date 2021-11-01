@@ -35,7 +35,7 @@ def transcribe_with_aws(
 
     document = crud.document.get(db, id=document_id)
 
-    aws.transcribe_document(document, aws_bucket_name=aws_bucket_name, lang=lang)
+    aws.transcribe_document(document, aws_bucket_name=aws_bucket_name, lang=lang, db=db)
 
     assert document.transcription
 

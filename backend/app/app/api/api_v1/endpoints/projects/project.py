@@ -190,6 +190,58 @@ def delete_document(
             detail=f"{e}"
         )
 
+@router.get("/{project_id}/docs/{document_id}/fulltext")
+def get_fulltext(
+    project_id: int,
+    document_id: int,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
+) -> str:
+    """
+    Get the fulltext of  specific document by id.
+    """
+
+    document = crud.document.get_by_p_id(db, id=document_id, fk_project=project_id)
+    if not document:
+        raise HTTPException(
+            status_code=404,
+            detail="The document with this id and project id does not exist in the system",
+        )
+
+    if not document.fulltext:
+        raise HTTPException(
+            status_code=409,
+            detail="There is no transcription for this document!",
+        )
+
+    return document.fulltext
+
+@router.get("/{project_id}/docs/{document_id}/words", response_model=schemas.Words)
+def get_words(
+    project_id: int,
+    document_id: int,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
+) -> schemas.Words:
+    """
+    Get the words of specific document by id.
+    """
+
+    document = crud.document.get_by_p_id(db, id=document_id, fk_project=project_id)
+    if not document:
+        raise HTTPException(
+            status_code=404,
+            detail="The document with this id and project id does not exist in the system",
+        )
+
+    if not document.words:
+        raise HTTPException(
+            status_code=409,
+            detail="There is no transcription for this document!",
+        )
+
+    return schemas.Words(words=document.words)
+
 
 @router.get("/{project_id}/docs/{document_id}/file")
 async def download_file(
