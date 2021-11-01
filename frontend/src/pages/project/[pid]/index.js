@@ -6,11 +6,15 @@ import Tabs from "../../../components/Tabs/Tabs";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faEdit} from "@fortawesome/free-solid-svg-icons";
 import {projectService} from "../../../services";
+import styles from "../../../styles/project.module.scss"
+import ReactReadMoreReadLess from "react-read-more-read-less";
+
 
 const Project = () => {
   const router = useRouter();
   const { pid } = router.query;
   const [project, setProject] = useState(null);
+  const {projectDescription} = styles;
 
   useEffect(() => {
    if(pid) projectService.getProject(pid).then(pro => setProject(pro));
@@ -32,6 +36,15 @@ const Project = () => {
              <FontAwesomeIcon icon={faEdit} />
            </button>
          </div>
+         <div className={projectDescription}>
+         <ReactReadMoreReadLess
+                charLimit={400}
+                readMoreText={"Mehr lesen ▼"}
+                readLessText={"Weniger lesen ▲"}
+            >
+                {project.description}
+            </ReactReadMoreReadLess>
+            </div>
          <Tabs/>
        </div>}
       </div>

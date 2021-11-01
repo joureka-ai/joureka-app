@@ -22,6 +22,7 @@
     "react-hook-form": "^7.15.3",
     "react-html-parser": "^2.0.2",
     "react-player": "^2.7.0",
+    "react-read-more-read-less": "^1.0.7",
     "rxjs": "^7.3.0",
     "sass": "^1.39.0",
     "swr": "0.2.0",

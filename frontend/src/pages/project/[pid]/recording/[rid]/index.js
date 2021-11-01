@@ -16,8 +16,10 @@ const Recording = () => {
   const [fileUrl, setFileUrl] = useState(null);
 
   useEffect(() => {
-    projectService.getDocumentById(pid, rid).then(rec => setRecording(rec));
-    projectService.getFileOfDocument(pid, rid).then(url => setFileUrl(url));
+    if(pid && rid) {
+      projectService.getDocumentById(pid, rid).then(rec => setRecording(rec));
+      projectService.getFileOfDocument(pid, rid).then(url => setFileUrl(url));
+    }
   }, []);
 
   return (

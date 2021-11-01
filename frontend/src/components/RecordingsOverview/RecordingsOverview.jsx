@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import RecordingOverviewCard from "./RecordingOverviewCard";
+import RecordingOverviewBar from "./RecordingOverviewBar";
 import {useRouter} from "next/router";
 import {projectService} from "../../services";
 import LoadingSpinnerOverlay from "../LoadingSpinner/LoadingSpinnerOverlay";
@@ -16,9 +16,9 @@ const RecordingsOverview = () => {
   return (
     <React.Fragment>
       {!recordings && <LoadingSpinnerOverlay text={"Audiodateien werden geladen!"}/> }
-   <div className="d-flex flex-row flex-wrap justify-content-center">
+   <div className="">
      {recordings && recordings.map(recording => (
-       <RecordingOverviewCard recording={recording} key={recording.id}/>
+       <RecordingOverviewBar recording={recording} key={recording.id}/>
      ))}
      {recordings && recordings.length === 0 &&
      <div className="d-flex justify-content-center align-items-center vh-80 flex-column">

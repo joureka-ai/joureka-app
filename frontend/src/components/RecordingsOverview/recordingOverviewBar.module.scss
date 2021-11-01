@@ -1,0 +1,23 @@
+@import "../../styles/variables";
+
+.recordingBar {
+  width: 100%;
+  background-color: $Light_Gray;
+  height: 2.5rem;
+  margin-top: 1rem;
+  border-radius: $border-radius-default;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  font-size: 0.8rem;
+
+  &.inactive {
+    opacity: 0.5;
+  }
+
+  &.success {
+    border-left: 7px solid $Green;
+  }
+}

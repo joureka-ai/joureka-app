@@ -65,6 +65,14 @@ button {
       color: $Blue;
     }
   }
+
+  &.icon-gray {
+    color: $Gray;
+
+    &:hover {
+      color: $Blue;
+    }
+  }
 }
 
 .icon-button-round {
