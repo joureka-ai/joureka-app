@@ -8,6 +8,7 @@ const createdProjectSubject = new BehaviorSubject();
 export const projectService = {
   getAllProjects,
   getProject,
+  deleteProject,
   getAllDocuments,
   getDocumentById,
   getFileOfDocument,
@@ -25,6 +26,11 @@ function getAllProjects() {
 function getProject(projectId) {
   return fetchWrapper.get(`${baseUrl}/projects/${projectId}`);
 }
+
+function deleteProject(projectId) {
+  return fetchWrapper.delete(`${baseUrl}/projects/${projectId}`);
+}
+
 
 function getAllDocuments(projectId) {
   return fetchWrapper.get(`${baseUrl}/projects/${projectId}/docs`);

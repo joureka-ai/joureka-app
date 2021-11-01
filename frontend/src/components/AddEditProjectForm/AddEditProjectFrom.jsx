@@ -4,6 +4,10 @@ import { useRouter } from 'next/router';
 import {projectService} from "../../services";
 import styles from "../../styles/createProjectPage.module.scss"
 import UploadFileDropzone from "../../components/UploadDropzone/UploadFileDropzone";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import Modal from "../Modal/Modal";
+
 
 const AddEditProjectForm = (props) => {
   const router = useRouter();
@@ -19,6 +23,8 @@ const AddEditProjectForm = (props) => {
   const [isSubmittingUpdate, setIsSubmittingUpdate] = useState(false);
   const [projectDocuments, setProjectDocuments] = useState(null);
   const [projectDataChanged, setProjectDataChanged] = useState(false);
+  const [showingProjectDeleteModal, setShowProjektDeleteModal] = useState(false);
+
 
   const submitCreateForm = () => {
     projectService.createProject({
@@ -69,6 +75,14 @@ const AddEditProjectForm = (props) => {
     return errors;
   };
 
+  const deleteProject = () => {
+    projectService.deleteProject(project.id).then(() => {
+      router.push("/");
+      setShowProjektDeleteModal(false);
+    })
+    
+  }
+
   useEffect(() => {
     if (Object.keys(projectFormErrors).length === 0 && isSubmittingCreate) {
       submitCreateForm();
@@ -105,8 +119,23 @@ const AddEditProjectForm = (props) => {
         </div>
         {currentStep === 1 && <div className="custom-card">
           <div className="custom-card-header">
-            <div className="custom-card-title text-uppercase">Projekt erstellen</div>
-            <div className="pt-3">Mittels dem folgenden Formular können Sie ein neues Projekt erstellen. Im nächsten Schritt können Sie Audiodateien dem Projekt hinzufügen.</div>
+            <div className="custom-card-title text-uppercase d-flex justify-content-between">
+              {project ? <span>Projekt bearbeiten</span> : <span>Projekt erstellen</span>}
+              {project &&   <button className="icon-button-transparent icon-orange mx-2" onClick={() => setShowProjektDeleteModal(true)}>
+              <FontAwesomeIcon icon={faTrash} />
+            </button>}
+            <Modal
+              title={"Projekt löschen"}
+              onClose={() => setShowProjektDeleteModal(false)}
+              onConfirm={() => deleteProject()}
+              show={showingProjectDeleteModal}
+              onCloseButton={"Abbrechen"}
+              onConfirmButton={"Löschen"}
+            >
+              <div>Möchten Sie das Projekt wirklich löschen?</div>
+            </Modal>
+              </div>
+            <div className="pt-3">Mittels dem folgenden Formular können Sie ein neues Projekt erstellen oder bearbeiten. Im nächsten Schritt können Sie Audiodateien dem Projekt hinzufügen.</div>
           </div>
           <div className="custom-card-body">
             <form role="form" name="create-project-form">
@@ -121,7 +150,7 @@ const AddEditProjectForm = (props) => {
               <div className="form-group">
                 <label htmlFor="projectDescription">Beschreibung</label>
                 <textarea value={projectFormValues.projectDescription} onChange={handleChange} type="textarea" id="regionDescription"
-                          className="form-control custom-input custom-input-blue" rows="4" name="projectDescription"/>
+                          className="form-control custom-input custom-input-blue" rows="6" name="projectDescription"/>
                 {projectFormErrors.projectDescription && (
                   <span className="input-error">{projectFormValues.projectDescription}</span>
                 )}
