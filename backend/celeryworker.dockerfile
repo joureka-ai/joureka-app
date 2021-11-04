@@ -32,11 +32,6 @@ ENV C_FORCE_ROOT=1
 COPY ./app /app
 WORKDIR /app
 
-RUN cd /app/.asr/models/vosk
-RUN wget https://alphacephei.com/vosk/models/vosk-model-small-de-0.15.zip
-RUN unzip vosk-model-small-de-0.15.zip
-WORKDIR /app
-
 ENV PYTHONPATH=/app
 
 COPY ./app/worker-start.sh /worker-start.sh
