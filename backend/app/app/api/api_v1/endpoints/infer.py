@@ -30,12 +30,12 @@ def transcribe(
 
     audio_file_key = document.audio_file_key
     assert audio_file_key
-    """
+    
     if document.fulltext:
         raise HTTPException(
             status_code=409, detail="There is already an existing transcript!"
         )
-    """
+    
     
     task = celery_app.send_task(
         name=f"worker.transcribe.{engine}",
