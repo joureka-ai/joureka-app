@@ -36,7 +36,7 @@ const Recording = () => {
           {fileUrl && <Player fileUrl={fileUrl}/>}
           <div className={`${recordingDataContainer} d-flex flex-row`}>
             <div className="transcriptionCardContainer vw-70">
-              <TranscriptionCard/>
+              <TranscriptionCard document={recording}/>
             </div>
             <div className={`${annotationsCardContainer} mt-3 vw-30`}>
               <AnnotationsOverviewCard/>

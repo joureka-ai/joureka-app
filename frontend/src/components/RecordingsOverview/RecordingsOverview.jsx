@@ -10,7 +10,14 @@ const RecordingsOverview = () => {
   const [recordings, setRecordings] = useState(null);
 
   useEffect(() => {
-    projectService.getAllDocuments(pid).then(recordings => setRecordings(recordings));
+    projectService.getAllDocuments(pid).then((recordings) => {
+      setRecordings(recordings)
+    });
+    setInterval(function(){ 
+      projectService.getAllDocuments(pid).then((recordings) => {
+        setRecordings(recordings)
+      });
+    }, 30000);
   }, []);
 
   return (

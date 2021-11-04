@@ -51,6 +51,7 @@ function UploadFileDropzone(props) {
         setFiles([]);
         createdDoc = document;
         projectService.saveFile(currentProject.id, document.id, file).then(() => {
+          projectService.startTranskriptionJob(currentProject.id, document.id).then(res => console.log(res))
           projectService.getAllDocuments(currentProject.id).then(docs => setUploadedDocuments(docs));
           filesUploaded++;
           if (filesUploaded === files.length) {

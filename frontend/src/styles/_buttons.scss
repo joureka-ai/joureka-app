@@ -73,6 +73,14 @@ button {
       color: $Blue;
     }
   }
+
+  &.icon-blue {
+    color: $Blue;
+
+    &:hover {
+      color: $Orange;
+    }
+  }
 }
 
 .icon-button-round {

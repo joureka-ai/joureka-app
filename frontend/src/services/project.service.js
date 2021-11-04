@@ -16,7 +16,8 @@ export const projectService = {
   updateProject,
   createDocument,
   deleteDocument,
-  saveFile
+  saveFile,
+  startTranskriptionJob
 };
 
 function getAllProjects() {
@@ -63,4 +64,12 @@ function deleteDocument(projectId, documentId) {
 function saveFile(projectId, documentId, file) {
   return fetchWrapper.postFile(`${baseUrl}/projects/${projectId}/docs/${documentId}/file`, file)
 
+}
+
+function getWords(projectId, documentId) {
+  return fetchWrapper.get(`${baseUrl}/projects/${projectId}/docs/${documentId}/words`)
+}
+
+function startTranskriptionJob(projektId, documentId) {
+  return fetchWrapper.post(`${baseUrl}/infer/${projektId}/docs/${documentId}`)
 }

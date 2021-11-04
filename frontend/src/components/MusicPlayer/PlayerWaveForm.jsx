@@ -117,7 +117,7 @@ const PlayerWaveForm = ({ url }) => {
 
     wavesurfer.current.on("region-mouseenter", (region) => {
       let showNoteElem = document.querySelector('.annotation-subtitle');
-      showNoteElem.innerHTML = `<div><b>Themengebiet: </b>${region.data.label}</div><div className="mt-3 me-5"><b>Beschreibung: </b>${region.data.description}</div>`;
+      showNoteElem.innerHTML = `<div><b>Themengebiet: </b>${region.data.label}</div><div className="mt-3 me-5"><b>Beschreibung: </b>${region.data.description ? region.data.description: "-"}</div>`;
     });
 
     wavesurfer.current.on("region-mouseleave", (region) => {
