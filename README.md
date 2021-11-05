@@ -1,4 +1,4 @@
-# soundquest
+# joureka - Mit mehr Muße vom Interview zum Artikel
 
 # Wireframes for Prototype Fund application
 The following wireframes relates to the Prototype Fund application "joureka - Mit mehr Muße vom Interview zum Artikel".
