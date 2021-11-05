@@ -1,19 +1,9 @@
 from typing import Optional, List
-import enum
 
 from pydantic import BaseModel
 
 from .word import Word
-
-
-class Language(enum.Enum):
-    """Enum for the languages we support"""
-
-    de_DE = "de-DE"
-    en_GB = "en-GB"
-    en_US = "en-US"
-    es_ES = "es-ES"
-
+from app.models import Language
 
 class Transcription(BaseModel):
 
