@@ -12,3 +12,4 @@ from .project import Project
 from .annot import Annot
 from .transcript import Transcription
 from .engines import Engines
+from .language import Language

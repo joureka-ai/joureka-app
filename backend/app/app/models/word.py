@@ -1,6 +1,6 @@
 """ORM model for a document in the system"""
 
-from sqlalchemy import Column, Integer, String, Float, Interval, ForeignKey
+from sqlalchemy import Column, Integer, String, Float, Interval, ForeignKey, Boolean
 
 from sqlalchemy.orm import relationship
 
@@ -14,9 +14,12 @@ class Word(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     word = Column(String)
-    order = Column(Integer)
+    initial_order = Column(Integer)
+    current_order = Column(Integer)
     start_time = Column(Interval)
     end_time = Column(Interval)
     confidence = Column(Float)
+    edited = Column(Boolean, nullable=False, default=False)
+    edit_version_no = Column(Integer)
 
     fk_document = Column(Integer, ForeignKey("document.id"))

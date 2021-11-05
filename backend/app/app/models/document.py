@@ -1,6 +1,6 @@
 """ORM model for a document in the system"""
 
-from sqlalchemy import Column, Integer, String, ForeignKey, Index
+from sqlalchemy import Column, Integer, String, ForeignKey, Index, Boolean
 from sqlalchemy.orm import relationship, deferred
 from sqlalchemy_utils import TSVectorType
 
@@ -37,8 +37,9 @@ class Document(Base):
     fulltext_regconfig = deferred(Column(String, nullable=True))
 
     annotations = relationship(Annot, cascade="all, delete-orphan")
-    words = relationship(Word, cascade="all, delete-orphan", order_by=Word.order)
+    words = relationship(Word, cascade="all, delete-orphan", order_by=Word.current_order)
     fk_project = Column(Integer, ForeignKey("project.id"))
+    edited = Column(Boolean, nullable=False, default=False)
 
 
 
