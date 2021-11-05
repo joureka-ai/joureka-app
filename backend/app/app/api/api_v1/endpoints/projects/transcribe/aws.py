@@ -8,7 +8,7 @@ from sqlalchemy import func
 from app import crud
 from app.api import deps
 from app.transcription import aws
-from app.schemas.document import Language
+from app.models import Language
 from app import models
 
 from ..router import router
