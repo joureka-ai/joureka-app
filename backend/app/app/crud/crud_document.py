@@ -7,7 +7,7 @@ from pathlib import Path
 
 from datetime import timedelta
 
-from fastapi import UploadFile
+from fastapi import UploadFile, HTTPException
 
 from app.core.security import get_password_hash, verify_password
 from app.crud.base import CRUDBase
@@ -24,6 +24,11 @@ from app.schemas.document import (
 )
 from app.schemas.transcription import TranscriptionResults
 
+from .crud_word import add_words, delete_words, change_words, update_word_order
+
+from logging import getLogger
+
+LOG = getLogger(__name__)
 
 class CRUDDocument(CRUDBase[Document, DocumentCreate, DocumentUpdate]):
     def get_by_p_id(
@@ -140,7 +145,11 @@ class CRUDDocument(CRUDBase[Document, DocumentCreate, DocumentUpdate]):
         db.commit()
 
     @staticmethod
-    def update_fulltext(db: Session, document: Document, fulltext) -> Document:
+    def update_fulltext(db: Session, document: Document, fulltext: Any) -> Document:
+        if isinstance(fulltext[0], Word):
+            fulltext = [word.word for word in fulltext]
+        if isinstance(fulltext, list):
+            fulltext = " ".join(fulltext)
         document.fulltext = fulltext
         document.fulltext_search_vector = func.to_tsvector(
         document.fulltext_regconfig, fulltext
@@ -168,7 +177,8 @@ class CRUDDocument(CRUDBase[Document, DocumentCreate, DocumentUpdate]):
             assert "start_time" in item, item
             word = Word(
                 word=alternative["content"],
-                order=i,
+                initial_order=i,
+                current_order=i,
                 start_time=timedelta(seconds=float(item["start_time"])),
                 end_time=timedelta(seconds=float(item["end_time"])),
                 confidence=float(alternative["confidence"]),
@@ -176,5 +186,63 @@ class CRUDDocument(CRUDBase[Document, DocumentCreate, DocumentUpdate]):
             document.words.append(word)
         db.commit()
         db.refresh(document)
+
+    def edit_words(self, db: Session, document: Document, tokens_in: List[str], start_time: float, end_time: float
+    ) -> Document:
+
+        # exclude words that are not in current_order, exclude punctuation
+        # get all words that are in the timeframe
+        words = [word for word in document.words if isinstance(word.current_order, int)] 
+        tmp_words = [word for word in words if isinstance(word.start_time, timedelta) and isinstance(word.end_time, timedelta)] 
+        timeframe_words = [word for word in tmp_words if word.start_time >= start_time and word.end_time <= end_time]
+        assert timeframe_words
+
+        #Order of 1. word and last word in timeframe
+        start_order_no = int(timeframe_words[0].current_order)
+        end_order_no = int(timeframe_words[-1].current_order)
+        assert start_order_no >= 0
+        assert end_order_no >= 0
+        
+        # get all words - including punctuation - that are in the timeframe
+        ordered_words = [word for word in words if word.current_order >= start_order_no and word.current_order <= end_order_no]
+        ordered_words = sorted(ordered_words, key=lambda w: w.current_order)
+        assert ordered_words
+
+
+        diff_len = len(ordered_words) - len(tokens_in)   
+        LOG.info(f"The difference between existing and incoming words:") 
+        LOG.info(f"# Existings words - # incomings words = {diff_len}") 
+        if diff_len == 0:
+            LOG.info("Only changing words not deleting or adding")
+            words_in = change_words(ordered_words, tokens_in)
+            if not words_in and tokens_in:
+                # If no new words are created and we received tokens,
+                # all text is the same as in the database.
+                raise HTTPException(
+                    status_code=409,
+                    detail="No change could be made as the text is already existing as provided.",
+                )
+
+        elif diff_len > 0 or not tokens_in:
+            LOG.info("Deleting and changing words")
+            words_in = delete_words(ordered_words, tokens_in)        
+            update_word_order(document.words, diff_len, end_order_no)
+            if not words_in:
+                LOG.info("No Words were changed, only deleted")
+
+        elif diff_len < 0:
+            LOG.info("Adding and changing words")
+            words_in = add_words(ordered_words, tokens_in)
+            update_word_order(document.words, diff_len, end_order_no)
+            if not words_in:
+                LOG.info("WARNING: No Words were added or changed. This is unexpected behaviour!")
+
+        if words_in:
+            document.words.extend(words_in)
+        
+        document.edited = True
+        db.commit()
+        db.refresh(document)
+        return document
 
 document = CRUDDocument(Document)
