@@ -10,9 +10,12 @@ from app import crud, models, schemas, file_storage
 from app.api import deps
 from app.core.config import settings
 from app.schemas import AnnotTopicIn, AnnotTopicOut, AnnotPin
+from app.models.language import language_to_tokenizer, Language
 
 from .router import router
 from .helper import transform_to_annots, transform_annot_in
+
+from datetime import timedelta
 
 LOG = logging.getLogger(__name__)
 
@@ -248,7 +251,51 @@ def get_words(
             detail="There is no transcription for this document!",
         )
 
-    return schemas.Words(words=document.words)
+    list_words = [word for word in document.words if word.current_order is not None]
+
+    return schemas.Words(words=list_words)
+
+
+@router.post("/{project_id}/docs/{document_id}/words")
+def edit_words(
+    project_id: int,
+    document_id: int,
+    words_in: schemas.EditedWordsIn,
+    db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser)
+) -> Any:
+    """
+    Add, update and delete words. As the Backend is working with versioning you cannot really delete or change a word.
+    There is always a word created that has the same initial_order as the corresponding existing word.
+    - Args: The project id, the document id and the words to edit with a timeframe.
+    - Returns: A list of words with all its attributes.
+    """
+    document = crud.document.get_by_p_id(db, id=document_id, fk_project=project_id)
+    if not document:
+        raise HTTPException(
+            status_code=404,
+            detail="The document with this id and project id does not exist in the system",
+        )
+    tokenizer = language_to_tokenizer[document.language]
+
+    # set words_in to no string at all to ensure that everything is deleted
+    if not (words_in.text and words_in.text.strip()):
+        # check if string is "" or " " or "   " or ....
+        words_in.text = ""
+
+    # split incoming text into a list of words and punctuation
+    tokens_in = [token for token in tokenizer(words_in.text)]
+    start_time = timedelta(seconds=words_in.start_time)
+    end_time = timedelta(seconds=words_in.end_time)
+
+    document = crud.document.edit_words(db, document, tokens_in, start_time, end_time)
+
+    list_words = [word for word in document.words if word.current_order is not None]
+    # Get words after being commited to database
+    document = crud.document.update_fulltext(db, document, list_words)
+
+    return schemas.Words(words=list_words)
+
 
 
 @router.get("/{project_id}/docs/{document_id}/file")

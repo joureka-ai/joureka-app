@@ -17,3 +17,13 @@ class Word(BaseModel):
 
 class Words(BaseModel):
     words: List[Word]
+
+class EditedWordsIn(BaseModel):
+    start_time: float
+    end_time: float
+    text: str
+
+class EditedWordMeta(BaseModel):
+    fk_document: int
+    current_order: Optional[int]
+    initial_order: Optional[int]
