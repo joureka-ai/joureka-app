@@ -20,11 +20,14 @@ const RecordingsOverview = () => {
     projectService.getAllDocuments(pid).then((recordings) => {
       setRecordings(recordings)
     });
-    setInterval(function(){ 
+    let interval = setInterval(function(){ 
       projectService.getAllDocuments(pid).then((recordings) => {
         setRecordings(recordings)
       });
     }, 30000);
+    return () => {
+      clearInterval(interval)
+    };
   }, []);
 
   return (

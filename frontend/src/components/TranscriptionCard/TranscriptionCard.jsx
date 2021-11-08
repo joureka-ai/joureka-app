@@ -1,17 +1,22 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faPrint, faEdit } from "@fortawesome/free-solid-svg-icons";
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import styles from "../../styles/transcription.module.scss";
 import ReactToPrint from 'react-to-print';
 import SearchBar from "../../components/SearchBar/SearchBar";
+import { useRouter } from 'next/router'
+import {projectService} from "../../services";
+import LoadingSpinnerOverlay from "../LoadingSpinner/LoadingSpinnerOverlay";
 
-
-const TranscriptionCard = ({document}) => {
-  const [words, setWords] = useState(document.words);
+const TranscriptionCard = () => {
+  const router = useRouter();
+  const { pid, rid } = router.query;
+  const [words, setWords] = useState([]);
+  const [fulltext, setFulltext] = useState("");
   const [searchQuery, setSearchQuery] = useState('');
-
-
   const [inEditMode, setInEditMode] = useState(false);
+  const [saving, setSaving] = useState(false);
+
   var componentRef;
 
   const pageStyle = `
@@ -40,25 +45,44 @@ const TranscriptionCard = ({document}) => {
   }
 `;
 
-  function highlightSearch(query) {
-    if (query == "") {
-      console.log(document.words)
-      return document.words
-    } else {
-      let queryWords = query.split(" ");
-      let tempWords = words;
-      tempWords.forEach(w => {
-        if(queryWords.indexOf(w.word) != -1) {
-          w.highlight = true
-        } else {
-          w.highlight = false
-        }
+  useEffect(() => {
+    if(pid && rid) {
+      projectService.getTranscriptionWords(pid, rid).then(res => {
+        setWords(res.words);
       });
-      console.log("HIGHLIGHT")
-      return tempWords
+      projectService.getTranscriptionFulltext(pid, rid).then(fulltext => {
+        setFulltext(fulltext);
+      });
     }
-  }
+  }, []);
 
+  const handleChange = (e) => {
+    const { value} = e.target;
+    setFulltext(value)
+  };
+
+  const saveChanges = () => {
+    setSaving(true);
+    let startTime = words[0].start_time;
+    let endTime = words[words.length-1].end_time;
+    let transcriptionData= {
+      start_time: startTime,
+      end_time: endTime,
+      text: fulltext
+    }
+    projectService.updateTranscription(pid, rid, transcriptionData).then(w => { 
+      projectService.getTranscriptionWords(pid, rid).then(res => {
+        setWords(res.words);
+        projectService.getTranscriptionFulltext(pid, rid).then(fulltext => {
+          setFulltext(fulltext);
+          setInEditMode(false);
+          setSaving(false);
+        });
+      });
+     
+    })
+  }
+  
   function rederWordWithHighlight(word, query){
     if (query == "") {
       return word
@@ -75,47 +99,49 @@ const TranscriptionCard = ({document}) => {
     }
   }
 
-  const highlightedWords = highlightSearch(searchQuery)
   return (
-  <div className="custom-card">
-    <div className="custom-card-header d-flex flex-row justify-content-between align-items-center">
-      <div className="custom-card-title">Transkription</div>
-      {!inEditMode && <div className="d-flex flex-row align-center">
-       <div className="mx-3">
-          <SearchBar searchQuery={searchQuery}
-                    setSearchQuery={setSearchQuery} 
-                    placeholder={"Suche nach..."}/>
+    <React.Fragment>
+      {saving && <LoadingSpinnerOverlay text={"Änderungen werden gespeichert!"}/> }
+      <div className="custom-card">
+        <div className="custom-card-header d-flex flex-row justify-content-between align-items-center">
+          <div className="custom-card-title">Transkription</div>
+          {!inEditMode && <div className="d-flex flex-row align-center">
+          <div className="mx-3">
+              <SearchBar searchQuery={searchQuery}
+                        setSearchQuery={setSearchQuery} 
+                        placeholder={"Suche nach..."}/>
+            </div>
+            <button className="icon-button-transparent icon-blue mx-2" onClick={() => setInEditMode(true)}>
+              <FontAwesomeIcon icon={faEdit} /></button>
+              <ReactToPrint trigger={() => 
+                <button className="icon-button-transparent icon-blue mx-2"><FontAwesomeIcon icon={faPrint} /></button>}
+              content={() => componentRef}
+              documentTitle={document.title}
+              pageStyle={pageStyle}
+            />
+          </div>}
         </div>
-        <button className="icon-button-transparent icon-blue mx-2" onClick={() => setInEditMode(true)}>
-          <FontAwesomeIcon icon={faEdit} /></button>
-          <ReactToPrint
-          trigger={() => <button className="icon-button-transparent icon-blue mx-2" onClick={() => console.log("Edit")}>
-          <FontAwesomeIcon icon={faPrint} /></button>}
-          content={() => componentRef}
-          documentTitle={document.title}
-          pageStyle={pageStyle}
-        />
-      </div>}
-    </div>
-    <div className="custom-card-body">
-      <div className={styles.transcriptionContainer}>
-      {!inEditMode && <div className={styles.transcriptionContent} ref={el => (componentRef = el)}>
-        {words.map((word, index) =>
-          <div key={index} className={`d-inline-block ${word.confidence < 0.5 && word.start_time ? `custom-tooltip ${styles.lowConfidenceWord}` : ""}`}>{rederWordWithHighlight(word.word, searchQuery)}&nbsp;
-            {word.confidence < 0.5 && word.start_time && <span className="tooltiptext"> Wort könnten nicht erkannt werden!</span>}
+        <div className="custom-card-body">
+          <div className={styles.transcriptionContainer}>
+          {!inEditMode && <div className={styles.transcriptionContent} ref={el => (componentRef = el)}>
+            {words && words.map((word, index) =>
+              <div key={index} className={`d-inline-block ${word.confidence < 0.5 && word.start_time ? `custom-tooltip ${styles.lowConfidenceWord}` : ""}`}>{rederWordWithHighlight(word.word, searchQuery)}&nbsp;
+                {word.confidence < 0.5 && word.start_time && <span className="tooltiptext"> Wort könnten nicht erkannt werden!</span>}
+              </div>
+            )}
+            </div>}
+            {inEditMode && <textarea disabled={!inEditMode} value={fulltext} onChange={handleChange} type="textarea" rows="100" name="pinDescription"/>}
           </div>
-        )}
+        </div>
+        {inEditMode &&<div className="custom-card-action">
+            <div className="d-flex flex-column flex-md-row justify-content-end align-items-end">
+              <button onClick={() => setInEditMode(false)} className="custom-button custom-button-sm custom-button-transparent mx-1">Abbrechen</button>
+              <button onClick={() => saveChanges()} className="custom-button custom-button-sm custom-button-blue">Änderungen speichern</button>
+              </div>
         </div>}
-        {inEditMode && <textarea disabled={!inEditMode} value={document.fulltext} type="textarea" rows="100" name="pinDescription"/>}
       </div>
-    </div>
-    {inEditMode &&<div className="custom-card-action">
-         <div className="d-flex flex-column flex-md-row justify-content-end align-items-end">
-          <button onClick={() => setInEditMode(false)} className="custom-button custom-button-sm custom-button-transparent mx-1">Abbrechen</button>
-          <button onClick={() => console.log("Speichern")} className="custom-button custom-button-sm custom-button-blue">Änderungen speichern</button>
-          </div>
-    </div>}
-  </div>
+    </React.Fragment>
+  
   )
 };
 

@@ -8,7 +8,7 @@
 .transcriptionContainer {
   padding: 1rem 0;
   width: 100%;
-  height: 100%;
+  height: 500px;
 
   .transcriptionContent {
     height: 100%;
@@ -36,8 +36,9 @@
       
     }
 
-    &:active {
+    &:active, &:focus-visible {
       border: none;
+      outline: none;
     }
   }
 }

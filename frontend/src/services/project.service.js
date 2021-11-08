@@ -17,6 +17,9 @@ export const projectService = {
   createDocument,
   deleteDocument,
   saveFile,
+  getTranscriptionWords,
+  getTranscriptionFulltext,
+  updateTranscription,
   startTranskriptionJob
 };
 
@@ -66,10 +69,18 @@ function saveFile(projectId, documentId, file) {
 
 }
 
-function getWords(projectId, documentId) {
+function getTranscriptionWords(projectId, documentId) {
   return fetchWrapper.get(`${baseUrl}/projects/${projectId}/docs/${documentId}/words`)
 }
 
-function startTranskriptionJob(projektId, documentId) {
-  return fetchWrapper.post(`${baseUrl}/infer/${projektId}/docs/${documentId}`)
+function getTranscriptionFulltext(projectId, documentId) {
+  return fetchWrapper.get(`${baseUrl}/projects/${projectId}/docs/${documentId}/fulltext`)
+}
+
+function updateTranscription(projectId, documentId, transcriptionData) {
+  return fetchWrapper.post(`${baseUrl}/projects/${projectId}/docs/${documentId}/words`, 'application/json', JSON.stringify(transcriptionData))
+}
+
+function startTranskriptionJob(projectId, documentId) {
+  return fetchWrapper.post(`${baseUrl}/infer/${projectId}/docs/${documentId}`)
 }
