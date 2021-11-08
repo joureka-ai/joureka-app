@@ -8,7 +8,6 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
 const RecordingOverviewBar = ({recording}) => {
   const {recordingBar, loader, success, inactive} = styles;
   console.log(recording.id)
-  //recording.words = recording.id % 2 === 0;
   return (
     <div className={`${recordingBar} ${ recording.words.length != 0 ? success : inactive}`}>
       <span>{recording.title}</span>
@@ -20,11 +19,6 @@ const RecordingOverviewBar = ({recording}) => {
         <button disabled={recording.words.length == 0} className="custom-button custom-button-sm custom-button-orange">Zum Projekt</button>
         </Link>
       </div>  
-    {/*!project.done && <div className={loader}>
-      <div className={loaderBar}>
-      </div>
-    </div>
-*/}
   </div>
   )
 };
