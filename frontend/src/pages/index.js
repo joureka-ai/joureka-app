@@ -6,7 +6,6 @@ import ProjectBar from "../components/ProjectBar/ProjectBar";
 import SearchBar from "../components/SearchBar/SearchBar";
 import {projectService} from "../services";
 import LoadingSpinnerOverlay from "../components/LoadingSpinner/LoadingSpinnerOverlay";
-import Modal from "../components/Modal/Modal";
 import {useRouter} from "next/router";
 
 const ITEMS_PER_PAGE = 10;
@@ -34,7 +33,8 @@ const Home = () => {
         <div className="d-flex flex-row justify-content-between align-items-center py-4">
           <h2>Mein Arbeitsplatz</h2>
           <SearchBar searchQuery={searchQuery}
-                     setSearchQuery={setSearchQuery}/>
+                     setSearchQuery={setSearchQuery}
+                     placeholder={"Projekte durchsuchen"}/>
         </div>
         <button className="border-button" onClick={() => router.push("/project/create")}><FontAwesomeIcon icon={faPlus} /><span className="px-3">neues Projekt erstellen</span></button>
         {pageProjects && pageProjects.map(project => (

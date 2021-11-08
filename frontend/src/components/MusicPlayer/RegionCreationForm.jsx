@@ -77,7 +77,7 @@ const RegionCreationForm = ({region, onCancel}) => {
       <div className="p-4">
         <h4>Themengebiet hinzufügen</h4>
         <div>Markieren Sie den gewünschten Bereich in der Wellenform, um einen Themenbereich zu definieren, und geben Sie unten die gewünschte Beschreibung ein.</div>
-        <form role="form" name="add-region-form">
+        <form onSubmit={e => { e.preventDefault(); }} role="form" name="add-region-form" className="py-3">
           {regionFormErrors.region && (
             <span className="input-error">{regionFormErrors.region}</span>
           )}
@@ -119,7 +119,6 @@ const RegionCreationForm = ({region, onCancel}) => {
           <button onClick={() => onCancel()}className="custom-button custom-button-sm custom-button-transparent">Abbrechen</button>
         </div>
       </div>
-
     );
 };
 

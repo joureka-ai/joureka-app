@@ -9,13 +9,8 @@ const Player = ({fileUrl}) => {
 
   return (
     <div className="custom-card">
-      <div className="custom-card-header">
-        <div className="custom-card-title"/>
-      </div>
       <div className="custom-card-body">
         {fileUrl && <PlayerWaveForm url={fileUrl}/>}
-      </div>
-      <div className="custom-card-action">
       </div>
     </div>
   );

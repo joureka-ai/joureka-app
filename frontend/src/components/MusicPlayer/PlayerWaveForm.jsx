@@ -56,7 +56,7 @@ const PlayerWaveForm = ({ url }) => {
   const [loading, setLoading] = useState(true);
   const [volume, setVolume] = useState(0.5);
   const [duration, setDuration] = useState(null);
-  const [currentTime, setCurrentTime] = useState(null);
+  const [currentTime, setCurrentTime] = useState(0);
   const [newRegion, setNewRegion] = useState(null);
   const [regions, setRegions] = useState(null);
   const [pins, setPins] = useState(null);

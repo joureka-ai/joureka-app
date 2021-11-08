@@ -75,7 +75,7 @@ const PinCreationForm = ({currentTime, onCancel}) => {
     <div className="p-4">
       <h4>Themengebiert hinzufügen</h4>
       <div>Markieren Sie den gewünschten Zeitpunkt in der Wellenform, um einen Themenbereich zu definieren, und geben Sie unten die gewünschte Beschreibung ein.</div>
-      <form role="form" name="add-pin-form">
+      <form onSubmit={e => { e.preventDefault(); }} role="form" name="add-pin-form" className="py-3">
         <div className="form-group full-width">
           <label htmlFor="time">Zeitpunkt</label>
           <input value={pinTime} className="form-control custom-input custom-input-orange full-width" type="time" id="time" name="time"

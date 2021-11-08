@@ -35,10 +35,10 @@ const Recording = () => {
           <h3>{recording.title}</h3>
           {fileUrl && <Player fileUrl={fileUrl}/>}
           <div className={`${recordingDataContainer} d-flex flex-row`}>
-            <div className="transcriptionCardContainer vw-70">
+            <div className="transcriptionCardContainer vw-80">
               <TranscriptionCard document={recording}/>
             </div>
-            <div className={`${annotationsCardContainer} mt-3 vw-30`}>
+            <div className={`${annotationsCardContainer} mt-3 vw-20`}>
               <AnnotationsOverviewCard/>
             </div>
           </div>
