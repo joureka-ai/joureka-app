@@ -82,8 +82,7 @@ const PinCreationForm = ({currentTime, onCancel}) => {
       <form onSubmit={e => { e.preventDefault(); }} role="form" name="add-pin-form" className="py-3">
         <div className="form-group full-width">
           <label htmlFor="time">Zeitpunkt</label>
-          <input value={pinTime} className="form-control custom-input custom-input-orange full-width" type="time" id="time" name="time"
-                 min="00:00:00" max="04:00:00" step="1" readOnly/>
+          <input value={pinTime} className="form-control custom-input custom-input-orange full-width" type="text" id="time" name="time" readOnly/>
         </div>
         <div className="form-group">
           <label htmlFor="pinLabel">Titel</label>
