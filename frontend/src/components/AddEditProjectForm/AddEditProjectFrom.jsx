@@ -159,7 +159,7 @@ const AddEditProjectForm = (props) => {
           </div>
           <div className="custom-card-action">
             <div className="d-flex flex-column flex-md-row justify-content-end align-items-end">
-              <button onClick={() => router.push("/")} className="custom-button custom-button-sm custom-button-transparent mx-1">Abbrechen</button>
+              <button onClick={() => { project ? router.push(`/project/${project.id}`) : router.push("/")}} className="custom-button custom-button-sm custom-button-transparent mx-1">Abbrechen</button>
               {project && <button onClick={() => setCurrentStep(2)} className="custom-button custom-button-sm custom-button-blue my-2 my-md-0 mx-1 mx-md-3">Aufnahmen verwalten</button>}
               {!project && <button onClick={handleSubmitCreate} className="custom-button custom-button-sm custom-button-orange mx-1">
                 Projekt erstellen

@@ -35,7 +35,7 @@ const Nav = () => {
         <button onClick={() => router.push({pathname: `/project/${pid}/update`, query: {step: 2}})} className="custom-button custom-button-sm custom-button-blue">
           Aufnahme hinzufügen
         </button>
-        <button className="custom-button custom-button-sm custom-button-orange">
+        <button onClick={() => router.push("/project/create")} className="custom-button custom-button-sm custom-button-orange">
           Neues Projekt
         </button>
       </div>

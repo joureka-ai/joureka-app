@@ -29,6 +29,10 @@ const PinCreationForm = ({currentTime, onCancel}) => {
       pinDescription: ""
     });
     onCancel();
+    window.scroll({
+      top: 0,
+      left: 0,
+    });
   };
 
   const handleChange = (e) => {

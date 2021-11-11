@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {waveformAnnotationService} from "../../services/waveformAnnotation.service";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHighlighter, faMarker, faThumbtack, faTimes} from "@fortawesome/free-solid-svg-icons";
+import {faThumbtack, faTimes} from "@fortawesome/free-solid-svg-icons";
 import styles from "./annotationsOverviewCard.module.scss"
 import Modal from "../Modal/Modal";
 import { useRouter } from 'next/router'
@@ -73,7 +73,7 @@ const AnnotationsOverviewCard = () => {
             <div onClick={() => showPinDeleteModal(pin)}><FontAwesomeIcon icon={faTimes}/></div>
           </div>)}
           <Modal
-            title={"Themengebiet löschen"}
+            title={"Pin löschen"}
             onClose={() => setShowPinDeleteModal(false)}
             onConfirm={() => deletePin()}
             show={showingPinDeleteModal}

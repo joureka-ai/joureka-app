@@ -5,13 +5,9 @@ import MarkersPlugin from "wavesurfer.js/src/plugin/markers";
 import TimelinePlugin from "wavesurfer.js/src/plugin/timeline";
 import styles from "./waveform.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronLeft, faPause, faPlay, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faPause, faPlay, faPlus} from "@fortawesome/free-solid-svg-icons";
 import LoadingSpinnerOverlay from "../LoadingSpinner/LoadingSpinnerOverlay";
 import {waveformAnnotationService} from "../../services/waveformAnnotation.service";
-import * as Yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
-import {last} from "rxjs/operators";
 import RegionCreationForm from "./RegionCreationForm";
 import PinCreationForm from "./PinCreationForm";
 import { useRouter } from 'next/router'

@@ -30,11 +30,17 @@ const RecordingsOverview = () => {
     };
   }, []);
 
+  function recordingDeleted(){
+    projectService.getAllDocuments(pid).then((recordings) => {
+      setRecordings(recordings)
+    });
+  }
+
   return (
     <React.Fragment>
       {!recordings && <LoadingSpinnerOverlay text={"Audiodateien werden geladen!"}/> }
       {recordings && pageRecordings.map(recording => (
-        <RecordingOverviewBar recording={recording} key={recording.id}/>
+        <RecordingOverviewBar onRecordingDeleted={recordingDeleted} recording={recording} key={recording.id}/>
       ))}
       {recordings && recordings.length === 0 &&
       <div className="d-flex justify-content-center align-items-center vh-80 flex-column">

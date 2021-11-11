@@ -29,8 +29,11 @@ const RegionCreationForm = ({region, onCancel}) => {
         description: region.data.description
       }
     }
-    console.log(r)
     waveformAnnotationService.addRegion(pid, rid, r);
+    window.scroll({
+      top: 0,
+      left: 0,
+    });
   };
 
   const handleChange = (e) => {
@@ -57,7 +60,6 @@ const RegionCreationForm = ({region, onCancel}) => {
 
   useEffect(() => {
     if (Object.keys(regionFormErrors).length === 0 && isSubmitting) {
-      console.log("SUBMIT")
       submitForm();
     }
   }, [regionFormErrors]);

@@ -18,7 +18,7 @@ function UploadFileDropzone(props) {
   const [uploadError, setUploadError] = useState(false);
 
   const { getRootProps, getInputProps} = useDropzone({
-    accept: "audio/*",
+    accept: "audio/mpeg",
     maxFiles: 4,
     multiple: true,
     onDrop: files => setFiles(files)
@@ -70,12 +70,12 @@ function UploadFileDropzone(props) {
   }
 
   function removeUploadedDoc(docId) {
-    projectService.deleteDocument(currentProject.id, docId).then(
+    projectService.deleteDocument(currentProject.id, docId).then(() => {
       projectService.getAllDocuments(currentProject.id).then(docs => {
         setUploadedDocuments(docs);
         setShowingDocumentDeleteModal(false);
       })
-    )
+    })
   }
 
   function showDocumentDeleteModal(file) {
@@ -89,8 +89,8 @@ function UploadFileDropzone(props) {
       }
       <div {...getRootProps({className: 'dropzone'})}>
         <input {...getInputProps()} multiple/>
-        <p>Drag 'n' drop some files here, or click to select files</p>
-        <p><em>(Only *.mp3 and *.avi images will be accepted)</em></p>
+        <p>Aufnahmen hier ziehen, oder hier klicken um Ausnahmen auszuwählen.</p>
+        <p><em>Nur <b>*.mp3</b>-Dateien werden unterstützt!</em></p>
         {files && files.map((file, index) => (
           <div key={index} className="d-flex justify-content-between align-items-center">
             <FontAwesomeIcon icon={faFileAudio}/>
