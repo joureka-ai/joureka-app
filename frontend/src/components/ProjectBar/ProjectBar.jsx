@@ -8,11 +8,6 @@ const ProjectBar = ({project}) => {
     <Link href={`/project/${project.id}`} className="disabled-link">
     <div className={projectBar}>
       <span>{project.name}</span><button className="custom-button custom-button-sm custom-button-orange">Zum Projekt</button>
-      {/*!project.done && <div className={loader}>
-        <div className={loaderBar}>
-        </div>
-      </div>
-  */}
     </div>
     </Link>
   );

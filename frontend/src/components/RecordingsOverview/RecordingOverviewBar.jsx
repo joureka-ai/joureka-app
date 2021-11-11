@@ -6,7 +6,7 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
 
 
 const RecordingOverviewBar = ({recording}) => {
-  const {recordingBar, loader, success, inactive} = styles;
+  const {recordingBar, loader, loaderBar, success, inactive} = styles;
   console.log(recording.id)
   return (
     <div className={`${recordingBar} ${ recording.words.length != 0 ? success : inactive}`}>
@@ -18,7 +18,12 @@ const RecordingOverviewBar = ({recording}) => {
         <Link href={`/project/${recording.fk_project}/recording/${recording.id}`} className="disabled-link">
         <button disabled={recording.words.length == 0} className="custom-button custom-button-sm custom-button-orange">Zum Projekt</button>
         </Link>
-      </div>  
+      </div> 
+       {recording.words.length == 0 && <div className={loader}>
+        <div className={loaderBar}>
+        </div>
+      </div>
+  } 
   </div>
   )
 };
