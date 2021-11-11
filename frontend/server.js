@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 const express = require("express");
 const next = require("next");
+const timeout = require('connect-timeout')
+
 
 const devProxy = {
   // make all the backend api (including /backend/docs) available
@@ -9,6 +11,8 @@ const devProxy = {
     pathRewrite: { "^/backend/": "/" },
     changeOrigin: true,
     logLevel: "debug",
+    timeout: 600000,
+    proxyTimeout: 600000,
   },
   // map all routes starting with /api unchanged to the backend
   "/api": {
@@ -16,6 +20,8 @@ const devProxy = {
     pathRewrite: { "^/": "/" },
     changeOrigin: true,
     logLevel: "info",
+    timeout: 600000,
+    proxyTimeout: 600000,
   },
 };
 
@@ -44,14 +50,18 @@ app
     }
 
     // Default catch-all handler to allow Next.js to handle all other routes
-    server.all("*", (req, res) => handle(req, res));
+    server.all("*", (req, res) => {
+      req.setTimeout(0)
+      handle(req, res)
+    });
 
-    server.listen(port, (err) => {
+    const s = server.listen(port, (err) => {
       if (err) {
         throw err;
       }
       console.log(`> Ready on port ${port} [${env}]`);
     });
+
   })
   .catch((err) => {
     console.log("An error occurred, unable to start the server");

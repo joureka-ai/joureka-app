@@ -1,0 +1,24 @@
+@import "variables";
+
+.split {
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  display: flex;
+  justify-content: center;
+
+
+  &.left {
+    left: 0;
+    width: 60%;
+    background-color: $Light_Blue;
+  }
+
+  &.right {
+    right: 0;
+    width: 40%;
+    background-color: $White;
+  }
+}
+

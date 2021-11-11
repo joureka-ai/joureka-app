@@ -1,0 +1,45 @@
+@import "variables";
+
+.lowConfidenceWord {
+  color: $Red;
+  font-weight: $font-general-weight-semibold;
+}
+
+.transcriptionContainer {
+  padding: 1rem 0;
+  width: 100%;
+  height: 500px;
+
+  .transcriptionContent {
+    height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    background-color: $White;
+
+    .highlight {
+      background-color: $Light_Orange;
+    }
+  }
+
+  textarea {
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem;
+    background-color: $Light_Orange;
+    -moz-box-shadow: inset 0 -10px 10px -10px $Gray;
+    -webkit-box-shadow: inset 0 -10px 10px -10px $Gray;
+    box-shadow: inset 0 -10px 10px -10px $Gray;
+    border: none;
+
+    &:disabled {
+      background-color: transparent;
+      
+    }
+
+    &:active, &:focus-visible {
+      border: none;
+      outline: none;
+    }
+  }
+}
+

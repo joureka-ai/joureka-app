@@ -1,0 +1,265 @@
+@import "variables";
+$theme-colors: (
+        'primary': $Blue,
+        'secondary': $Orange,
+        'success': $Green,
+        'info': #ff7d50,
+        'warning': #ffbe0b,
+        'danger': $Red,
+        'light': $White,
+        'dark': $Black,
+);
+@import "card";
+@import "buttons";
+@import "forms";
+@import "stepper";
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $font-family-open-sans;
+  background-color: $Light_Gray;
+}
+
+h1, h2 {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.disabled-link {
+  pointer-events: none;
+}
+
+.main-container {
+  max-width: 60%;
+  margin: 0 auto;
+}
+
+a, a:hover, a:focus, a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+.loading-spinner {
+  width: 9rem;
+  height: 9rem;
+
+  &-small {
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+.full-width {
+  width: 100%;
+}
+
+@import "variables";
+
+.sideNavContainer {
+  width: 20%;
+  height: 100vh;
+}
+
+.projectPageContainer, .recordingPageContainer {
+  right: 0;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+.recordingPageContainer {
+  background-color: $Light_Blue;
+  border-radius: $border-radius-default 0  0 $border-radius-default;
+  padding: 2rem;
+}
+
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+  padding: 34px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+  opacity: 0.3;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $Blue;
+  border-radius: 20px;
+  border: 1px solid transparent;
+}
+
+.overlay {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  background-color: $Blue;
+  opacity: 0.9;
+  overflow-x: hidden;
+  transition: 0.5s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: $White;
+}
+
+.vw-10 {
+  width: 10vw;
+}
+.vw-20 {
+  width: 20vw;
+}
+.vw-30 {
+   width: 30vw;
+}
+.vw-40 {
+  width: 40vw;
+}
+.vw-50 {
+  width: 50vw;
+}
+.vw-60 {
+  width: 60vw;
+}
+.vw-70 {
+  width: 70vw;
+}
+.vw-80 {
+  width: 80vw;
+}
+
+.vh-10 {
+  height: 10vh;
+}
+.vh-20 {
+  height: 20vh;
+}
+.vh-30 {
+   height: 30vh;
+}
+.vh-40 {
+  height: 40vh;
+}
+.vh-50 {
+  height: 50vh;
+}
+.vh-60 {
+  height: 60vh;
+}
+.vh-70 {
+  height: 70vh;
+}
+
+.vh-80 {
+  height: 80vh;
+}
+
+.wavesurfer-region{
+  background-color: $Blue !important;
+  opacity: 0.2;
+
+  .wavesurfer-handle {
+    background-color: transparent !important;
+  }
+}
+
+
+.custom-tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.custom-tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.custom-tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.custom-tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.input-error {
+  font-weight: $font-general-weight-semibold;
+  color: $Red;
+}
+
+.dropzone {
+  min-height: 50px;
+  border: 2px dashed $Blue;
+  border-radius: $border-radius-default;
+  background: $White;
+  padding: 20px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  .dz-preview {
+    height: 100%;
+    min-height: unset;
+  }
+}
+
+.uploaded-files-container {
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .uploaded-files-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: $Light_Blue;
+    border-radius: $border-radius-default;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    color: $Black;
+    width: 70%;
+  }
+}
+
+.react-read-more-read-less-more, .react-read-more-read-less-less {
+  color: $Blue;
+}
