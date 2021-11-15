@@ -2,6 +2,9 @@ import React, {useEffect, useState} from "react";
 import {waveformAnnotationService} from "../../services/waveformAnnotation.service";
 import {v4 as uuidv4} from "uuid";
 import { useRouter } from 'next/router'
+import AutoSuggestInput from "../AutosuggestInput/AutosuggestInput";
+
+const regions = ['Thema 1', 'Thema 2', 'Dissonanzen', 'Thema 1', 'Thema 2', 'Dissonanzen', 'Thema 1', 'Thema 2', 'Dissonanzen', 'Thema 1', 'Thema 2', 'Dissonanzen'];
 
 
 const RegionCreationForm = ({region, onCancel}) => {
@@ -13,13 +16,15 @@ const RegionCreationForm = ({region, onCancel}) => {
   });
   const [regionFormErrors, setRegionFormErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [regionLabel, setRegionLabel] = useState("");
+  const [regionDescription, setRegionDescription] = useState("");
+
 
   const submitForm = () => {
     region.id = uuidv4(),
-    region.data.label = regionFormValues.regionLabel;
-    region.data.description = regionFormValues.regionDescription;
+    region.data.label = regionLabel;
+    region.data.description = regionDescription;
     region.color = "rgb(30, 143, 158, 0.2)";
-    console.log(region)
     let r = {
       external_id: region.id,
       start: region.start,
@@ -36,20 +41,15 @@ const RegionCreationForm = ({region, onCancel}) => {
     });
   };
 
-  const handleChange = (e) => {
-    const {name, value} = e.target;
-    setRegionFormValues({...regionFormValues, [name]: value});
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    setRegionFormErrors(validate(regionFormValues));
+    setRegionFormErrors(validate(regionLabel));
     setIsSubmitting(true);
   };
 
-  const validate = (values) => {
+  const validate = (lable) => {
     let errors = {};
-    if (!values.regionLabel) {
+    if (!lable) {
       errors.regionLabel = "Titel darf nicht leer sein!";
     }
     if(!region) {
@@ -97,15 +97,14 @@ const RegionCreationForm = ({region, onCancel}) => {
             </div>}
           <div className="form-group">
             <label htmlFor="regionLabel">Titel</label>
-            <input value={regionFormValues.regionLabel} onChange={handleChange} type="text" id="regionLabel"
-                   className="form-control custom-input custom-input-blue" name="regionLabel"/>
+            <AutoSuggestInput suggestionsList={regions} value={regionLabel} setValue={setRegionLabel}></AutoSuggestInput>
             {regionFormErrors.regionLabel && (
               <span className="input-error">{regionFormErrors.regionLabel}</span>
             )}
           </div>
           <div className="form-group">
             <label htmlFor="regionDescription">Beschreibung</label>
-            <textarea value={regionFormValues.regionDescription} onChange={handleChange} type="textarea" id="regionDescription"
+            <textarea value={regionDescription} onChange={(e) => {setRegionDescription(e.target.value)}} type="textarea" id="regionDescription"
                    className="form-control custom-input custom-input-blue" rows="4" name="regionDescription"/>
             {regionFormErrors.regionDescription && (
               <span className="input-error">{regionFormErrors.regionDescription}</span>
