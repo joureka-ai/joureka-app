@@ -87,14 +87,12 @@ const RegionCreationForm = ({region, onCancel}) => {
           {region && <div className="d-flex justify-content-between align-items-center flex-row">
             <div className="form-group full-width me-2">
                 <label htmlFor="start">Start</label>
-                <input value={getTimeFromSeconds(region.start)} className="form-control custom-input custom-input-blue full-width" type="time" id="start" name="start"
-                       min="00:00:00" max="04:00:00" step="1" readOnly/>
+                <input value={getTimeFromSeconds(region.start)} className="form-control custom-input custom-input-blue full-width" type="text" id="start" name="start" readOnly/>
               </div>
 
               <div className="form-group full-width">
                 <label htmlFor="end">Ende</label>
-                <input value={getTimeFromSeconds(region.end)}  className="form-control custom-input custom-input-blue full-width" type="time" id="end" name="end"
-                       min="00:00:00" max="04:00:00" step="1" readOnly/>
+                <input value={getTimeFromSeconds(region.end)}  className="form-control custom-input custom-input-blue full-width" type="text" id="end" name="end" readOnly/>
               </div>
             </div>}
           <div className="form-group">
