@@ -39,13 +39,19 @@ export const generateTopicCircles = (width, height) => {
   const radiusRandom = getSeededRandom(0.2);
   const xRandom = getSeededRandom(0.3);
   const yRandom = getSeededRandom(0.4);
+
   const circles = []
   topics.forEach(d => {
+      let recIds = [];
+      for(let i = 0; i < d.frequency; i++) {
+        recIds.push(Math.floor(Math.random() * 10))
+      }
       circles.push( {
         id: d.topic,
         radius: d.frequency,
         x: Math.round(xRandom() * (width - d.frequency * 2) + d.frequency),
         y: Math.round(yRandom() * (height - d.frequency * 2) + d.frequency),
+        recordingsIds: recIds
       })
   })
 
@@ -58,11 +64,16 @@ export const generatePinCircles = (width, height) => {
     const yRandom = getSeededRandom(0.7);
     const circles = []
     pins.forEach(d => {
+        let recIds = [];
+        for(let i = 0; i < d.frequency; i++) {
+          recIds.push(Math.floor(Math.random() * 10))
+        }
         circles.push( {
           id: d.topic,
           radius: d.frequency,
           x: Math.round(xRandom() * (width - d.frequency * 2) + d.frequency),
           y: Math.round(yRandom() * (height - d.frequency * 2) + d.frequency),
+          recordingsIds: recIds
         })
     })
   

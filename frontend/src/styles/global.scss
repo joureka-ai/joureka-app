@@ -13,6 +13,7 @@ $theme-colors: (
 @import "buttons";
 @import "forms";
 @import "stepper";
+@import "charts";
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
 
@@ -63,13 +64,13 @@ a, a:hover, a:focus, a:active {
 @import "variables";
 
 .sideNavContainer {
-  width: 20%;
+  width: 10%;
   height: 100vh;
 }
 
 .projectPageContainer, .recordingPageContainer {
   right: 0;
-  width: 80%;
+  width: 90%;
   display: flex;
   flex-direction: column;
 }

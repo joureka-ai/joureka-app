@@ -3,7 +3,6 @@ import { Text } from '@visx/text';
 import { scaleLog } from '@visx/scale';
 import { Wordcloud } from "@visx/wordcloud";
 import { useTooltip, Tooltip, defaultStyles } from "@visx/tooltip";
-import { localPoint } from '@visx/event';
 
 const colors = ['#143059', '#2F6B9A', '#82a6c2', '#1E8F9E', '#EB8F49'];
 const totoAfricaLyrics = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tempus mauris nec felis maximus, et tincidunt mauris aliquet. Nullam gravida ipsum ut lacus hendrerit, sed volutpat erat interdum. Praesent sodales facilisis eros, a efficitur tortor malesuada a. Duis quis dolor eu mi suscipit fermentum. Nullam euismod erat purus, tempor fringilla eros tempus quis. Fusce a feugiat mauris, et imperdiet lorem. Maecenas quis gravida dui. Etiam scelerisque sagittis turpis id accumsan. Suspendisse aliquam posuere sem sit amet condimentum. Nunc consequat finibus ante, nec tincidunt diam maximus at. Donec vulputate ullamcorper sollicitudin. Donec consequat at neque et aliquet.
@@ -19,12 +18,26 @@ Etiam vulputate feugiat velit non finibus. Nam risus velit, rhoncus quis neque s
 function wordFreq(text){
   const words = text.replace(/\./g, '').split(/\s/);
   const freqMap = {};
+  const recordingsMap = {};
 
   for (const w of words) {
     if (!freqMap[w]) freqMap[w] = 0;
     freqMap[w] += 1;
   }
-  return Object.keys(freqMap).map((word) => ({ text: word, value: freqMap[word] }));
+
+  for (const w of words) {
+    if (!recordingsMap[w]) recordingsMap[w] = [];
+    recordingsMap[w] += 1;
+  }
+  return Object.keys(freqMap).map((word) => ({ text: word, value: freqMap[word], recordingsIds: recs(freqMap[word]) }));
+}
+
+function recs(max) {
+  let recIds = [];
+  for(let i = 0; i < max; i++) {
+    recIds.push(Math.floor(Math.random() * 10))
+  }
+  return recIds
 }
 
 function getRotationDegree() {
@@ -45,7 +58,7 @@ const fixedValueGenerator = () => 0.5;
 
 //type SpiralType = 'archimedean' | 'rectangular';
 
-export default function Example({ width, height, showControls }) {
+const CustomWordcloud = ({ width, height, setRecordingsList, showControls }) => {
   const [spiralType, setSpiralType] = useState('archimedean');
   const [withRotation, setWithRotation] = useState(false);
 
@@ -100,6 +113,9 @@ export default function Example({ width, height, showControls }) {
                   handleMouseOver(e, `${w.text}: ${w.value} Vorkommnisse`);
                 }}
                 onMouseOut={hideTooltip}
+                onClick={() => {
+                  setRecordingsList(w)
+                }}
                 >
                 {w.text}
                 </Text>
@@ -167,3 +183,5 @@ export default function Example({ width, height, showControls }) {
     </div>
   );
 }
+
+export default CustomWordcloud;

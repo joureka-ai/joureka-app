@@ -12,9 +12,9 @@ import { localPoint } from '@visx/event';
 const colorsTopics = ['#1F96A6', '#2C5459', '#29C4D9', '#1E8F9E', '#6DD2DF', '#BDD4D7', '#81D4DF', '#143059', '#2F6B9A', '#82a6c2'];
 const colorsPins = ['#EB8F49', '#DFAE88', '#D98443', '#DFAC88', '#EB8155', '#DFAA93', '#D9784E'];
 
-const tresholdHeight = 120;
+const tresholdHeight = 140;
 
-export default function DragI({ width, height }) {
+export default function DragI({ width, height, setSelectedAnnotation }) {
   const [draggingItemsTopics, setDraggingItemsTopics] = useState([]);
   const [draggingItemsPins, setDraggingItemsPins] = useState([]);
 
@@ -103,6 +103,9 @@ export default function DragI({ width, height }) {
                 onTouchStart={dragStart}
                 onTouchMove={dragMove}
                 onTouchEnd={dragEnd}
+                onClick={() => {
+                  setSelectedAnnotation(d)
+                }}
               />
             )}
           </Drag>
@@ -144,6 +147,9 @@ export default function DragI({ width, height }) {
                   handleMouseOver(e, `${d.id}: ${d.radius} Vorkommnisse`);
                 }}
                 onMouseOut={hideTooltip}
+                onClick={() => {
+                  setSelectedAnnotation(d)
+                }}
               />
             )}
           </Drag>
@@ -159,10 +165,10 @@ export default function DragI({ width, height }) {
             <strong>{tooltipData}</strong>
           </Tooltip>
         )}
-      <div className="d-flex flex-column">
+      <div className="d-flex flex-column pb-1">
         <ChartLegend scale={colorScaleTopics} title={"Themen"}></ChartLegend>
         <ChartLegend scale={colorScalePins} title={"Pins"}></ChartLegend>
-        </div>
+      </div>
       <style jsx>{`
         .Drag {
           display: flex;

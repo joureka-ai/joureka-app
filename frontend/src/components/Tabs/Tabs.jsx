@@ -4,6 +4,8 @@ import RecordingsOverview from "../RecordingsOverview/RecordingsOverview";
 import Example from "../Charts/Wordcloud/Wordcloud";
 import { ParentSize } from "@visx/responsive";
 import DragI from "../Charts/BubbleChart/BubbleChart";
+import BubbleChartCard from "../Charts/BubbleChart/BubbleChartCard";
+import WordcloudCard from "../Charts/Wordcloud/WordcloudCard";
 
 
 const Tabs = () => {
@@ -27,23 +29,9 @@ const Tabs = () => {
       <div className={tabBody}>
         {activeTab === 1 && <RecordingsOverview/>}
         {activeTab === 2 && 
-        <div className="d-flex flex-column flex-md-row align-center justify-content-between">
-          <div className="custom-card">
-            <div className="custom-card-header">
-              <div className="custom-card-title">Wortwolke nach Vorkommen</div>
-            </div>
-            <div className="custom-card-body">
-              <ParentSize>{({ width, height }) => <Example width={width} height={height} showControls={false}/>}</ParentSize>
-            </div>
-          </div>
-          <div className="custom-card">
-            <div className="custom-card-header">
-              <div className="custom-card-title">Annotierte Themengebiete</div>
-            </div>
-            <div className="custom-card-body">
-              <ParentSize>{({ width, height }) => <DragI width={width} height={height}/>}</ParentSize>
-            </div>
-          </div>
+        <div className="d-flex flex-column flex-xl-row align-center justify-content-between">
+          <WordcloudCard></WordcloudCard>
+          <BubbleChartCard></BubbleChartCard>
         </div>
         }
       </div>
