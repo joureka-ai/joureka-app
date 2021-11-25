@@ -186,18 +186,19 @@ a, a:hover, a:focus, a:active {
 }
 
 .custom-tooltip .tooltiptext {
+  font-size: 12px;
   visibility: hidden;
-  width: 120px;
+  width: 300px;
   background-color: #555;
   color: #fff;
   text-align: center;
   border-radius: 6px;
-  padding: 5px 0;
+  padding: 15px;
   position: absolute;
   z-index: 1;
   bottom: 125%;
   left: 50%;
-  margin-left: -60px;
+  margin-left: -150px;
   opacity: 0;
   transition: opacity 0.3s;
 }

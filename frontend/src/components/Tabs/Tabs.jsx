@@ -6,6 +6,7 @@ import { ParentSize } from "@visx/responsive";
 import DragI from "../Charts/BubbleChart/BubbleChart";
 import BubbleChartCard from "../Charts/BubbleChart/BubbleChartCard";
 import WordcloudCard from "../Charts/Wordcloud/WordcloudCard";
+import StatisticsChartCard from "../Charts/StatisticsChart/StatisticsChartCard";
 
 
 const Tabs = () => {
@@ -29,11 +30,15 @@ const Tabs = () => {
       <div className={tabBody}>
         {activeTab === 1 && <RecordingsOverview/>}
         {activeTab === 2 && 
-        <div className="d-flex flex-column flex-xl-row align-center justify-content-between">
-          <WordcloudCard></WordcloudCard>
-          <BubbleChartCard></BubbleChartCard>
-        </div>
-        }
+        <div className="d-flex flex-column justify-content-center align-items-center">
+          <div className="d-flex flex-column flex-xl-row align-center justify-content-between full-width">
+            <WordcloudCard></WordcloudCard>
+            <BubbleChartCard></BubbleChartCard>
+          </div> 
+          <div>
+            <StatisticsChartCard></StatisticsChartCard>
+          </div>
+        </div>}
       </div>
       <style jsx>{`
         .custom-card {
