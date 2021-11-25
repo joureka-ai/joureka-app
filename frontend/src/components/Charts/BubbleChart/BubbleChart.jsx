@@ -5,8 +5,6 @@ import { Drag, raise } from '@visx/drag';
 import {generateTopicCircles, generatePinCircles} from './BubbleChartCirlcle';
 import ChartLegend from '../Legends/ChartLegends';
 import { useTooltip, Tooltip, defaultStyles } from "@visx/tooltip";
-import { localPoint } from '@visx/event';
-
 
 
 const colorsTopics = ['#1F96A6', '#2C5459', '#29C4D9', '#1E8F9E', '#6DD2DF', '#BDD4D7', '#81D4DF', '#143059', '#2F6B9A', '#82a6c2'];
