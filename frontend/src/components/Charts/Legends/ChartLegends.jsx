@@ -20,6 +20,7 @@ export default function ChartLegend({ scale, title, type, events = false }) {
       <LegendDemo title={title}>
         <LegendLinear
           scale={scale}
+          labelFormat={(d, i) => (i % 2 === 0 ? d : '')}
         >
           {(labels) => (
             <div style={{ display: 'flex', flexDirection: 'row' }}>

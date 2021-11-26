@@ -55,7 +55,7 @@ export default function DragI({ width, height, setSelectedAnnotation }) {
 
   const colorScalePins = scaleLinear({
     range: ['#F5E8DF', '#EB8F49'],
-    domain: [0, 20],
+    domain: [0, 40],
   })
 
   if (draggingItemsTopics.length === 0 || width < 10) return null;

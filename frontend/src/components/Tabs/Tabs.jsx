@@ -1,9 +1,6 @@
 import React, {useState} from "react";
 import styles from "./Tabs.module.scss";
 import RecordingsOverview from "../RecordingsOverview/RecordingsOverview";
-import Example from "../Charts/Wordcloud/Wordcloud";
-import { ParentSize } from "@visx/responsive";
-import DragI from "../Charts/BubbleChart/BubbleChart";
 import BubbleChartCard from "../Charts/BubbleChart/BubbleChartCard";
 import WordcloudCard from "../Charts/Wordcloud/WordcloudCard";
 import StatisticsChartCard from "../Charts/StatisticsChart/StatisticsChartCard";

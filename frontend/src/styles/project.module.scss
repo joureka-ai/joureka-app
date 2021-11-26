@@ -4,6 +4,11 @@
     background: transparent;
     font-size: 1.5rem;
     margin-right: 1rem;
+    
+    &:focus {
+        box-shadow: none;
+        border: none;
+    }
 
     option {
         font-size: 1rem;

@@ -25,6 +25,12 @@ button {
        color: $Blue;
        font-weight: $font-general-weight-bold;
      }
+
+     &.active {
+      background-color: $Light_Blue;
+      color: $Blue;
+      font-weight: $font-general-weight-bold;
+     }
    }
 
   &-blue {
@@ -37,6 +43,12 @@ button {
       color: $Orange;
       font-weight: $font-general-weight-bold;
     }
+
+    &.active {
+      background-color: $Light_Orange;
+      color: $Orange;
+      font-weight: $font-general-weight-bold;
+     }
   }
 
   &-transparent {

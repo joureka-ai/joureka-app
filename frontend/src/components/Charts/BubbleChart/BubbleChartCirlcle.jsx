@@ -25,9 +25,9 @@ const topics = [
 ]
 
 const pins = [
-    {topic: "pin 1", frequency: 20},
-    {topic: "pin 2", frequency: 15},
-    {topic: "pin 3", frequency: 9},
+    {topic: "pin 1", frequency: 40},
+    {topic: "pin 2", frequency: 35},
+    {topic: "pin 3", frequency: 29},
     {topic: "pin 4", frequency: 7},
     {topic: "pin 5", frequency: 14},
     {topic: "pin 6", frequency: 2},

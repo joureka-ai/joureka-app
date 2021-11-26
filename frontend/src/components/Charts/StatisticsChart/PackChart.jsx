@@ -3,13 +3,19 @@ import { Group } from '@visx/group';
 import { Pack, hierarchy } from '@visx/hierarchy';
 import { scaleQuantize } from '@visx/scale';
 import { useTooltip, Tooltip, defaultStyles } from "@visx/tooltip";
+import { Polygon } from '@visx/shape';
 
-export default function PackChart({ width, height, data }) {
+
+export default function PackChart({ width, height, data, polygonSides, polygonRotation, colorScheme }) {
     const pack = { children: data, name: 'root', radius: 0, distance: 0 };
-    const colorScale = scaleQuantize({
-    domain: extent(data, (d) => d.radius),
-    range: ['#1F96A6', '#2C5459', '#29C4D9', '#1E8F9E', '#6DD2DF', '#BDD4D7', '#81D4DF', '#143059', '#2F6B9A', '#82a6c2'],
+    const colorScaleBlue = scaleQuantize({
+      domain: extent(data, (d) => d.radius),
+      range: ['#1F96A6', '#2C5459', '#29C4D9', '#1E8F9E', '#6DD2DF', '#BDD4D7', '#81D4DF', '#143059', '#2F6B9A', '#82a6c2'],
     });
+    const colorScaleOrange = scaleQuantize({
+      domain: extent(data, (d) => d.radius),
+      range: ['#EB8F49', '#DFAE88', '#D98443', '#DFAC88', '#EB8155', '#DFAA93', '#D9784E'],
+      });
 
     const root = hierarchy(pack).sum((d) => d.radius * d.radius).sort(
         (a, b) =>
@@ -57,7 +63,24 @@ export default function PackChart({ width, height, data }) {
             const circles = packData.descendants().slice(1);// skip outer hierarchy
             return (
                 <Group width={width} height={height}>
-                {circles.map((circle, i) => (
+                  {circles.map((circle, i) => (
+                        <g><Polygon
+                        sides={polygonSides}
+                        center={{x: circle.x, y: circle.y}}
+                        size={circle.r}
+                        fill={colorScheme == 1 ? colorScaleBlue(circle.data.radius): colorScaleOrange(circle.data.radius)}
+                        rotate={polygonRotation}
+                        onMouseOver={(e) => {
+                          if(circle.r <= 30) {
+                              handleMouseOver(e, `${circle.data.name}: ${circle.data.radius} Vorkommnisse`);
+                          } else {  handleMouseOver(e, `${circle.data.radius} Vorkommnisse`); }
+                      }}
+                      onMouseOut={hideTooltip}
+                        ></Polygon>
+                        {circle.r > 30 && <text x={circle.x} y={circle.y} text-anchor="middle" dy=".3em" font-size="14px">{circle.data.name}</text>}
+                        </g>
+                    ))}
+                {/*circles.map((circle, i) => (
                     <g>
                     <circle
                     key={`circle-${i}`}
@@ -73,7 +96,7 @@ export default function PackChart({ width, height, data }) {
                     onMouseOut={hideTooltip}
                     />
                     {circle.r > 30 && <text x={circle.x} y={circle.y} text-anchor="middle" dy=".3em" font-size="14px">{circle.data.name}</text>}
-                </g>))}
+                  </g>))*/}
                 </Group>
             );
             }}
