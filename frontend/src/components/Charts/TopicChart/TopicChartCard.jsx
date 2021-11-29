@@ -3,22 +3,20 @@ import { ParentSize } from "@visx/responsive";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faChevronUp, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import TopicNetworkChart from "./TopicNetworkChart";
+import TopicStackedBarChart from "./TopicStackedBarChart";
 
-const nodes = [
-  { frequency: 0.005, name: "Auto", reference: 0.007 },
-  { frequency: 0.005, name: "VW", reference: 0.007 },
-  { frequency: 0.006, name: "Lenkrad", reference: 0.007 },
-  { frequency: 0.007, name: "LKW", reference: 0.007 },
-  { frequency: 0.0035, name: "Zug", reference: 0.007 },
-  { frequency: 0.0048, name: "ICE", reference: 0.007 },
-  { frequency: 0.0055, name: "Bus", reference: 0.007 },
-  { frequency: 0.0050, name: "Auto", reference: 0.007 },
-  { frequency: 0.0050, name: "VW", reference: 0.007 },
-  { frequency: 0.0044, name: "Lenkrad", reference: 0.007 },
-  { frequency: 0.0068, name: "LKW", reference: 0.007 },
-  { frequency: 0.0039, name: "Zug", reference: 0.007 },
-  { frequency: 0.0050, name: "ICE", reference: 0.007 },
-  { frequency: 0.0051, name: "Bus", reference: 0.007 },
+const data = [
+  { frequency: 11, name: "Auto", reference: 15 },
+  { frequency: 12, name: "VW", reference: 12 },
+  { frequency: 13, name: "Lenkrad", reference: 23 },
+  { frequency: 23, name: "LKW", reference: 26 },
+  { frequency: 5, name: "Zug", reference: 6 },
+  { frequency: 17, name: "ICE", reference: 20 },
+  { frequency: 4, name: "Bus", reference: 8 },
+  { frequency: 20, name: "Flughzeug", reference: 20 },
+  { frequency: 15, name: "Boot", reference: 20 },
+  { frequency: 13, name: "Fahrrad", reference: 30 },
+  { frequency: 17, name: "U-Boot", reference: 25 },
 ];
 
 const TopicChartCard = () => {
@@ -38,7 +36,8 @@ const TopicChartCard = () => {
           </div>
         </div>
         <div className="custom-card-body d-flex flex-row justify-content-center">
-            {<ParentSize>{({ width, height }) => <TopicNetworkChart width={width} height={height} words={nodes} topic={"Transport"}/>}</ParentSize>}
+            {<ParentSize>{({ width, height }) => <TopicNetworkChart width={width} height={height} words={data} topic={"Transport"}/>}</ParentSize>}
+            {<ParentSize>{({ width, height }) => <TopicStackedBarChart width={width} height={height} words={data} topic={"Transport"}/>}</ParentSize>}
         </div>
         <style jsx>{`
             .custom-card {

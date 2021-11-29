@@ -6,11 +6,7 @@ import {generateTopicCircles, generatePinCircles} from './BubbleChartCirlcle';
 import ChartLegend from '../Legends/ChartLegends';
 import { useTooltip, Tooltip, defaultStyles } from "@visx/tooltip";
 
-
-const colorsTopics = ['#1F96A6', '#2C5459', '#29C4D9', '#1E8F9E', '#6DD2DF', '#BDD4D7', '#81D4DF', '#143059', '#2F6B9A', '#82a6c2'];
-const colorsPins = ['#EB8F49', '#DFAE88', '#D98443', '#DFAC88', '#EB8155', '#DFAA93', '#D9784E'];
-
-const tresholdHeight = 140;
+const tresholdHeight = 100;
 
 export default function DragI({ width, height, setSelectedAnnotation }) {
   const [draggingItemsTopics, setDraggingItemsTopics] = useState([]);
@@ -163,7 +159,7 @@ export default function DragI({ width, height, setSelectedAnnotation }) {
             <strong>{tooltipData}</strong>
           </Tooltip>
         )}
-      <div className="d-flex flex-column pb-1">
+      <div className="d-flex flex-row justify-content-between pb-1">
         <ChartLegend scale={colorScaleTopics} type={0} title={"Themen"}></ChartLegend>
         <ChartLegend scale={colorScalePins} type={0} title={"Pins"}></ChartLegend>
       </div>

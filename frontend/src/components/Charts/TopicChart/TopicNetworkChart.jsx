@@ -43,14 +43,14 @@ const TopicNetworkChart = ({ width, height, words, topic }) => {
             let r = radius + ((i % 2) * 20)
             nodes.push({
                 color: "#F5E8DF",
-                r: elements[i].reference * 4000,
+                r: elements[i].reference,
                 x: (x + r * Math.cos((2 * Math.PI) * i/elements.length) * 1.5),
                 y: (y + r * Math.sin((2 * Math.PI) * i/elements.length)),
                 name: elements[i].name,
             })
             nodes.push({
                 color: "#EB8F49",
-                r: elements[i].frequency * 4000,
+                r: elements[i].frequency,
                 x: (x + r * Math.cos((2 * Math.PI) * i/elements.length) * 1.5),
                 y: (y + r * Math.sin((2 * Math.PI) * i/elements.length)),
                 name: elements[i].name,
@@ -78,54 +78,68 @@ const TopicNetworkChart = ({ width, height, words, topic }) => {
 
     return width < 10 ? null : (
         <div className="d-flex flex-column justify-content-center align-items-center">
-        <svg width={width} height={height}>
-        <Graph
-            graph={graph}
-            width={width} 
-            height={height}
-            nodeComponent={({ node: { r, color, name } }) =>
-            color ? 
-            <g>
-                <DefaultNode 
-                fill={color} 
-                r={r}
-                onMouseOver={(e) => {
-                   if(name != topic) handleMouseOver(e, `${r} Vorkommnisse`);
-                }}
-                onMouseOut={hideTooltip}
-                /> 
-                <text text-anchor="middle" font-size="12px" dy=".3em">{name}</text>
-            </g>
-            : 
-            <g>
-                <DefaultNode r={r}/><text text-anchor="middle" font-size="12px" dy=".3em">{name}</text>
-            </g>
-            }
-            linkComponent={({ link: { source, target, dashed } }) => (
-            <line
-                x1={source.x}
-                y1={source.y}
-                x2={target.x}
-                y2={target.y}
-                strokeWidth={2}
-                stroke="#999"
-                strokeOpacity={0.6}
-                strokeDasharray={dashed ? '8,4' : undefined}
+            <div>Top-{words.length} relevantesten Begriffe für das Thema "{topic}"</div>
+            <svg width={width} height={height}>
+            <Graph
+                graph={graph}
+                width={width} 
+                height={height}
+                nodeComponent={({ node: { r, color, name } }) =>
+                color ? 
+                <g>
+                    <DefaultNode 
+                    fill={color} 
+                    r={r}
+                    onMouseOver={(e) => {
+                    if(name != topic) {
+                        if(r <= 10) {
+                            handleMouseOver(e, `${name}: ${r} Vorkommnisse`);
+                        } else {  handleMouseOver(e, `${r} Vorkommnisse`); }
+                    }}}
+                    onMouseOut={hideTooltip}
+                    /> 
+                    {r > 10 && <text text-anchor="middle" font-size="12px" dy=".3em">{name}</text>}
+                </g>
+                : 
+                <g>
+                    <DefaultNode 
+                    r={r}
+                    onMouseOver={(e) => {
+                        if(name != topic) {
+                            if(r <= 10) {
+                                handleMouseOver(e, `${name}: ${r} Vorkommnisse`);
+                            } else {  handleMouseOver(e, `${r} Vorkommnisse`); }
+                        }}}
+                    onMouseOut={hideTooltip}
+                    />
+                    {r > 10 && <text text-anchor="middle" font-size="12px" dy=".3em">{name}</text>}
+                </g>
+                }
+                linkComponent={({ link: { source, target, dashed } }) => (
+                <line
+                    x1={source.x}
+                    y1={source.y}
+                    x2={target.x}
+                    y2={target.y}
+                    strokeWidth={2}
+                    stroke="#999"
+                    strokeOpacity={0.6}
+                    strokeDasharray={dashed ? '8,4' : undefined}
+                />
+                )}
             />
+            </svg>
+            <ChartLegend scale={ordinalColorScale} type={1} title={""}></ChartLegend>
+            {tooltipOpen && (
+                <Tooltip
+                key={Math.random()}
+                top={tooltipTop }
+                left={tooltipLeft }
+                style={tooltipStyles}
+                >
+                <strong>{tooltipData}</strong>
+                </Tooltip>
             )}
-        />
-        </svg>
-        <ChartLegend scale={ordinalColorScale} type={1} title={""}></ChartLegend>
-        {tooltipOpen && (
-            <Tooltip
-              key={Math.random()}
-              top={tooltipTop }
-              left={tooltipLeft }
-              style={tooltipStyles}
-            >
-              <strong>{tooltipData}</strong>
-            </Tooltip>
-          )}
         </div>
     );
 }
