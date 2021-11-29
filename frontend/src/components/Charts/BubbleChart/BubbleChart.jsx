@@ -1,5 +1,5 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { scaleLinear, scaleOrdinal } from '@visx/scale';
+import React, { useState, useEffect } from 'react';
+import { scaleLinear } from '@visx/scale';
 import { LinearGradient } from '@visx/gradient';
 import { Drag, raise } from '@visx/drag';
 import {generateTopicCircles, generatePinCircles} from './BubbleChartCirlcle';
@@ -164,8 +164,8 @@ export default function DragI({ width, height, setSelectedAnnotation }) {
           </Tooltip>
         )}
       <div className="d-flex flex-column pb-1">
-        <ChartLegend scale={colorScaleTopics} title={"Themen"}></ChartLegend>
-        <ChartLegend scale={colorScalePins} title={"Pins"}></ChartLegend>
+        <ChartLegend scale={colorScaleTopics} type={0} title={"Themen"}></ChartLegend>
+        <ChartLegend scale={colorScalePins} type={0} title={"Pins"}></ChartLegend>
       </div>
       <style jsx>{`
         .Drag {

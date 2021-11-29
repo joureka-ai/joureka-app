@@ -18,7 +18,7 @@ const legendGlyphSize = 15;
 export default function ChartLegend({ scale, title, type, events = false }) {
   return (
       <LegendDemo title={title}>
-        <LegendLinear
+        {type == 0 && <LegendLinear
           scale={scale}
           labelFormat={(d, i) => (i % 2 === 0 ? d : '')}
         >
@@ -47,7 +47,31 @@ export default function ChartLegend({ scale, title, type, events = false }) {
             ))}
             </div>
           )}
-        </LegendLinear>
+        </LegendLinear>}
+        {type == 1 && <LegendOrdinal 
+        scale={scale} 
+        labelFormat={(label) => `${label}`}>
+          {(labels) => (
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              {labels.map((label, i) => (
+                <LegendItem
+                  key={`legend-quantile-${i}`}
+                  margin="0 5px"
+                  onClick={() => {
+                    if (events) alert(`clicked: ${JSON.stringify(label)}`);
+                  }}
+                >
+                  <svg width={legendGlyphSize} height={legendGlyphSize}>
+                    <rect fill={label.value} width={legendGlyphSize} height={legendGlyphSize} />
+                  </svg>
+                  <LegendLabel align="left" margin="0 0 0 4px">
+                    {label.text}
+                  </LegendLabel>
+                </LegendItem>
+              ))}
+            </div>
+          )}
+        </LegendOrdinal>}
         <style jsx>{`
         .legends {
           font-family: arial;

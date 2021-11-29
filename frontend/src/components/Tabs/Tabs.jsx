@@ -4,6 +4,7 @@ import RecordingsOverview from "../RecordingsOverview/RecordingsOverview";
 import BubbleChartCard from "../Charts/BubbleChart/BubbleChartCard";
 import WordcloudCard from "../Charts/Wordcloud/WordcloudCard";
 import StatisticsChartCard from "../Charts/StatisticsChart/StatisticsChartCard";
+import TopicChartCard from "../Charts/TopicChart/TopicChartCard";
 
 
 const Tabs = () => {
@@ -28,6 +29,9 @@ const Tabs = () => {
         {activeTab === 1 && <RecordingsOverview/>}
         {activeTab === 2 && 
         <div className="d-flex flex-column justify-content-center align-items-center">
+          <div className="full-width">
+            <TopicChartCard></TopicChartCard>
+          </div>
           <div className="d-flex flex-column flex-xl-row align-center justify-content-between full-width">
             <WordcloudCard></WordcloudCard>
             <BubbleChartCard></BubbleChartCard>
