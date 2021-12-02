@@ -6,32 +6,32 @@ import ParentSize from "@visx/responsive/lib/components/ParentSizeModern";
 
 
 const placesData = [
-  {name: "Berlin",radius: 5},{name: "München",radius: 10},{name: "Frankfurt",radius: 20},
-  {name: "Beijing",radius: 7},{name: "Paris",radius: 20}, {name: "Madrid",radius: 14},
-  {name: "Berlin",radius: 5},{name: "München",radius: 10},{name: "Frankfurt",radius: 17},
-  {name: "Beijing",radius: 7},{name: "Paris",radius: 20}, {name: "Madrid",radius: 9},
-  {name: "Berlin",radius: 4},{name: "München",radius: 14},{name: "Frankfurt",radius: 10},
-  {name: "Beijing",radius: 7},{name: "Paris",radius: 19}, {name: "Madrid",radius: 6},
-  {name: "Berlin",radius: 6},{name: "München",radius: 7},{name: "Frankfurt",radius: 2},
-  {name: "Beijing",radius: 1},{name: "Paris",radius: 1}, {name: "Madrid",radius: 2},
+  {name: "Berlin",frequency: 5},{name: "München",frequency: 10},{name: "Frankfurt",frequency: 20},
+  {name: "Beijing",frequency: 7},{name: "Paris",frequency: 20}, {name: "Madrid",frequency: 14},
+  {name: "Berlin",frequency: 5},{name: "München",frequency: 10},{name: "Frankfurt",frequency: 17},
+  {name: "Beijing",frequency: 7},{name: "Paris",frequency: 20}, {name: "Madrid",frequency: 9},
+  {name: "Berlin",frequency: 4},{name: "München",frequency: 14},{name: "Frankfurt",frequency: 10},
+  {name: "Beijing",frequency: 7},{name: "Paris",frequency: 19}, {name: "Madrid",frequency: 6},
+  {name: "Berlin",frequency: 6},{name: "München",frequency: 7},{name: "Frankfurt",frequency: 2},
+  {name: "Beijing",frequency: 1},{name: "Paris",frequency: 1}, {name: "Madrid",frequency: 2},
 ]
 
 const peopleData = [
-  {name: "Angela Merkel",radius: 5},{name: "Donald Trump",radius: 10},{name: "Joe Biden",radius: 20},
-  {name: "Joe Biden",radius: 7},{name: "Angela Merkel",radius: 20}, {name: "Angela Merkel",radius: 14},
-  {name: "Angela Merkel",radius: 5},{name: "Joe Biden",radius: 10},{name: "Donald Trump",radius: 17},
-  {name: "Donald Trump",radius: 7},
+  {name: "Angela Merkel",frequency: 5},{name: "Donald Trump",frequency: 10},{name: "Joe Biden",frequency: 20},
+  {name: "Joe Biden",frequency: 7},{name: "Angela Merkel",frequency: 20}, {name: "Angela Merkel",frequency: 14},
+  {name: "Angela Merkel",frequency: 5},{name: "Joe Biden",frequency: 10},{name: "Donald Trump",frequency: 17},
+  {name: "Donald Trump",frequency: 7},
 ]
 
 const orgData = [
-  {name: "TU Berlin",radius: 5},{name: "Apple",radius: 10},{name: "IBM",radius: 20},
-  {name: "Apple",radius: 7},{name: "Organisation",radius: 20}, {name: "Organisation",radius: 14},
-  {name: "Organisation",radius: 5},{name: "Organisation",radius: 10},{name: "Organisation",radius: 17},
+  {name: "TU Berlin",frequency: 5},{name: "Apple",frequency: 10},{name: "IBM",frequency: 20},
+  {name: "Apple",frequency: 7},{name: "Organisation",frequency: 20}, {name: "Organisation",frequency: 14},
+  {name: "Organisation",frequency: 5},{name: "Organisation",frequency: 10},{name: "Organisation",frequency: 17},
 ]
 
 const datesData = [
-  {name: "January",radius: 5},{name: "February",radius: 10},{name: "01.12.2021",radius: 20},
-  {name: "12.Nov.96",radius: 7},{name: "March",radius: 20}, {name: "April 2018",radius: 14},
+  {name: "January",frequency: 5},{name: "February",frequency: 10},{name: "01.12.2021",frequency: 20},
+  {name: "12.Nov.96",frequency: 7},{name: "March",frequency: 20}, {name: "April 2018",frequency: 14},
 ]
 
 const StatisticsChartCard = () => {

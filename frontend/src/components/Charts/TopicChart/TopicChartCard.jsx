@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { ParentSize } from "@visx/responsive";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import { faChevronUp, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { faChevronLeft, faChevronRight, faChevronUp, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import TopicNetworkChart from "./TopicNetworkChart";
 import TopicStackedBarChart from "./TopicStackedBarChart";
 
@@ -20,7 +20,7 @@ const data = [
 ];
 
 const TopicChartCard = () => {
- 
+  const [activeChart, setActiveChart] = useState(1)
 
   return (
     <div className="custom-card">
@@ -36,15 +36,21 @@ const TopicChartCard = () => {
           </div>
         </div>
         <div className="custom-card-body d-flex flex-row justify-content-center">
-            {<ParentSize>{({ width, height }) => <TopicNetworkChart width={width} height={height} words={data} topic={"Transport"}/>}</ParentSize>}
-            {<ParentSize>{({ width, height }) => <TopicStackedBarChart width={width} height={height} words={data} topic={"Transport"}/>}</ParentSize>}
+            {activeChart == 2 && <button className="icon-button-transparent icon-orange mx-2" onClick={() => setActiveChart(1)}>
+              <FontAwesomeIcon size="lg" icon={faChevronLeft} />
+            </button>}
+            {activeChart == 1 && <ParentSize>{({ width, height }) => <TopicNetworkChart width={width} height={height} words={data} topic={"Topic 1"}/>}</ParentSize>}
+            {activeChart == 2 && <ParentSize>{({ width, height }) => <TopicStackedBarChart width={width} height={height} words={data} topic={"Topic 1"}/>}</ParentSize>}
+            {activeChart == 1 && <button className="icon-button-transparent icon-orange mx-2" onClick={() => setActiveChart(2)}>
+              <FontAwesomeIcon size="lg" icon={faChevronRight} />
+            </button>}
         </div>
         <style jsx>{`
             .custom-card {
               width: 100%;
             }
             .custom-card-body {
-              height: 450px;
+              height: 500px;
             }
         `}</style>
     </div>

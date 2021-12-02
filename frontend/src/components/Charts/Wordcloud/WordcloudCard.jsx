@@ -12,7 +12,7 @@ const WordcloudCard = () => {
     <div className="custom-card">
         <div className="custom-card-header">
             <div className="custom-card-title">
-              <span>Wortwolke nach Vorkommen</span>
+              <span>Wortwolke nach Häufigkeit</span>
               <div className={`d-inline-block custom-tooltip`}><button className="icon-button-transparent icon-orange mx-2">
                 <FontAwesomeIcon icon={faInfoCircle} />
               </button>

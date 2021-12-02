@@ -9,15 +9,15 @@ import { Polygon } from '@visx/shape';
 export default function PackChart({ width, height, data, polygonSides, polygonRotation, colorScheme }) {
     const pack = { children: data, name: 'root', radius: 0, distance: 0 };
     const colorScaleBlue = scaleQuantize({
-      domain: extent(data, (d) => d.radius),
+      domain: extent(data, (d) => d.frequency),
       range: ['#1F96A6', '#2C5459', '#29C4D9', '#1E8F9E', '#6DD2DF', '#BDD4D7', '#81D4DF', '#143059', '#2F6B9A', '#82a6c2'],
     });
     const colorScaleOrange = scaleQuantize({
-      domain: extent(data, (d) => d.radius),
+      domain: extent(data, (d) => d.frequency),
       range: ['#EB8F49', '#DFAE88', '#D98443', '#DFAC88', '#EB8155', '#DFAA93', '#D9784E'],
       });
 
-    const root = hierarchy(pack).sum((d) => d.radius * d.radius).sort(
+    const root = hierarchy(pack).sum((d) => d.frequency * d.frequency).sort(
         (a, b) =>
         // sort by hierarchy, then distance
         (a?.data ? 1 : -1) - (b?.data ? 1 : -1) ||
@@ -68,12 +68,12 @@ export default function PackChart({ width, height, data, polygonSides, polygonRo
                         sides={polygonSides}
                         center={{x: circle.x, y: circle.y}}
                         size={circle.r}
-                        fill={colorScheme == 1 ? colorScaleBlue(circle.data.radius): colorScaleOrange(circle.data.radius)}
+                        fill={colorScheme == 1 ? colorScaleBlue(circle.data.frequency): colorScaleOrange(circle.data.frequency)}
                         rotate={polygonRotation}
                         onMouseOver={(e) => {
                           if(circle.r <= 30) {
-                              handleMouseOver(e, `${circle.data.name}: ${circle.data.radius} Vorkommnisse`);
-                          } else {  handleMouseOver(e, `${circle.data.radius} Vorkommnisse`); }
+                              handleMouseOver(e, `${circle.data.name}: ${circle.data.frequency} Vorkommnisse`);
+                          } else {  handleMouseOver(e, `${circle.data.frequency} Vorkommnisse`); }
                       }}
                       onMouseOut={hideTooltip}
                         ></Polygon>

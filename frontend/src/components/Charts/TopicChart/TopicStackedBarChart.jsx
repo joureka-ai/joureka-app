@@ -74,7 +74,7 @@ const TopicStackedBarChart = ({width, height, margin = defaultMargin, words, top
 
     return width < 10 ? null : (
       <div className="d-flex flex-column justify-content-center align-items-center">
-        <div>Top-{words.length} relevantesten Begriffe für das Thema "{topic}"</div>
+        <div>Relevante Begriffe für das Thema "{topic}"</div>
         <svg width={width} height={height - 50}>
           <Group top={margin.top} left={margin.left}>
             <BarStackHorizontal

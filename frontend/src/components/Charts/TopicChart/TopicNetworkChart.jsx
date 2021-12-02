@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DefaultNode, Graph } from '@visx/network';
 import { useTooltip, Tooltip, defaultStyles } from "@visx/tooltip";
 import { scaleOrdinal } from '@visx/scale';
 import ChartLegend from '../Legends/ChartLegends';
 
 const TopicNetworkChart = ({ width, height, words, topic }) => {
-    height = height - 50
+    const [topicName, setTopicName] = useState(topic);
+    const [editMode, setEditmode] = useState(false);
+    height = height - 100
 
+    const handleChange = (e) => {
+        const {value} = e.target;
+        setTopicName(value)
+      };
+    
     const ordinalColorScale = scaleOrdinal({
         domain: ['Gesamthäufigkeit', 'Termhäufigkeit innerhalb des ausgewählten Themas'],
         range: ['#F5E8DF', '#EB8F49'],
@@ -78,43 +85,34 @@ const TopicNetworkChart = ({ width, height, words, topic }) => {
 
     return width < 10 ? null : (
         <div className="d-flex flex-column justify-content-center align-items-center">
-            <div>Top-{words.length} relevantesten Begriffe für das Thema "{topic}"</div>
+            <div>Relevante Begriffe für das Thema "{topic}"</div>
             <svg width={width} height={height}>
             <Graph
                 graph={graph}
                 width={width} 
                 height={height}
-                nodeComponent={({ node: { r, color, name } }) =>
-                color ? 
+                nodeComponent={({ node: { r, color, name, x, y } }) =>
                 <g>
                     <DefaultNode 
                     fill={color} 
-                    r={r}
-                    onMouseOver={(e) => {
-                    if(name != topic) {
-                        if(r <= 10) {
-                            handleMouseOver(e, `${name}: ${r} Vorkommnisse`);
-                        } else {  handleMouseOver(e, `${r} Vorkommnisse`); }
-                    }}}
-                    onMouseOut={hideTooltip}
-                    /> 
-                    {r > 10 && <text text-anchor="middle" font-size="12px" dy=".3em">{name}</text>}
-                </g>
-                : 
-                <g>
-                    <DefaultNode 
                     r={r}
                     onMouseOver={(e) => {
                         if(name != topic) {
                             if(r <= 10) {
                                 handleMouseOver(e, `${name}: ${r} Vorkommnisse`);
                             } else {  handleMouseOver(e, `${r} Vorkommnisse`); }
+                        } else {
+                            handleMouseOver(e, "Doppelklicken zum Bearbeiten")
                         }}}
                     onMouseOut={hideTooltip}
                     />
-                    {r > 10 && <text text-anchor="middle" font-size="12px" dy=".3em">{name}</text>}
-                </g>
-                }
+                    {r > 10 && name == topic &&  
+                    <foreignObject x="-45" y="-12" width="90" height="30">
+                        <input readOnly={!editMode} id="network-input" autoFocus={editMode} class="network-chart-input" type="text" onDoubleClick={() => setEditmode(true)} onChange={handleChange} value={topicName}/>
+                    </foreignObject>}
+ 
+                    {r > 10 && name != topic && <text text-anchor="middle" font-size="12px" dy=".3em">{name}</text>}
+                </g>}
                 linkComponent={({ link: { source, target, dashed } }) => (
                 <line
                     x1={source.x}
@@ -140,6 +138,18 @@ const TopicNetworkChart = ({ width, height, words, topic }) => {
                 <strong>{tooltipData}</strong>
                 </Tooltip>
             )}
+            {editMode &&
+            <div className="custom-card-action">
+                <div className="d-flex flex-column flex-md-row">
+                    <button onClick={() => 
+                    {
+                        setEditmode(false)
+                        setTopicName(topic)
+                    }
+                    } className="custom-button custom-button-sm custom-button-transparent mx-1">Abbrechen</button>
+                    <button onClick={() => saveChanges()} className="custom-button custom-button-sm custom-button-blue">Änderungen speichern</button>
+                    </div>
+            </div>}
         </div>
     );
 }
