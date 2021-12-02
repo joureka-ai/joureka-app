@@ -111,23 +111,38 @@ button {
 .border-button {
   border-radius: $border-radius-default;
   background-color: transparent;
-  color: $Orange;
   text-transform: uppercase;
   height: 2.5rem;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border: 2px solid $Orange;
 
-  &:hover {
-    border-color: $Blue;
+  &.border-button-blue {
     color: $Blue;
-    font-weight: $font-general-weight-semibold;
+    border: 2px solid $Blue;
+
+    &:hover {
+      border-color: $Orange;
+      color: $Orange;
+      font-weight: $font-general-weight-bold;
+    }
+  }
+
+  &.border-button-orange {
+    color: $Orange;
+    border: 2px solid $Orange;
+
+    &:hover {
+      border-color: $Blue;
+      color: $Blue;
+      font-weight: $font-general-weight-bold;
+    }
   }
 
   span {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
+    font-weight: $font-general-weight-semibold;
   }
 }
 

@@ -18,6 +18,9 @@ const Header = () => {
         <img className="px-3 img-fluid" src="/logo.png" width="150" alt="joureka Logo"/>
       </div>
       <div className="header-buttons-container p-4 d-flex flex-row justify-content-between">
+        {showNavigationHome &&<button onClick={() => router.push("/project/create")} className="custom-button custom-button-sm custom-button-orange">
+          Neues Projekt
+        </button>}
         {showNavigationHome &&  <Link href="/"><button className="icon-button-transparent icon-orange mx-2">
           <FontAwesomeIcon icon={faHome} />
         </button></Link>}

@@ -4,7 +4,7 @@ import {useRouter} from "next/router";
 import {projectService} from "../../services";
 import LoadingSpinnerOverlay from "../LoadingSpinner/LoadingSpinnerOverlay";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faChevronLeft, faChevronRight} from "@fortawesome/free-solid-svg-icons";
+import {faChevronLeft, faChevronRight, faPager, faPlus} from "@fortawesome/free-solid-svg-icons";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -39,15 +39,13 @@ const RecordingsOverview = () => {
   return (
     <React.Fragment>
       {!recordings && <LoadingSpinnerOverlay text={"Audiodateien werden geladen!"}/> }
+      <button className="border-button border-button-blue full-width" onClick={() =>  router.push({pathname: `/project/${pid}/update`, query: {step: 2}})}><FontAwesomeIcon icon={faPlus} /><span className="px-3">Aufnahme hinzufügen</span></button>
       {recordings && pageRecordings.map(recording => (
         <RecordingOverviewBar onRecordingDeleted={recordingDeleted} recording={recording} key={recording.id}/>
       ))}
       {recordings && recordings.length === 0 &&
       <div className="d-flex justify-content-center align-items-center vh-80 flex-column">
         <h5>Sie haben kein Aufnahmen hochgeladen!</h5>
-        <button onClick={() => router.push({pathname: `/project/${pid}/update`, query: {step: 2}})} className="custom-button custom-button-sm custom-button-blue">
-          Aufnahme hinzufügen
-        </button>
       </div>
       }
       {recordings && <div

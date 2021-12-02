@@ -30,7 +30,7 @@ const Nav = () => {
               </div>
           </Link>
         ))}
-        </div>*/}
+        </div>
       <div className={buttonContainer}>
         <button onClick={() => router.push({pathname: `/project/${pid}/update`, query: {step: 2}})} className="custom-button custom-button-sm custom-button-blue">
           Aufnahme hinzufügen
@@ -38,7 +38,7 @@ const Nav = () => {
         <button onClick={() => router.push("/project/create")} className="custom-button custom-button-sm custom-button-orange">
           Neues Projekt
         </button>
-      </div>
+      </div>*/}
     </nav>
   );
 };
