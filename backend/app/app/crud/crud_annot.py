@@ -33,10 +33,17 @@ class CRUDAnnot(CRUDBase[Annot, AnnotCreate, AnnotUpdate]):
         db.commit()
         return obj
 
-    def get_all_by_type(self, db: Session, fk_document: int, type: str) -> Optional[Annot]:
+    def get_by_d_type(self, db: Session, fk_document: int, type: str) -> Optional[Annot]:
         return (
             db.query(self.model)
             .filter(self.model.fk_document == fk_document)
+            .filter(self.model.type == type)
+            .all()
+        )
+        
+    def get_all_by_type(self, db: Session, type: str) -> Optional[Annot]:
+        return (
+            db.query(self.model)
             .filter(self.model.type == type)
             .all()
         )

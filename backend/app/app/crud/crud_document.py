@@ -41,6 +41,15 @@ class CRUDDocument(CRUDBase[Document, DocumentCreate, DocumentUpdate]):
             .first()
         )
     
+    def get_all_by_p_id(
+        self, db: Session, fk_project: int
+        ) -> List[Document]:
+        return (
+            db.query(self.model)
+            .filter(self.model.fk_project == fk_project)
+            .all()
+        )
+
     def get_multi_by_p_id(
         self, db: Session, skip: int, limit: int, fk_project: int
     ) -> List[Document]:
@@ -64,7 +73,6 @@ class CRUDDocument(CRUDBase[Document, DocumentCreate, DocumentUpdate]):
         db.delete(obj)
         db.commit()
         return obj 
-
 
     def filter_document(
         self, db: Session, *, filter_str: str, skip: int = 0, limit: int = 100
