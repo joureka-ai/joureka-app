@@ -1,9 +1,11 @@
+@import "variables";
 
 .projectSelection {
     border: none;
     background: transparent;
     font-size: 1.5rem;
     margin-right: 1rem;
+    outline: none;
     
     &:focus {
         box-shadow: none;
@@ -11,8 +13,10 @@
     }
 
     option {
+        position: absolute;
         font-size: 1rem;
     }
+
 }
 .projectDescription {
     padding-bottom: 1rem;

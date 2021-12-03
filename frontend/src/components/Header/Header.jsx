@@ -1,6 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faCog, faSignOutAlt, faHome } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faCog, faSignOutAlt, faHome, faFolderPlus } from '@fortawesome/free-solid-svg-icons';
 import {userService} from "../../services/user.service";
 import {useRouter} from "next/router";
 import Link from "next/link";
@@ -18,9 +18,9 @@ const Header = () => {
         <img className="px-3 img-fluid" src="/logo.png" width="150" alt="joureka Logo"/>
       </div>
       <div className="header-buttons-container p-4 d-flex flex-row justify-content-between">
-        {showNavigationHome &&<button onClick={() => router.push("/project/create")} className="custom-button custom-button-sm custom-button-orange">
-          Neues Projekt
-        </button>}
+        {showNavigationHome &&  <Link href="/project/create"><button className="icon-button-transparent icon-blue mx-2">
+          <FontAwesomeIcon size="lg" icon={faFolderPlus} />
+        </button></Link>}
         {showNavigationHome &&  <Link href="/"><button className="icon-button-transparent icon-orange mx-2">
           <FontAwesomeIcon icon={faHome} />
         </button></Link>}

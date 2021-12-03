@@ -46,9 +46,6 @@ const TopicChartCard = () => {
             </button>}
         </div>
         <style jsx>{`
-            .custom-card {
-              width: 100%;
-            }
             .custom-card-body {
               height: 500px;
             }
