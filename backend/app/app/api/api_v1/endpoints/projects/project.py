@@ -450,7 +450,7 @@ def get_pins(
     - Args: Project ID and the document ID
     - Returns: The list of Annotations for this document that are Pins.
     """
-    annots = crud.annot.get_all_by_type(db, fk_document=document_id, type="Pin")
+    annots = crud.annot.get_by_d_type(db, fk_document=document_id, type="Pin")
 
     if not annots:
         raise HTTPException(
@@ -474,7 +474,7 @@ def get_topics(
     - Returns: The list of Annotations for this document that are Topics.
     """
 
-    annots = crud.annot.get_all_by_type(db, fk_document=document_id, type="Topic")
+    annots = crud.annot.get_by_d_type(db, fk_document=document_id, type="Topic")
 
     if not annots:
         raise HTTPException(
