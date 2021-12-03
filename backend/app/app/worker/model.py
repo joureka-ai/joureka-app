@@ -112,6 +112,8 @@ class VoskEngine:
                 words = self._extract_words(self.recognizer.Result())
                 results += words
         results += self._extract_words(self.recognizer.FinalResult())
+        assert results
+
         df = pd.DataFrame.from_records(results)
         df = df.sort_values("start")
 

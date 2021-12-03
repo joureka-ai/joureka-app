@@ -30,6 +30,8 @@ temppathlib = "^1.1.0"
 asrecognition = "^0.0.4"
 vosk = "^0.3.32"
 spacy = "^3.1.4"
+jouresearch-nlp = {git = "https://github.com/joureka-ai/jouresearch-nlp", rev = "main"}
+
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.770"
