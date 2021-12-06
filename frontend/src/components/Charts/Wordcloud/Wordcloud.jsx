@@ -3,10 +3,14 @@ import { Text } from '@visx/text';
 import { scaleLog } from '@visx/scale';
 import { Wordcloud } from "@visx/wordcloud";
 import { useTooltip, Tooltip, defaultStyles } from "@visx/tooltip";
+import { projectService } from '../../../services';
+import { useRouter } from 'next/router';
 
 const colors = ['#143059', '#2F6B9A', '#82a6c2', '#1E8F9E', '#EB8F49'];
 
 const CustomWordcloud = ({ width, height, words, setRecordingsList, showControls }) => {
+  const router = useRouter();
+  const { pid } = router.query;
   const [spiralType, setSpiralType] = useState('archimedean');
   const [withRotation, setWithRotation] = useState(false);
 
@@ -54,6 +58,14 @@ const CustomWordcloud = ({ width, height, words, setRecordingsList, showControls
     const degree = rand > 0.5 ? 60 : -60;
     return rand * degree;
   }
+
+  function getWordDocuments(w) {
+    projectService.getAllDocuments(pid).then(docs => {
+      let d = docs.filter(doc => w.recordingsIds.includes(doc.id))
+      setRecordingsList({text: w.text, documents: d})
+
+    })
+  }
   
   return (
     <div className="wordcloud">
@@ -82,7 +94,7 @@ const CustomWordcloud = ({ width, height, words, setRecordingsList, showControls
                 }}
                 onMouseOut={hideTooltip}
                 onClick={() => {
-                  setRecordingsList(w)
+                  getWordDocuments(w)
                 }}
                 >
                 {w.text}

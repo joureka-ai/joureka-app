@@ -17,7 +17,6 @@ const WordcloudCard = () => {
 
   useEffect(() => {
     chartsDataService.getWordcloudWords(pid,WORDCLOUD_THRESHOLD).then((w) => {
-      console.log(w.words)
       setWords(w.words);
     })
   }, []);
@@ -38,7 +37,7 @@ const WordcloudCard = () => {
             {!words && <LoadingSpinner text={"Grafik wird erstellt."}/>}
             {words && <ParentSize>{({ width, height }) => <CustomWordcloud width={width} height={height} words={words} setRecordingsList={setSelectedWord} showControls={false}/>}</ParentSize>}
         </div>
-        {selectedWord.recordingsIds && <div>
+        {selectedWord.documents && <div>
           <div className="pb-3 d-flex justify-content-between">
             <span>Wort <b>{selectedWord.text}</b> kommt in folgenden Aufnahmen vor</span>
             <button onClick={() => setSelectedWord({})} className="icon-button-transparent icon-blue mx-2">
@@ -46,10 +45,10 @@ const WordcloudCard = () => {
             </button>
           </div>
           <div className="chart-recordings-list">{
-            selectedWord.recordingsIds.map((item, index) => (
+            selectedWord.documents.map((doc, index) => (
               <div key={index} className="p-1 d-flex justify-content-between">
-                <span className="fw-bolder">Aufnahme mit id {item}</span>
-                <button className="custom-button custom-button-sm custom-button-blue">Zur Aufnahme</button>
+                <span className="fw-bolder">{doc.title}</span>
+                <button onClick={() => router.push(`/project/${pid}/recording/${doc.id}`)} className="custom-button custom-button-sm custom-button-blue">Zur Aufnahme</button>
               </div>
             ))
           }</div>

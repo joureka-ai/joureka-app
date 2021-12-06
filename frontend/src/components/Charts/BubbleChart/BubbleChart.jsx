@@ -5,6 +5,8 @@ import { Drag, raise } from '@visx/drag';
 import ChartLegend from '../Legends/ChartLegends';
 import { useTooltip, Tooltip, defaultStyles } from "@visx/tooltip";
 import { getSeededRandom } from '@visx/mock-data';
+import { useRouter } from 'next/router';
+import { projectService } from '../../../services';
 
 const tresholdHeight = 100;
 
@@ -28,6 +30,8 @@ const generateCircles = (data, width, height) => {
 };
 
 const BubbleChart = ({ width, height, pins, topics, setSelectedAnnotation }) => {
+  const router = useRouter();
+  const { pid } = router.query;
   const [draggingItemsTopics, setDraggingItemsTopics] = useState([]);
   const [draggingItemsPins, setDraggingItemsPins] = useState([]);
 
@@ -76,6 +80,13 @@ const BubbleChart = ({ width, height, pins, topics, setSelectedAnnotation }) => 
 
   if (draggingItemsTopics.length === 0  && draggingItemsPins.length === 0 || width < 10) return null;
 
+  function getAnnotationDocuments(annot) {
+    projectService.getAllDocuments(pid).then(docs => {
+      let d = docs.filter(doc => annot.recordingsIds.includes(doc.id))
+      setSelectedAnnotation({text: annot.id, documents: d})
+    })
+  }
+
   return (
     <div className="Drag" style={{ touchAction: 'none' }}>
         <svg width={width} height={height-tresholdHeight}>
@@ -113,7 +124,7 @@ const BubbleChart = ({ width, height, pins, topics, setSelectedAnnotation }) => 
                 onTouchMove={dragMove}
                 onTouchEnd={dragEnd}
                 onClick={() => {
-                  setSelectedAnnotation(d)
+                  getAnnotationDocuments(d)
                 }}
               />
             )}
@@ -157,7 +168,7 @@ const BubbleChart = ({ width, height, pins, topics, setSelectedAnnotation }) => 
                 }}
                 onMouseOut={hideTooltip}
                 onClick={() => {
-                  setSelectedAnnotation(d)
+                  getAnnotationDocuments(d)
                 }}
               />
             )}

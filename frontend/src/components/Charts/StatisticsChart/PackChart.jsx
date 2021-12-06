@@ -4,9 +4,13 @@ import { Pack, hierarchy } from '@visx/hierarchy';
 import { scaleQuantize } from '@visx/scale';
 import { useTooltip, Tooltip, defaultStyles } from "@visx/tooltip";
 import { Polygon } from '@visx/shape';
+import { useRouter } from 'next/router';
+import { projectService } from '../../../services';
 
 
-export default function PackChart({ width, height, data, polygonSides, polygonRotation, colorScheme }) {
+export default function PackChart({ width, height, data, polygonSides, polygonRotation, colorScheme, setSelectedCategoryItem }) {
+    const router = useRouter();
+    const { pid } = router.query;
     const pack = { children: data, name: 'root', radius: 0, distance: 0 };
     const colorScaleBlue = scaleQuantize({
       domain: extent(data, (d) => d.frequency),
@@ -55,6 +59,14 @@ export default function PackChart({ width, height, data, polygonSides, polygonRo
         return [Math.min(...allData.map(value)), Math.max(...allData.map(value))];
       }
 
+
+      function getCategoryItemDocuments(item) {
+        projectService.getAllDocuments(pid).then(docs => {
+          let d = docs.filter(doc => item.recordings.includes(doc.id))
+          setSelectedCategoryItem({text: item.name, documents: d})
+        })
+      }
+
   return width < 10 ? null : (
     <div className="Pack" style={{ touchAction: 'none' }}>
         <svg width={width} height={height}>
@@ -74,8 +86,9 @@ export default function PackChart({ width, height, data, polygonSides, polygonRo
                           if(circle.r <= 30) {
                               handleMouseOver(e, `${circle.data.name}: ${circle.data.frequency} Vorkommnisse`);
                           } else {  handleMouseOver(e, `${circle.data.frequency} Vorkommnisse`); }
-                      }}
-                      onMouseOut={hideTooltip}
+                        }}
+                        onMouseOut={hideTooltip}
+                        onClick={() => {getCategoryItemDocuments(circle.data)}}
                         ></Polygon>
                         {circle.r > 30 && <text x={circle.x} y={circle.y} text-anchor="middle" dy=".3em" font-size="14px">{circle.data.name}</text>}
                         </g>

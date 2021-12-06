@@ -41,18 +41,18 @@ const BubbleChartCard = () => {
           {!pins && !topics && <LoadingSpinner text={"Grafik wird erstellt."}/>}
           {pins && <ParentSize>{({ width, height }) => <BubbleChart width={width} height={height} pins={pins} topics={topics} setSelectedAnnotation={setSelectedAnnotation}/>}</ParentSize>}
         </div>
-        {selectedAnnotation.recordingsIds && <div>
+        {selectedAnnotation.documents && <div>
           <div className="pb-3 d-flex justify-content-between">
-            <span>Thema/Pin <b>{selectedAnnotation.id}</b> kommt in folgenden Aufnahmen vor</span>
+            <span>Thema/Pin <b>{selectedAnnotation.text}</b> kommt in folgenden Aufnahmen vor</span>
             <button onClick={() => setSelectedAnnotation({})} className="icon-button-transparent icon-blue mx-2">
               <FontAwesomeIcon icon={faChevronUp} />
             </button>
           </div>
           <div className="chart-recordings-list">{
-            selectedAnnotation.recordingsIds.map((item, index) => (
+            selectedAnnotation.documents.map((doc, index) => (
               <div key={index} className="p-1 d-flex justify-content-between">
-                <span className="fw-bolder">Aufnahme Placeholder {item}</span>
-                <button className="custom-button custom-button-sm custom-button-blue">Zur Aufnahme</button>
+                <span className="fw-bolder">{doc.title}</span>
+                <button onClick={() => router.push(`/project/${pid}/recording/${doc.id}`)} className="custom-button custom-button-sm custom-button-blue">Zur Aufnahme</button>
               </div>
             ))
           }</div>
