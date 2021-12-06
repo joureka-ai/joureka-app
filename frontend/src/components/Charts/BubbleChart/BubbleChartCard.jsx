@@ -1,12 +1,28 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { ParentSize } from "@visx/responsive";
-import DragI from "./BubbleChart";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faChevronUp, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { chartsDataService } from "../../../services/chartsData.service";
+import { useRouter } from "next/router";
+import BubbleChart from "./BubbleChart";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
 
 const BubbleChartCard = () => {
+  const router = useRouter();
+  const { pid } = router.query;
   const [selectedAnnotation, setSelectedAnnotation] = useState({});
+  const [pins, setPins] = useState(null);
+  const [topics, setTopics] = useState(null);
+
+  useEffect(() => {
+    chartsDataService.getPinPlotData(pid).then((p) => {
+      setPins(p.pins)
+    });
+    /*chartsDataService.getTopicPlotData(pid).then((t) => {
+      setTopics(t.topics)
+    };*/
+  }, []);
 
   return (
     <div className="custom-card">
@@ -22,7 +38,8 @@ const BubbleChartCard = () => {
           </div>
         </div>
         <div className="custom-card-body">
-            <ParentSize>{({ width, height }) => <DragI width={width} height={height} setSelectedAnnotation={setSelectedAnnotation}/>}</ParentSize>
+          {!pins && !topics && <LoadingSpinner text={"Grafik wird erstellt."}/>}
+          {pins && <ParentSize>{({ width, height }) => <BubbleChart width={width} height={height} pins={pins} topics={topics} setSelectedAnnotation={setSelectedAnnotation}/>}</ParentSize>}
         </div>
         {selectedAnnotation.recordingsIds && <div>
           <div className="pb-3 d-flex justify-content-between">
