@@ -1,12 +1,26 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import { ParentSize } from "@visx/responsive";
 import CustomWordcloud from "./Wordcloud";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faChevronUp, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
+import { chartsDataService } from "../../../services/chartsData.service";
+import { useRouter } from "next/router";
 
+const WORDCLOUD_THRESHOLD = 50;
 
 const WordcloudCard = () => {
+  const router = useRouter();
+  const { pid } = router.query;
   const [selectedWord, setSelectedWord] = useState({});
+  const [words, setWords] = useState(null)
+
+  useEffect(() => {
+    chartsDataService.getWordcloudWords(pid,WORDCLOUD_THRESHOLD).then((w) => {
+      console.log(w.words)
+      setWords(w.words);
+    })
+  }, []);
 
   return (
     <div className="custom-card">
@@ -21,7 +35,8 @@ const WordcloudCard = () => {
             </div>
         </div>
         <div className="custom-card-body">
-            <ParentSize>{({ width, height }) => <CustomWordcloud width={width} height={height} setRecordingsList={setSelectedWord} showControls={false}/>}</ParentSize>
+            {!words && <LoadingSpinner text={"Grafik wird erstellt."}/>}
+            {words && <ParentSize>{({ width, height }) => <CustomWordcloud width={width} height={height} words={words} setRecordingsList={setSelectedWord} showControls={false}/>}</ParentSize>}
         </div>
         {selectedWord.recordingsIds && <div>
           <div className="pb-3 d-flex justify-content-between">
@@ -33,7 +48,7 @@ const WordcloudCard = () => {
           <div className="chart-recordings-list">{
             selectedWord.recordingsIds.map((item, index) => (
               <div key={index} className="p-1 d-flex justify-content-between">
-                <span className="fw-bolder">Aufnahme Placeholder {item}</span>
+                <span className="fw-bolder">Aufnahme mit id {item}</span>
                 <button className="custom-button custom-button-sm custom-button-blue">Zur Aufnahme</button>
               </div>
             ))
