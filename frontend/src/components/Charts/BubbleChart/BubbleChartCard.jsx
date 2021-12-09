@@ -17,7 +17,10 @@ const BubbleChartCard = () => {
 
   useEffect(() => {
     chartsDataService.getPinPlotData(pid).then((p) => {
-      setPins(p.pins)
+      setPins(p.annots)
+      chartsDataService.getTopicPlotData(pid).then((t) => {
+        setTopics(t.annots)
+      });
     });
     /*chartsDataService.getTopicPlotData(pid).then((t) => {
       setTopics(t.topics)
@@ -39,7 +42,7 @@ const BubbleChartCard = () => {
         </div>
         <div className="custom-card-body">
           {!pins && !topics && <LoadingSpinner text={"Grafik wird erstellt."}/>}
-          {pins && <ParentSize>{({ width, height }) => <BubbleChart width={width} height={height} pins={pins} topics={topics} setSelectedAnnotation={setSelectedAnnotation}/>}</ParentSize>}
+          {pins && topics && <ParentSize>{({ width, height }) => <BubbleChart width={width} height={height} pins={pins} topics={topics} setSelectedAnnotation={setSelectedAnnotation}/>}</ParentSize>}
         </div>
         {selectedAnnotation.documents && <div>
           <div className="pb-3 d-flex justify-content-between">

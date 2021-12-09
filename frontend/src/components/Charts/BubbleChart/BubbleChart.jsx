@@ -11,8 +11,6 @@ import { projectService } from '../../../services';
 const tresholdHeight = 100;
 
 const generateCircles = (data, width, height) => {
-  const xRandom = getSeededRandom(4);
-  const yRandom = getSeededRandom(0.8);
 
   const circles = []
   data.forEach(d => {
@@ -20,8 +18,8 @@ const generateCircles = (data, width, height) => {
         id: d.name,
         radius: d.frequency * 5,
         frequency: d.frequency,
-        x: Math.round(xRandom() * (width - d.frequency * 2) + d.frequency),
-        y: Math.round(yRandom() * (height - d.frequency * 2) + d.frequency),
+        x: Math.round(Math.random(1) * (width - d.frequency * 2) + d.frequency),
+        y: Math.round(Math.random(1) * (height - d.frequency * 2) + d.frequency),
         recordingsIds: d.recordings
       })
   })
@@ -62,15 +60,14 @@ const BubbleChart = ({ width, height, pins, topics, setSelectedAnnotation }) => 
 
   useEffect(() => {
     if (width > 10 && height > 10) {
-        //setDraggingItemsTopics(generateCircles(topics, width, (height-tresholdHeight) ));
+        setDraggingItemsTopics(generateCircles(topics, width, (height-tresholdHeight) ));
         setDraggingItemsPins(generateCircles(pins, width, (height-tresholdHeight)));
     }
   }, [width, height]);
 
-  const colorScaleTopics =   scaleLinear({
+  const colorScaleTopics = scaleLinear({
     range: ['#BDD4D7', '#1E8F9E'],
-    domain: [0, 10]
-    //domain: [0, Math.max(...topics.map((t) => t.frequency))],
+    domain: [0, Math.max(...topics.map((t) => t.frequency))],
   })
 
   const colorScalePins = scaleLinear({
@@ -139,10 +136,6 @@ const BubbleChart = ({ width, height, pins, topics, setSelectedAnnotation }) => 
             x={d.x}
             y={d.y}
             onDragStart={() => {
-              // svg follows the painter model
-              // so we need to move the data item
-              // to end of the array for it to be drawn
-              // "on top of" the other data items
               setDraggingItemsTopics(raise(draggingItemsTopics, i));
             }}
           >
@@ -152,7 +145,7 @@ const BubbleChart = ({ width, height, pins, topics, setSelectedAnnotation }) => 
                 cx={x}
                 cy={y}
                 r={isDragging ? d.radius + 4 : d.radius}
-                fill={isDragging ? 'url(#stroke)' : colorScaleTopics(d.radius)}
+                fill={isDragging ? 'url(#stroke)' : colorScaleTopics(d.frequency)}
                 transform={`translate(${dx}, ${dy})`}
                 fillOpacity={0.9}
                 stroke={isDragging ? 'white' : 'transparent'}
@@ -164,7 +157,7 @@ const BubbleChart = ({ width, height, pins, topics, setSelectedAnnotation }) => 
                 onTouchMove={dragMove}
                 onTouchEnd={dragEnd}
                 onMouseOver={(e) => {
-                  handleMouseOver(e, `${d.id}: ${d.radius} Vorkommnisse`);
+                  handleMouseOver(e, `${d.id}: ${d.frequency} Vorkommnisse`);
                 }}
                 onMouseOut={hideTooltip}
                 onClick={() => {
