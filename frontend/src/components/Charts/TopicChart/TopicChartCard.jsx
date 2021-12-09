@@ -4,6 +4,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight, faChevronUp, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import TopicNetworkChart from "./TopicNetworkChart";
 import TopicStackedBarChart from "./TopicStackedBarChart";
+import IntertopicDistanceMap from "./IntertopicDistanceMap";
 
 const data = [
   { frequency: 11, name: "Auto", reference: 15 },
@@ -36,12 +37,13 @@ const TopicChartCard = () => {
           </div>
         </div>
         <div className="custom-card-body d-flex flex-row justify-content-center">
-            {activeChart == 2 && <button className="icon-button-transparent icon-orange mx-2" onClick={() => setActiveChart(1)}>
+            {(activeChart == 3 || activeChart == 2)  && <button className="icon-button-transparent icon-orange mx-2" onClick={() => {activeChart == 3 ? setActiveChart(2): setActiveChart(1)}}>
               <FontAwesomeIcon size="lg" icon={faChevronLeft} />
             </button>}
-            {activeChart == 1 && <ParentSize>{({ width, height }) => <TopicNetworkChart width={width} height={height} words={data} topic={"Topic 1"}/>}</ParentSize>}
-            {activeChart == 2 && <ParentSize>{({ width, height }) => <TopicStackedBarChart width={width} height={height} words={data} topic={"Topic 1"}/>}</ParentSize>}
-            {activeChart == 1 && <button className="icon-button-transparent icon-orange mx-2" onClick={() => setActiveChart(2)}>
+            {activeChart == 1 && <ParentSize>{({ width, height }) => <IntertopicDistanceMap width={width} height={height} words={data}  setSelectedTopic={setActiveChart}/>}</ParentSize>}
+            {activeChart == 2 && <ParentSize>{({ width, height }) => <TopicNetworkChart width={width} height={height} words={data} topic={"Topic 1"}/>}</ParentSize>}
+            {activeChart == 3 && <ParentSize>{({ width, height }) => <TopicStackedBarChart width={width} height={height} words={data} topic={"Topic 1"}/>}</ParentSize>}
+            {activeChart == 2 && <button className="icon-button-transparent icon-orange mx-2" onClick={() => setActiveChart(3)}>
               <FontAwesomeIcon size="lg" icon={faChevronRight} />
             </button>}
         </div>

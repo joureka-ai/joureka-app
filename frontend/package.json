@@ -12,6 +12,7 @@
     "@visx/drag": "^2.5.0",
     "@visx/glyph": "^2.1.2",
     "@visx/gradient": "^2.1.0",
+    "@visx/grid": "^2.4.0",
     "@visx/group": "^2.1.0",
     "@visx/hierarchy": "^2.1.2",
     "@visx/legend": "^2.2.2",
