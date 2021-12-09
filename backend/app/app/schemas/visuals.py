@@ -2,13 +2,13 @@ from pydantic import BaseModel
 
 from typing import List, Optional
 
-class PinFreq(BaseModel):
+class AnnotFreq(BaseModel):
     name: str
     frequency: int
     recordings: List[int]
 
-class PinFrequencies(BaseModel):
-    pins: List[PinFreq]
+class AnnotFrequencies(BaseModel):
+    annots: List[AnnotFreq]
 
 
 class WordFreq(BaseModel):
