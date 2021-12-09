@@ -3,15 +3,18 @@ import logging
 
 LOG = logging.getLogger(__name__)
 
+from sqlalchemy.orm import Session
+
+from app import crud
 from app.models.annot import Annot
-from app.schemas import PinFrequencies, PinFreq, WordFrequencies, WordFreq
+from app.schemas import AnnotFrequencies, AnnotFreq, WordFrequencies, WordFreq
 
 def check_doc_in_docs(doc_ids: List[int], annot_doc_id: int) -> bool:
-    LOG.info(annot_doc_id)
+    #LOG.info(annot_doc_id)
     return annot_doc_id in doc_ids
 
 
-def calcuate_frequencies(annots: List[Annot]) -> PinFrequencies:
+def calcuate_frequencies(annots: List[Annot]) -> AnnotFrequencies:
     freq_dict = {}
     
     for annot in annots:
@@ -24,17 +27,41 @@ def calcuate_frequencies(annots: List[Annot]) -> PinFrequencies:
         if not "recordings" in freq_dict[annot.label].keys():
             freq_dict[annot.label]["recordings"] = []
 
-        if not annot.id in freq_dict[annot.label]["recordings"]:
-            freq_dict[annot.label]["recordings"].append(annot.id)
+        if not annot.fk_document in freq_dict[annot.label]["recordings"]:
+            freq_dict[annot.label]["recordings"].append(annot.fk_document)
 
     pin_freqs = []
     for key in freq_dict:
-        pin_freq = PinFreq(name=key,
+        pin_freq = AnnotFreq(name=key,
                         frequency=freq_dict[key]["frequency"],
                         recordings=freq_dict[key]["recordings"])
         pin_freqs.append(pin_freq)
 
-    return PinFrequencies(pins=pin_freqs)
+    return AnnotFrequencies(annots=pin_freqs)
+
+def gather_annots_by_type(db: Session, project_id: int, type: str, document_id: Optional[int] = None):
+    """ To be used with the get frequencies endpoints for Pins and Topics!
+    """
+
+    if document_id:
+        annots = crud.annot.get_by_d_type(db, document_id, type=type)
+        if annots:
+            if annots[0].fk_document != project_id:
+                annots = []
+
+    if not document_id:
+        # Get all pins / topics in the database
+        annots = crud.annot.get_all_by_type(db, type=type)
+
+        #LOG.info(annots)
+        # get all documents of a project
+        docs = crud.document.get_all_by_p_id(db, project_id)
+        doc_ids = [doc.id for doc in docs]
+        
+        # Make sure to only take pins / topics that are in the project
+        annots = [annot for annot in annots if check_doc_in_docs(doc_ids, annot.fk_document)]
+
+    return annots
 
 def transform_word_freqs(freq_list: List) -> WordFrequencies:
 
