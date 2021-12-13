@@ -1,9 +1,6 @@
 import Head from "next/head";
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { useRouter } from 'next/router';
-import {projectService} from "../../services";
-import styles from "../../styles/createProjectPage.module.scss"
-import UploadFileDropzone from "../../components/UploadDropzone/UploadFileDropzone";
 import AddEditProjectForm from "../../components/AddEditProjectForm/AddEditProjectFrom";
 
 const CreateProject = () => {

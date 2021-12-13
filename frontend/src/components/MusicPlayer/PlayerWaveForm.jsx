@@ -1,16 +1,16 @@
+import { faPause, faPlay, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRouter } from 'next/router';
 import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
-import RegionsPlugin from "wavesurfer.js/src/plugin/regions";
 import MarkersPlugin from "wavesurfer.js/src/plugin/markers";
+import RegionsPlugin from "wavesurfer.js/src/plugin/regions";
 import TimelinePlugin from "wavesurfer.js/src/plugin/timeline";
-import styles from "./waveform.module.scss";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPause, faPlay, faPlus} from "@fortawesome/free-solid-svg-icons";
+import { waveformAnnotationService } from "../../services/waveformAnnotation.service";
 import LoadingSpinnerOverlay from "../LoadingSpinner/LoadingSpinnerOverlay";
-import {waveformAnnotationService} from "../../services/waveformAnnotation.service";
-import RegionCreationForm from "./RegionCreationForm";
 import PinCreationForm from "./PinCreationForm";
-import { useRouter } from 'next/router'
+import RegionCreationForm from "./RegionCreationForm";
+import styles from "./Waveform.module.scss";
 
 
 const formWaveSurferOptions = (ref) => ({

@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./projectBar.module.scss";
+import styles from "./ProjectBar.module.scss";
 import Link from "next/link";
 
 const ProjectBar = ({project}) => {

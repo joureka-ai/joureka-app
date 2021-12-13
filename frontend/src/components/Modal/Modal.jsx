@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import styles from "../../styles/modal.module.scss";
+import styles from "./Modal.module.scss";
 
 const Modal = ({ show, onClose, onConfirm, children, title, onCloseButton, onConfirmButton }) => {
   const [isBrowser, setIsBrowser] = useState(false);
