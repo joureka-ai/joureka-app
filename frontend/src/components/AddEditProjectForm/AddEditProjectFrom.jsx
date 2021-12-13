@@ -39,7 +39,6 @@ const AddEditProjectForm = (props) => {
   };
 
   const submitUpdateForm = () => {
-    console.log(projectFormValues);
     projectService.updateProject(project.id, {
       name: projectFormValues.projectTitle,
       description: projectFormValues.projectDescription

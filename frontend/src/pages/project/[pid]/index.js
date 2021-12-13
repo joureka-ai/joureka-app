@@ -25,7 +25,6 @@ const Project = () => {
 
   const handleChange = (event) => {
     setCurrentSelection(event.target.value);
-    console.log(event.target.value)
     router.push(`/project/${event.target.value}`)
   };
 

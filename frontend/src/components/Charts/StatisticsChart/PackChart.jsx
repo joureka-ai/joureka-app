@@ -76,7 +76,7 @@ export default function PackChart({ width, height, data, polygonSides, polygonRo
             return (
                 <Group width={width} height={height}>
                   {circles.map((circle, i) => (
-                        <g><Polygon
+                        <g key={i}><Polygon
                         sides={polygonSides}
                         center={{x: circle.x, y: circle.y}}
                         size={circle.r}
@@ -90,7 +90,7 @@ export default function PackChart({ width, height, data, polygonSides, polygonRo
                         onMouseOut={hideTooltip}
                         onClick={() => {getCategoryItemDocuments(circle.data)}}
                         ></Polygon>
-                        {circle.r > 30 && <text x={circle.x} y={circle.y} text-anchor="middle" dy=".3em" font-size="14px">{circle.data.name}</text>}
+                        {circle.r > 30 && <text x={circle.x} y={circle.y} textAnchor="middle" dy=".3em" fontSize="14px">{circle.data.name}</text>}
                         </g>
                     ))}
                 {/*circles.map((circle, i) => (

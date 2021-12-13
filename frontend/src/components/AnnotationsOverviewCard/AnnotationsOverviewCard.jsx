@@ -24,7 +24,6 @@ const AnnotationsOverviewCard = () => {
       setRegions([...r]);
     });
     waveformAnnotationService.getPins(pid, rid).subscribe(p => {
-      console.log("SUBSCRIBE PINS")
       setPins([...p]);
     });
   }, []);

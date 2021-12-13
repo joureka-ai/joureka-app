@@ -106,7 +106,6 @@ const PlayerWaveForm = ({ url }) => {
     });
 
     wavesurfer.current.on("seek", () => {
-      console.log("seek");
       const currentTime = wavesurfer.current.getCurrentTime();
       setCurrentTime(currentTime);
     });
@@ -137,7 +136,6 @@ const PlayerWaveForm = ({ url }) => {
   }, []);
 
   useEffect(() => {
-    console.log('Do something after toggleRegionForm has changed', toggleRegionForm);
     if(toggleRegionForm) {
       wavesurfer.current.enableDragSelection({});
     } else {

@@ -117,7 +117,7 @@ const IntertopicDistanceMap = ({ width, height, setSelectedTopic }) => {
                 stroke="#1E8F9E"/>
             <Group left={margin.left}>
                 {data.map((point, i) => (
-                <g><Circle
+                <g key={i}><Circle
                     key={`point-${point.Topic}-${i}`}
                     className="dot"
                     cx={xScale(point.x)}
@@ -134,7 +134,7 @@ const IntertopicDistanceMap = ({ width, height, setSelectedTopic }) => {
                     }}
                     opacity={0.7}
                 />
-                <text x={xScale(point.x)} y={yScale(point.y)} text-anchor="middle" dy=".3em" font-size="14px">{point.Topic}</text>
+                <text x={xScale(point.x)} y={yScale(point.y)} textAnchor="middle" dy=".3em" fontSize="14px">{point.Topic}</text>
                 <defs>
                     <filter id="f2" x="0" y="0" width="200%" height="200%">
                     <feOffset result="offOut" in="SourceGraphic" dx="5" dy="5" />
@@ -144,7 +144,7 @@ const IntertopicDistanceMap = ({ width, height, setSelectedTopic }) => {
                 </defs>
                 <defs>
                     <filter id="shadow">
-                        <feDropShadow dx="0.2" dy="0.4" stdDeviation="0.2" flood-color="#1E8F9E"/>
+                        <feDropShadow dx="0.2" dy="0.4" stdDeviation="0.2" floodColor="#1E8F9E"/>
                     </filter>
                 </defs>
                 </g>))}
@@ -158,7 +158,7 @@ const IntertopicDistanceMap = ({ width, height, setSelectedTopic }) => {
             style={tooltipStyles}
             >
             <div><strong>{tooltipData.Topic}</strong> (Size: {tooltipData.Size})</div>
-            <div className="py-2 lh-base">{tooltipData.Words.map((w) => <span> {w} |</span>)}</div>
+            <div className="py-2 lh-base">{tooltipData.Words.map((w, i) => <span key={i}> {w} |</span>)}</div>
             <div className="lh-base"><i>Klicken Sie auf den Kreis, um mehr über das Thema zu erfahren!</i></div>
             </Tooltip>
         )}

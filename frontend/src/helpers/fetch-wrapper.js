@@ -66,8 +66,6 @@ function authHeader(url) {
 }
 
 function handleResponse(response) {
-  console.log(response)
-
     if (response.status != 200) {
       if ([401, 403].includes(response.status) && userService.userValue) {
         // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
