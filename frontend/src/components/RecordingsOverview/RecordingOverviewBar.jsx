@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import Link from "next/link";
-import styles from "./recordingOverviewBar.module.scss";
+import styles from "./RecordingOverviewBar.module.scss";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import { projectService } from "../../services/project.service";

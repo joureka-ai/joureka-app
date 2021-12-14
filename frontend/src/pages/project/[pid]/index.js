@@ -14,11 +14,20 @@ const Project = () => {
   const router = useRouter();
   const { pid } = router.query;
   const [project, setProject] = useState(null);
-  const {projectDescription} = styles;
+  const {projectDescription, projectSelection} = styles;
+  const [currentSelection, setCurrentSelection] = useState("test");
+  const [options, setOptions] = useState([])
 
   useEffect(() => {
    if(pid) projectService.getProject(pid).then(pro => setProject(pro));
+   projectService.getAllProjects().then(projects => setOptions(projects));
   }, []);
+
+  const handleChange = (event) => {
+    setCurrentSelection(event.target.value);
+    router.push(`/project/${event.target.value}`)
+  };
+
 
   return (
     <React.Fragment>
@@ -30,8 +39,14 @@ const Project = () => {
           <Nav/>
         </div>
         {project && <div className="projectPageContainer ms-2 ms-md-3">
-         <div className="d-flex justify-content-start align-items-center flex-row mb-4">
-           <h3>{project.name}</h3>
+         <div className="d-flex justify-content-start align-items-center flex-row mb-4 mr-5">
+           <select className={projectSelection} onChange={handleChange} value={project.id}>
+            {options.map(item => (
+              <option key={item.name} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+           </select>
            <button onClick={() => router.push(`/project/${pid}/update`)} className="icon-button-transparent icon-orange mx-2">
              <FontAwesomeIcon icon={faEdit} />
            </button>

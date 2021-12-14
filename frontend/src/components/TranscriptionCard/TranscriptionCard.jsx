@@ -1,7 +1,7 @@
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faPrint, faEdit } from "@fortawesome/free-solid-svg-icons";
 import React, {useState, useEffect} from "react";
-import styles from "../../styles/transcription.module.scss";
+import styles from "./Transcription.module.scss";
 import ReactToPrint from 'react-to-print';
 import SearchBar from "../../components/SearchBar/SearchBar";
 import { useRouter } from 'next/router'

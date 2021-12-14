@@ -39,7 +39,6 @@ function UploadFileDropzone(props) {
     let filesUploaded = 0;
     let createdDoc;
     files.forEach(file => {
-      console.log(file);
       setSavingFiles(true);
 
       let fileData = {
@@ -58,7 +57,6 @@ function UploadFileDropzone(props) {
             setSavingFiles(false);
           }
         }).catch(error => {
-          console.log(error)
           setSavingFiles(false);
           setUploadError(true);
           /*projectService.deleteDocument(createdDoc.id).then(() => {

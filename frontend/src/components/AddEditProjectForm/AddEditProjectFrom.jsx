@@ -2,7 +2,6 @@ import Head from "next/head";
 import React, {useEffect, useState} from "react";
 import { useRouter } from 'next/router';
 import {projectService} from "../../services";
-import styles from "../../styles/createProjectPage.module.scss"
 import UploadFileDropzone from "../../components/UploadDropzone/UploadFileDropzone";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -39,7 +38,6 @@ const AddEditProjectForm = (props) => {
   };
 
   const submitUpdateForm = () => {
-    console.log(projectFormValues);
     projectService.updateProject(project.id, {
       name: projectFormValues.projectTitle,
       description: projectFormValues.projectDescription
@@ -111,7 +109,7 @@ const AddEditProjectForm = (props) => {
       <Head>
         <title>Projekt erstellen</title>
       </Head>
-      <div className={`${styles.fadeInEffect} main-container d-flex flex-column`}>
+      <div className="fadeInEffect main-container d-flex flex-column">
         <div className="stepper">
           <div className={`${currentStep === 1 ? "active" : ""} step`}><span>1</span></div>
           <hr size="3"/>
@@ -170,7 +168,7 @@ const AddEditProjectForm = (props) => {
             </div>
           </div>
         </div>}
-        {currentStep === 2 && <div className={`${styles.fadeInEffect} custom-card`}>
+        {currentStep === 2 && <div className="fadeInEffect custom-card">
           <div className="custom-card-header">
             <div className="custom-card-title text-uppercase">Dateien hochladen</div>
             <div className="pt-2">Laden Sie Audiodateien in Ihr Projekt hoch. Dies kann auch zu einem späteren Zeitpunkt erfolgen.</div>

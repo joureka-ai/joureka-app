@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {waveformAnnotationService} from "../../services/waveformAnnotation.service";
 import {v4 as uuidv4} from "uuid";
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import AutoSuggestInput from "../AutosuggestInput/AutosuggestInput";
+
+const pins = ['Pin 1', 'Pin 2', 'Pause', 'test'];
 
 const PinCreationForm = ({currentTime, onCancel}) => {
   const router = useRouter();
   const { pid, rid } = router.query;
-  const [pinFormValues, setPinFormValues] = useState({
-    pinLabel: "",
-    pinDescription: ""
-  });
+  const [pinLabel, setPinLabel] = useState("")
   const [pinTime, setPinTime] = useState({});
   const [pinFormErrors, setPinFormErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -20,14 +20,11 @@ const PinCreationForm = ({currentTime, onCancel}) => {
       start: currentTime,
       end: currentTime,
       data: {
-        label: pinFormValues.pinLabel
+        label: pinLabel
       }
     }
     waveformAnnotationService.addPin(pid, rid, p)
-    setPinFormValues({
-      pinLabel: "",
-      pinDescription: ""
-    });
+    setPinLabel("")
     onCancel();
     window.scroll({
       top: 0,
@@ -35,20 +32,15 @@ const PinCreationForm = ({currentTime, onCancel}) => {
     });
   };
 
-  const handleChange = (e) => {
-    const {name, value} = e.target;
-    setPinFormValues({...pinFormValues, [name]: value});
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    setPinFormErrors(validate(pinFormValues));
+    setPinFormErrors(validate(pinLabel));
     setIsSubmitting(true);
   };
 
-  const validate = (values) => {
+  const validate = (label) => {
     let errors = {};
-    if (!values.pinLabel) {
+    if (!label) {
       errors.pinLabel = "Titel darf nicht leer sein!";
     }
     return errors;
@@ -82,12 +74,11 @@ const PinCreationForm = ({currentTime, onCancel}) => {
       <form onSubmit={e => { e.preventDefault(); }} role="form" name="add-pin-form" className="py-3">
         <div className="form-group full-width">
           <label htmlFor="time">Zeitpunkt</label>
-          <input value={pinTime} className="form-control custom-input custom-input-orange full-width" type="text" id="time" name="time" readOnly/>
+          <input value={pinTime} className="form-control custom-input custom-input-blue full-width" type="text" id="time" name="time" readOnly/>
         </div>
         <div className="form-group">
           <label htmlFor="pinLabel">Titel</label>
-          <input value={pinFormValues.pinLabel} onChange={handleChange} type="text" id="pinLabel"
-                 className="form-control custom-input custom-input-orange" name="pinLabel"/>
+          <AutoSuggestInput suggestionsList={pins} value={pinLabel} setValue={setPinLabel}></AutoSuggestInput>
           {pinFormErrors.pinLabel && (
             <span className="input-error">{pinFormErrors.pinLabel}</span>
           )}

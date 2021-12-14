@@ -22,7 +22,7 @@ const Nav = () => {
 
   return (
     <nav className={navContainer}>
-      <div className={listItemContainer} id="listItemContainer">
+      {/*<div className={listItemContainer} id="listItemContainer">
         {projects && projects.map(project => (
           <Link href={`/project/${project.id}`} key={`linkItem_${project.id}`}>
               <div id={`linkItem_${project.id}`} className={`${linkItem} ${pid == project.id ? linkItemActive : ""}`}>
@@ -30,7 +30,7 @@ const Nav = () => {
               </div>
           </Link>
         ))}
-      </div>
+        </div>
       <div className={buttonContainer}>
         <button onClick={() => router.push({pathname: `/project/${pid}/update`, query: {step: 2}})} className="custom-button custom-button-sm custom-button-blue">
           Aufnahme hinzufügen
@@ -38,7 +38,7 @@ const Nav = () => {
         <button onClick={() => router.push("/project/create")} className="custom-button custom-button-sm custom-button-orange">
           Neues Projekt
         </button>
-      </div>
+      </div>*/}
     </nav>
   );
 };

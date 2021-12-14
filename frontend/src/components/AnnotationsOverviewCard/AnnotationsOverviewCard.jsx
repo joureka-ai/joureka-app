@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {waveformAnnotationService} from "../../services/waveformAnnotation.service";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faThumbtack, faTimes} from "@fortawesome/free-solid-svg-icons";
-import styles from "./annotationsOverviewCard.module.scss"
+import styles from "./AnnotationsOverviewCard.module.scss"
 import Modal from "../Modal/Modal";
 import { useRouter } from 'next/router'
 
@@ -24,7 +24,6 @@ const AnnotationsOverviewCard = () => {
       setRegions([...r]);
     });
     waveformAnnotationService.getPins(pid, rid).subscribe(p => {
-      console.log("SUBSCRIBE PINS")
       setPins([...p]);
     });
   }, []);

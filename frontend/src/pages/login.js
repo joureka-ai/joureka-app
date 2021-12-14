@@ -1,6 +1,5 @@
 import styles from "../styles/login.module.scss"
 import React from "react";
-//import Logo from "../../public/logo.png"
 import Image from "next/image";
 import { userService } from "../services";
 import { useRouter } from "next/router";

@@ -1,7 +1,7 @@
 import React from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSearch} from "@fortawesome/free-solid-svg-icons";
-import styles from "./searchBar.module.scss"
+import styles from "./SearchBar.module.scss"
 
 const SearchBar = ({ searchQuery, setSearchQuery, placeholder }) => {
   const {searchBar} = styles;

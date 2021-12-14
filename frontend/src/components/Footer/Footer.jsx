@@ -39,8 +39,8 @@ const Footer = () => {
             <div className="pt-2" key={index}>
               <h4 className="text-uppercase">{(index+1) + ". " + category.category_name}</h4>
               <p>{ReactHtmlParser(category.category_description)}</p>
-              {category.subcategories && category.subcategories.map(subcategory => (
-                <div className="pb-2">
+              {category.subcategories && category.subcategories.map((subcategory, i) => (
+                <div key={i} className="pb-2">
                   <h5>{subcategory.subcategory_name}</h5>
                   <p>{ReactHtmlParser(subcategory.subcategory_description)}</p>
                 </div>

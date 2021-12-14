@@ -26,7 +26,7 @@
 
       &:focus {
         box-shadow: 0 0 0 0.25rem rgb(235 143 73 / 25%);
-        boder: none;
+        border: none;
       }
 
       &[readonly] {
@@ -66,4 +66,84 @@
     color: $Orange;
   }
 
+}
+
+ .react-autosuggest__container {
+  padding: 0;
+
+  label {
+    padding: 4px 0;
+  }
+
+  .react-autosuggest__input {
+    width: 100%;
+    display: block;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: $Black;
+    background-clip: padding-box;
+    border: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 0.25rem;
+    background-color: $Light_Blue;
+
+  
+      &:focus {
+        box-shadow: 0 0 0 0.25rem rgb(235 143 73 / 25%);
+        border: none;
+        outline: none;
+        background-color: $White;
+      }
+
+      &[readonly] {
+        background: $Light-Blue;
+        opacity: 0.6;
+
+        &:focus {
+          box-shadow: none;
+          border: none;
+        }
+      }
+  }
+
+  .react-autosuggest__suggestions-container {
+    color: $White;
+    background-color: $Blue;
+    position: absolute;
+    z-index: 10;
+    width: 30%;
+    border-radius: $border-radius-small;
+
+    .react-autosuggest__suggestions-list {
+      list-style-type: none;
+      padding: 0.5rem 1rem;
+      margin: 0;
+      max-height: 200px;
+      overflow-y: scroll;
+
+      &::before {
+        content: "Bereits erstellte Themengebiete:";
+        display: inline-block;
+       
+        vertical-align: bottom;
+        width: 100%;
+        margin-right: -100%;
+        border-bottom: 1px solid $White;
+      }
+
+      .react-autosuggest__suggestion {
+        padding: 0.5rem 1rem;
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+         -khtml-user-select: none; /* Konqueror HTML */
+           -moz-user-select: none; /* Old versions of Firefox */
+            -ms-user-select: none; /* Internet Explorer/Edge */
+                user-select: none; 
+      }
+    }
+  }
 }

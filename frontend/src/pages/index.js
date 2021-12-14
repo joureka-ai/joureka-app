@@ -36,7 +36,7 @@ const Home = () => {
                      setSearchQuery={setSearchQuery}
                      placeholder={"Projekte durchsuchen"}/>
         </div>
-        <button className="border-button" onClick={() => router.push("/project/create")}><FontAwesomeIcon icon={faPlus} /><span className="px-3">neues Projekt erstellen</span></button>
+        <button className="border-button border-button-orange" onClick={() => router.push("/project/create")}><FontAwesomeIcon icon={faPlus} /><span className="px-3">neues Projekt erstellen</span></button>
         {pageProjects && pageProjects.map(project => (
           <ProjectBar project={project} key={project.id}/>
         ))}
