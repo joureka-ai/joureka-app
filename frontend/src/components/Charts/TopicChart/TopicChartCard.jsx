@@ -24,7 +24,7 @@ const TopicChartCard = () => {
   const [activeChart, setActiveChart] = useState(1)
 
   return (
-    <div className="custom-card">
+    <div className="custom-card full-width">
         <div className="custom-card-header">
           <div className="custom-card-title">
             <span>Automatisch erkannte Themengebiete</span>

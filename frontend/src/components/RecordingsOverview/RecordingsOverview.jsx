@@ -45,7 +45,7 @@ const RecordingsOverview = () => {
       ))}
       {recordings && recordings.length === 0 &&
       <div className="d-flex justify-content-center align-items-center vh-80 flex-column">
-        <h5>Sie haben kein Aufnahmen hochgeladen!</h5>
+        <h5 className="text-center">Sie haben kein Aufnahmen hochgeladen!</h5>
       </div>
       }
       {recordings && <div

@@ -104,7 +104,7 @@ function UploadFileDropzone(props) {
         <button disabled={files?.length === 0} onClick={saveFiles} id="submit-dropzone-btn" className="full-width custom-button custom-button-sm custom-button-orange">
           Dateien hochladen
         </button>
-        {uploadedDocuments.length === 0 && <button onClick={() => router.push(`/project/${currentProject.id}`)} className=" full-width custom-button custom-button-sm custom-button-transparent">Dateien Später hochladen</button>}
+        {uploadedDocuments.length === 0 && <button onClick={() => { localStorage.removeItem('created-project'); router.push(`/project/${currentProject.id}`)}} className=" full-width custom-button custom-button-sm custom-button-transparent">Dateien Später hochladen</button>}
       </div>
       {uploadError && <div>Datei konnte nich hochgeladet werden!</div>}
       {uploadedDocuments.length !== 0 &&
@@ -123,7 +123,9 @@ function UploadFileDropzone(props) {
       </div>
       }
       {uploadedDocuments.length !== 0 && <div className="d-flex flex-column flex-md-row justify-content-end align-items-end pt-3">
-        <button onClick={() => router.push(`/project/${currentProject.id}`)} className="custom-button custom-button-sm custom-button-blue">Bearbeitung beenden</button>
+        <button onClick={() => { 
+          localStorage.removeItem('created-project'); 
+          router.push(`/project/${currentProject.id}`)}} className="custom-button custom-button-sm custom-button-blue">Bearbeitung beenden</button>
       </div>}
       <Modal
         title={"Audiodatei löschen"}

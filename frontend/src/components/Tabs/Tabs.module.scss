@@ -9,7 +9,7 @@
     border: none;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
 
     .tab {
       padding: 1em;
@@ -17,6 +17,10 @@
       width: 100%;
       text-align: center;
       font-weight: $font-general-weight-semibold;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      
       &:nth-of-type(1)
       {
         border-radius: $border-radius-default 0  0 0;

@@ -66,23 +66,23 @@ const StatisticsChartCard = () => {
             <span>Durchschnittliche Wörteranzahl der Aufnahmen:</span>
             <span className="fw-bolder">2500 Wörter</span>
           </div>
-          <div className="d-flex flex-row justify-content-center pt-4 pb-1">
-            <button className={`${showPlacesChart ? "active": ""} custom-button custom-button-blue mx-1`} onClick={() => {hideAllCharts(); setShowPlacesChart(!showPlacesChart)}}>
+          <div className="d-flex flex-column flex-lg-row justify-content-center pt-4 pb-1">
+            <button className={`${showPlacesChart ? "active": ""} custom-button custom-button-blue mx-1 my-1`} onClick={() => {hideAllCharts(); setShowPlacesChart(!showPlacesChart)}}>
               <FontAwesomeIcon icon={faMapMarkedAlt}/>
               <span className="px-1">Orte:</span>
               <span>{placesData.length}</span>
             </button>
-            <button className={`${showPeopleChart ? "active": ""} custom-button custom-button-blue mx-1`} onClick={() => {hideAllCharts(); setShowPeopleChart(!showPeopleChart)}}>
+            <button className={`${showPeopleChart ? "active": ""} custom-button custom-button-blue mx-1 my-1`} onClick={() => {hideAllCharts(); setShowPeopleChart(!showPeopleChart)}}>
               <FontAwesomeIcon icon={faUsers}/> 
               <span className="px-1">Personen:</span>
               <span>{peopleData.length}</span>
             </button>
-            <button className={`${showOrganisationsChart ? "active": ""} custom-button custom-button-blue mx-1`} onClick={() => {hideAllCharts(); setShowOrganisationsChart(!showOrganisationsChart)}}>
+            <button className={`${showOrganisationsChart ? "active": ""} custom-button custom-button-blue mx-1 my-1`} onClick={() => {hideAllCharts(); setShowOrganisationsChart(!showOrganisationsChart)}}>
               <FontAwesomeIcon icon={faBuilding}/>
               <span className="px-1">Organisationen:</span>
               <span>{orgData.length}</span>
             </button>
-            <button className={`${showDatesChart ? "active": ""} custom-button custom-button-blue mx-1`} onClick={() => {hideAllCharts(); setShowDatesChart(!showDatesChart)}}>
+            <button className={`${showDatesChart ? "active": ""} custom-button custom-button-blue mx-1 my-1`} onClick={() => {hideAllCharts(); setShowDatesChart(!showDatesChart)}}>
               <FontAwesomeIcon icon={faCalendar}/>
               <span className="px-1">Daten:</span>
               <span>{datesData.length}</span>
