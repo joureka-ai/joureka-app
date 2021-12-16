@@ -1,5 +1,6 @@
 import styles from "../styles/login.module.scss"
 import React, {useEffect, useState} from "react";
+import Head from "next/head";
 import { userService } from "../services";
 import { useRouter } from "next/router";
 
@@ -57,7 +58,10 @@ const LogIn = () => {
   }
 
   return (
-    <div>
+    <React.Fragment>
+      <Head>
+        <title>joureka - Login</title>
+      </Head>      
       <div className={`${styles.split} ${styles.left}`}>
         <div className='d-flex justify-content-center align-items-center flex-column flex-md-row'>
           <div className='mb-3'>
@@ -103,7 +107,7 @@ const LogIn = () => {
           </div>
         </div>
       </div>
-    </div>
+    </React.Fragment>
   )
 };
 export default LogIn;

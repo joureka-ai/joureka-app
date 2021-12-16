@@ -12,7 +12,7 @@ function UploadFileDropzone(props) {
   const [uploadedDocuments, setUploadedDocuments] = useState([]);
   const [files, setFiles] = useState([]);
   const [savingFiles, setSavingFiles] = useState(false);
-  const [currentProject, setCurrentProject] = useState(JSON.parse(localStorage.getItem('created-project')));
+  const [currentProject, setCurrentProject] = useState(JSON.parse(sessionStorage.getItem('created-project')));
   const [showingDocumentDeleteModal, setShowingDocumentDeleteModal] = useState(false);
   const [toBeRemovedDocument, setToBeRemovedDocument] = useState(null);
   const [uploadError, setUploadError] = useState(false);
@@ -104,7 +104,7 @@ function UploadFileDropzone(props) {
         <button disabled={files?.length === 0} onClick={saveFiles} id="submit-dropzone-btn" className="full-width custom-button custom-button-sm custom-button-orange">
           Dateien hochladen
         </button>
-        {uploadedDocuments.length === 0 && <button onClick={() => { localStorage.removeItem('created-project'); router.push(`/project/${currentProject.id}`)}} className=" full-width custom-button custom-button-sm custom-button-transparent">Dateien Später hochladen</button>}
+        {uploadedDocuments.length === 0 && <button onClick={() => { sessionStorage.removeItem('created-project'); router.push(`/project/${currentProject.id}`)}} className=" full-width custom-button custom-button-sm custom-button-transparent">Dateien Später hochladen</button>}
       </div>
       {uploadError && <div>Datei konnte nich hochgeladet werden!</div>}
       {uploadedDocuments.length !== 0 &&
@@ -124,7 +124,7 @@ function UploadFileDropzone(props) {
       }
       {uploadedDocuments.length !== 0 && <div className="d-flex flex-column flex-md-row justify-content-end align-items-end pt-3">
         <button onClick={() => { 
-          localStorage.removeItem('created-project'); 
+          sessionStorage.removeItem('created-project'); 
           router.push(`/project/${currentProject.id}`)}} className="custom-button custom-button-sm custom-button-blue">Bearbeitung beenden</button>
       </div>}
       <Modal

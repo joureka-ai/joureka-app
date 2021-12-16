@@ -11,19 +11,9 @@ const MobileOverlay = ({show}) => {
     setIsBrowser(true);
   }, []);
 
-  const handleCloseClick = (e) => {
-    e.preventDefault();
-    onClose();
-  };
-
-  const handleConfirmClick = (e) => {
-    e.preventDefault();
-    onConfirm();
-  }
-
   const mobileOverlayContent = show ? (
     <div className={styles.mobileOverlay}>
-        <div class="alert alert-primary d-flex flex-row justify-content-center align-items-center vw-80" role="alert">
+        <div className="alert alert-primary d-flex flex-row justify-content-center align-items-center vw-80" role="alert">
             <FontAwesomeIcon size="2x" icon={faRedo}></FontAwesomeIcon>
             <div className="mx-2">Schalten Sie das Telefon  in den Querformatmodus für ein besseres Erlebnis!</div>
         </div>

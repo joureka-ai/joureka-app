@@ -30,7 +30,7 @@ const AddEditProjectForm = (props) => {
       name: projectFormValues.projectTitle,
       description: projectFormValues.projectDescription
     }).then((createdProject) => {
-      localStorage.setItem('created-project', JSON.stringify(createdProject));
+      sessionStorage.setItem('created-project', JSON.stringify(createdProject));
       setCurrentStep(2);
     }).catch(error => {
       setProjectFormErrors({projectTitle: "Ein gleichnamiges Projekt existiert bereits! Versuchen Sie es mit einem anderen Titel."})
@@ -42,7 +42,7 @@ const AddEditProjectForm = (props) => {
       name: projectFormValues.projectTitle,
       description: projectFormValues.projectDescription
     }).then((updatedProject) => {
-      localStorage.setItem('created-project', JSON.stringify(updatedProject));
+      sessionStorage.setItem('created-project', JSON.stringify(updatedProject));
       setCurrentStep(2);
     });
   };
@@ -97,7 +97,7 @@ const AddEditProjectForm = (props) => {
       setCurrentStep(1);
     }
     if (project) {
-      localStorage.setItem('created-project', JSON.stringify(project));
+      sessionStorage.setItem('created-project', JSON.stringify(project));
       projectService.getAllDocuments(project.id).then(docs => {
         setProjectDocuments(docs);
       })

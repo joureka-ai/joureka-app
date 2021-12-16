@@ -32,7 +32,7 @@ const Project = () => {
   return (
     <React.Fragment>
       <Head>
-        <title>Projektübersicht</title>
+        <title>joureka - Projektübersicht</title>
       </Head>
       <div className="d-flex flex-row">
         <div className="sideNavContainer">

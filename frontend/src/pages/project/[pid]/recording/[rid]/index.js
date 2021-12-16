@@ -29,14 +29,14 @@ const Recording = () => {
   return (
     <React.Fragment>
       <Head>
-        <title>Aufnahmeansicht</title>
+        <title>joureka - Aufnahmeansicht</title>
       </Head>
       <div className="d-flex flex-row">
         <div className="sideNavContainer">
           <Nav/>
         </div>
         {recording && <div className="testSideNav">
-          <div className="projectName mx-0 mx-md-1 mx-lg-2 mx-xl-5" onClick={() => router.push(`/project/${pid}`)}> 
+          <div className="projectName mx-0 mx-md-1 mx-lg-2 mx-xl-3 mx-xxl-5" onClick={() => router.push(`/project/${pid}`)}> 
             <button className="icon-button-transparent mb-4">
               <FontAwesomeIcon size="lg" icon={faChevronLeft} />
             </button>

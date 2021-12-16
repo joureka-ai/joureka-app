@@ -23,7 +23,7 @@ const UpdateProject = () => {
   return (
     <React.Fragment>
       <Head>
-        <title>Projekt bearbeiten</title>
+        <title>joureka - Projekt bearbeiten</title>
       </Head>
       {project && <AddEditProjectForm project={project} currentStep={step}/>}
     </React.Fragment>
