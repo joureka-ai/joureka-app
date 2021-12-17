@@ -6,8 +6,11 @@ from sqlalchemy.orm import Session
 from app import models, crud, schemas
 from app.api import deps
 from jouresearch_nlp.wordcloud.frequency import calculate_freq_over_docs
-from .helper import check_doc_in_docs, calcuate_frequencies, transform_word_freqs, gather_annots_by_type
+from jouresearch_nlp.topicmodelling.representation import generate_topics
+from jouresearch_nlp.topicmodelling.load import load_model, check_modelpath
+from .helper import calcuate_frequencies, transform_word_freqs, gather_annots_by_type
 import logging
+from app.core.config import settings
 
 router = APIRouter()
 
@@ -90,3 +93,51 @@ def get_topic_frequencies(
         )
 
     return calcuate_frequencies(topics)
+
+
+@router.get('/{project_id}/topicmodel/')
+def get_modelled_topics(
+    project_id: int,
+    top_n_words: Optional[int] = 3,
+    current_user: models.User = Depends(deps.get_current_active_user),
+    db: Session = Depends(deps.get_db)
+    ) -> schemas.Topics:
+    """
+    Generate topics for a project via unsupervised Topic Modeling. 
+    The parameter top_n_words defines with how many words a topic should be described.
+    - Args: Project ID and top_n_words
+    - Returns: The Topics described by X, Y, size and words.
+    """
+
+    documents = crud.document.get_all_by_p_id(db, project_id)
+
+    if not documents:
+        raise HTTPException(
+            status_code=404, detail="There are no documents existing for this project."
+        )
+
+    docs = []
+    for document in documents:
+        if document.fulltext:
+            doc = document.fulltext
+            docs.append(doc)
+        
+    numd = len(docs)
+
+    LOG.info(f"There are with {numd} documents too few documents for unsupervised Topic Modeling!")
+    LOG.info(f"To overcome this limitation, the existing documents will be artificially increased by copying.")
+    art_increased = "N"
+    if numd < 100:
+        while numd < 100:
+            docs.extend(docs)
+            numd = len(docs)
+        art_increased = "Y"
+    
+    # construct unique model name wrt to project_id and numbers of documents
+    model_name = f"bertopic_pid{project_id}_numd{numd}_tnw{top_n_words}_enh{art_increased}"
+    model_path = f"{settings.NLP_MODEL_DIR}topicmodel/{model_name}"
+    
+    return  generate_topics(docs, top_n_words=top_n_words, 
+                        mode="quality",
+                        model_in_path=model_path,
+                        model_out_path=model_path)
