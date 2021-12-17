@@ -24,6 +24,7 @@ RUN bash -c "if [ $INSTALL_JUPYTER == 'true' ] ; then pip install jupyterlab ; f
 
 # Install german de_core_new_sm pipeline
 RUN python -m spacy download de_core_news_sm
+RUN python -c 'from sentence_transformers import SentenceTransformer; SentenceTransformer("all-MiniLM-L6-v2")'
 
 COPY ./app /app
 ENV PYTHONPATH=/app
