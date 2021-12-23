@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from app import crud
 from app.models.annot import Annot
 from app.schemas import AnnotFrequencies, AnnotFreq, WordFrequencies, WordFreq
+from app.schemas import Document
 
 def check_doc_in_docs(doc_ids: List[int], annot_doc_id: int) -> bool:
     #LOG.info(annot_doc_id)
@@ -73,3 +74,27 @@ def transform_word_freqs(freq_list: List) -> WordFrequencies:
         word_freqs.append(word_freq)
 
     return WordFrequencies(words=word_freqs)
+
+def gather_fulltext_for_tm(documents: List[Document]):
+    """ Gather the fulltext from documents, calculate the number of documents and provide a flag if the 
+    number of documents was artificially increased or not.
+    """
+
+    docs = []
+    for document in documents:
+        if document.fulltext:
+            doc = document.fulltext
+            docs.append(doc)
+        
+    numd = len(docs)
+
+    # Flag for artifically increased
+    artif_increased = "N"
+    if numd < 100:
+        # If there are less than 100 documents duplicate the documents.
+        while numd < 100:
+            docs.extend(docs)
+            numd = len(docs)
+        artif_increased = "Y"
+    
+    return docs, numd, artif_increased

@@ -24,6 +24,7 @@ class TWord(BaseModel):
     frequency: float
 
 class Topic(BaseModel):
+    id: int
     x: int
     y: int
     label: str
@@ -36,7 +37,12 @@ class Topics(BaseModel):
     class Config:
         arbitrary_types_allowed = True
 
-class TopicModelCreate(Topic):
+class TopicModelCreate(BaseModel):
+    x: int
+    y: int
+    label: str
+    words: List[TWord]
+    size: int
     fk_project: Optional[int]
     model_name: Optional[str]
 
