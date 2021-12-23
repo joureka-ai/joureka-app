@@ -13,3 +13,5 @@ from .annot import Annot
 from .transcript import Transcription
 from .engines import Engines
 from .language import Language
+from .topic_model import TopicModel
+from .topic_word import TopicWord
