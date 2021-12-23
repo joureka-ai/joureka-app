@@ -125,7 +125,8 @@ def generate_modelled_topics(
     if not topic_models:
 
         if artif_increased == "Y":
-            LOG.info(f"There are with {numd} documents too few documents for unsupervised Topic Modeling!")
+            len_docs = len(documents)
+            LOG.info(f"There are with {len_docs} documents too few documents for unsupervised Topic Modeling!")
             LOG.info(f"To overcome this limitation, the existing documents are artificially increased by copying.")
 
         LOG.info(f"There are no topic models for the project id {project_id} and the model_name \"{model_name}\" !")
@@ -148,24 +149,24 @@ def generate_modelled_topics(
 
             #LOG.info(topic_model.dict())
             crud.topic_model.create(db=db, obj_in=topic_model)
-
+            
         LOG.info("Created Topic Models are now stored.")
 
+        topic_models = crud.topic_model.get_all_by_mn(db, project_id, model_name)
 
-    if isinstance(topic_models[0], models.TopicModel):
-        # Take care of parsing the data from SQLAlchemy to pydantic model
-        tmp_tm = []
-        for topic in topic_models:
-            tmp_tm.append(schemas.Topic(
-                id=topic.id,
-                x=topic.x,
-                y=topic.y,
-                label=topic.label,
-                words= [schemas.TWord(word=w.word, frequency=w.frequency) for w in topic.words],
-                size=topic.size
-                ))
+    # Take care of parsing the data from SQLAlchemy to pydantic model
+    tmp_tm = []
+    for topic in topic_models:
+        tmp_tm.append(schemas.Topic(
+            id=topic.id,
+            x=topic.x,
+            y=topic.y,
+            label=topic.label,
+            words= [schemas.TWord(word=w.word, frequency=w.frequency) for w in topic.words],
+            size=topic.size
+            ))
 
-        topic_models = tmp_tm
+    topic_models = tmp_tm
 
     return topic_models
 
