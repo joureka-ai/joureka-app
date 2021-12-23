@@ -19,15 +19,16 @@ class WordFreq(BaseModel):
 class WordFrequencies(BaseModel):
     words: List[WordFreq]
 
-class Word(BaseModel):
+class TWord(BaseModel):
     word: str
-    freq: float
+    frequency: float
 
 class Topic(BaseModel):
+    id: int
     x: int
     y: int
     label: str
-    words: List[Word]
+    words: List[TWord]
     size: int
 
 class Topics(BaseModel):
@@ -35,3 +36,15 @@ class Topics(BaseModel):
 
     class Config:
         arbitrary_types_allowed = True
+
+class TopicModelCreate(BaseModel):
+    x: int
+    y: int
+    label: str
+    words: List[TWord]
+    size: int
+    fk_project: Optional[int]
+    model_name: Optional[str]
+
+class TopicModelUpdate(BaseModel):
+    label: str

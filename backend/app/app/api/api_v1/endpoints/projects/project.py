@@ -92,7 +92,7 @@ def delete_project(
     current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> Any:
     """
-    Get a specific project by id.
+    Delete a specific project by id.
     """
     try:
         crud.project.remove(db, id=project_id)

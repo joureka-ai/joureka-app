@@ -7,4 +7,14 @@ from .worker import TaskResult
 from .annot import Annot, AnnotCreate, AnnotUpdate, AnnotPin, AnnotTopicIn, AnnotTopicOut, TopicData, AnnotUpdatePinTop
 from .transcription import TranscriptionResults, Results, Item, Alternative, Transcript
 from .word import Words, Word, EditedWordMeta, EditedWordsIn
-from .visuals import WordFrequencies, AnnotFrequencies, WordFreq, AnnotFreq, Topics
+from .visuals import (
+    WordFrequencies, 
+    AnnotFrequencies, 
+    WordFreq, 
+    AnnotFreq,
+    Topics,
+    Topic,
+    TWord,
+    TopicModelUpdate,
+    TopicModelCreate
+)
