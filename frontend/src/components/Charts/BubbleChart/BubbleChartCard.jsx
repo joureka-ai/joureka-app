@@ -12,14 +12,16 @@ const BubbleChartCard = () => {
   const router = useRouter();
   const { pid } = router.query;
   const [selectedAnnotation, setSelectedAnnotation] = useState({});
-  const [pins, setPins] = useState(null);
-  const [topics, setTopics] = useState(null);
+  const [pins, setPins] = useState([]);
+  const [topics, setTopics] = useState([]);
+  const [loadingData, setLoadingData] = useState(true)
 
   useEffect(() => {
     chartsDataService.getPinPlotData(pid).then((p) => {
       setPins(p.annots)
       chartsDataService.getTopicPlotData(pid).then((t) => {
         setTopics(t.annots)
+        setLoadingData(false)
       });
     });
     /*chartsDataService.getTopicPlotData(pid).then((t) => {
@@ -40,9 +42,17 @@ const BubbleChartCard = () => {
               </div>
           </div>
         </div>
-        <div className="custom-card-body">
-          {!pins && !topics && <LoadingSpinner text={"Grafik wird erstellt."}/>}
-          {pins && topics && <ParentSize>{({ width, height }) => <BubbleChart width={width} height={height} pins={pins} topics={topics} setSelectedAnnotation={setSelectedAnnotation}/>}</ParentSize>}
+        <div className="custom-card-body d-flex justify-content-center">
+          {loadingData && <LoadingSpinner text={"Grafik wird erstellt."}/>}
+          {!loadingData && pins && topics && <ParentSize>{({ width, height }) => <BubbleChart width={width} height={height} pins={pins} topics={topics} setSelectedAnnotation={setSelectedAnnotation}/>}</ParentSize>}
+          {!loadingData && !pins && !topics &&  <div className="alert alert-danger d-flex align-items-center" role="alert">
+            <FontAwesomeIcon icon={faInfoCircle} />
+            <div className="px-3">
+              <small>
+              Es wurden noch keine Pins und Themengebiete in der Aufnahmen annotiert.
+              </small>
+            </div>
+          </div>}
         </div>
         {selectedAnnotation.documents && <div>
           <div className="pb-3 d-flex justify-content-between">
@@ -63,6 +73,9 @@ const BubbleChartCard = () => {
         <style jsx>{`
             .custom-card-body {
               height: 350px;
+            }
+            .custom-card-body-no-content {
+              height: 200px;
             }
         `}</style>
     </div>
