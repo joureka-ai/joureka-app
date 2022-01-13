@@ -16,5 +16,7 @@ from .visuals import (
     Topic,
     TWord,
     TopicModelUpdate,
-    TopicModelCreate
+    TopicModelCreate,
+    NamedEntities,
+    ProjectStats
 )

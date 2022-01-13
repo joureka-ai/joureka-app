@@ -48,3 +48,23 @@ class TopicModelCreate(BaseModel):
 
 class TopicModelUpdate(BaseModel):
     label: str
+
+class Entity(BaseModel):
+    name: str
+    frequency: int
+    recordings: List[int]
+
+
+class EntityLabel(BaseModel):
+    label: str
+    entities: List[Entity]
+
+
+class NamedEntities(BaseModel):
+    labelled_entities: List[EntityLabel]
+
+class ProjectStats(BaseModel):
+    avg_duration: float
+    avg_len_text: float
+    number_documents: int
+    labelled_entities: NamedEntities
