@@ -8,7 +8,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - "8888:80"
+      - "3000:80"
       - "8090:8080"
     command:
       # Enable Docker in Traefik, so that it reads labels from Docker services
@@ -96,17 +96,23 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-backend-http.rule=PathPrefix(`/api`) || PathPrefix(`/docs`) || PathPrefix(`/redoc`)
       - traefik.http.services.${STACK_NAME?Variable not set}-backend.loadbalancer.server.port=80
  
-  # frontend:
-  #   image: '${DOCKER_IMAGE_FRONTEND?Variable not set}:${TAG-latest}'
-  #   build:
-  #     context: ./frontend
-  #     args:
-  #       FRONTEND_ENV: ${FRONTEND_ENV-production}
-  #   labels:
-  #     - traefik.enable=true
-  #     - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
-  #     - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.rule=PathPrefix(`/`)
-  #     - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=80
+  frontend:
+    image: '${DOCKER_IMAGE_FRONTEND?Variable not set}:${TAG-latest}'
+    build:
+      context: ./frontend
+      args:
+        FRONTEND_ENV: ${FRONTEND_ENV-production}
+    volumes:
+      - ./frontend:/usr/src/app/
+      # node_modules .next should not be synced
+      - /usr/src/app/node_modules
+      - /usr/src/app/.next
+    command: npm run prod
+    labels:
+      - traefik.enable=true
+      - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
+      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.rule=PathPrefix(`/`)
+      - traefik.http.services.${STACK_NAME?Variable not set}-frontend.loadbalancer.server.port=3000
 
   minio:
     image: minio/minio:RELEASE.2021-02-07T01-31-02Z
