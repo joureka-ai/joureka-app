@@ -7,8 +7,8 @@ from app import models, crud, schemas
 from app.api import deps
 from jouresearch_nlp.wordcloud.frequency import calculate_freq_over_docs
 from jouresearch_nlp.topicmodelling.representation import generate_topics
-from jouresearch_nlp.topicmodelling.load import load_model, check_modelpath
-from .helper import calcuate_frequencies, transform_word_freqs, gather_annots_by_type, gather_fulltext_for_tm
+from jouresearch_nlp.ner.aggregate import get_entities_w_freqs
+from .helper import calcuate_frequencies, transform_word_freqs, gather_annots_by_type, gather_fulltext_for_tm, get_stats, transform_docs_to_dict
 import logging
 from app.core.config import settings
 
@@ -40,11 +40,7 @@ def generate_frequencies(
             status_code=404, detail="There are no documents existing for this project."
         )
 
-    docs = []
-    for document in documents:
-        doc = {"text": document.fulltext,
-        "id": document.id}
-        docs.append(doc)
+    docs = transform_docs_to_dict(documents)
 
     freq_list = calculate_freq_over_docs(docs=docs, wc_threshold=word_threshold)
 
@@ -211,3 +207,63 @@ def delete_modelled_topic(
             status_code=409,
             detail=f"{e}"
         )
+
+
+@router.post('/{project_id}/stats/')
+def get_stats_with_entities(
+    project_id: int,
+    percentile: int = 0,
+    current_user: models.User = Depends(deps.get_current_active_user),
+    db: Session = Depends(deps.get_db)
+    ) -> schemas.ProjectStats:
+    """
+    Get statistical metadata on a project and all the recognized named entities in the documents. 
+    The entities are provided with a reference to the occuring document.
+    """
+
+    documents = crud.document.get_all_by_p_id(db, project_id)
+
+    if not documents:
+        raise HTTPException(
+            status_code=404, detail="There are no documents existing for this project."
+        )
+
+    avg_duration, avg_len_text, num_docs = get_stats(documents)
+
+    docs = transform_docs_to_dict(documents)
+
+    if not percentile:
+        percentile = 0
+
+    project_stats = schemas.ProjectStats(
+                    avg_duration=avg_duration,
+                    avg_len_text=avg_len_text,
+                    number_documents=num_docs,
+                    labelled_entities=get_entities_w_freqs(docs=docs, percentile=percentile))
+
+    return project_stats
+
+
+@router.post('/{project_id}/stats/{document_id}')
+def get_named_entities(
+    project_id: int,
+    document_id: int,
+    current_user: models.User = Depends(deps.get_current_active_user),
+    db: Session = Depends(deps.get_db)
+    ) -> schemas.NamedEntities:
+    """
+    Get recognized named entities of a single document. 
+    """
+
+    document = crud.document.get_by_p_id(db, document_id, project_id)
+
+    if not document:
+        raise HTTPException(
+            status_code=404, detail="There is no document with this id in this project."
+        )
+
+    documents = [document]
+
+    docs = transform_docs_to_dict(documents)
+
+    return  get_entities_w_freqs(docs=docs, percentile=0)

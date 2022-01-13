@@ -7,8 +7,10 @@ from sqlalchemy.orm import Session
 
 from app import crud
 from app.models.annot import Annot
-from app.schemas import AnnotFrequencies, AnnotFreq, WordFrequencies, WordFreq
-from app.schemas import Document
+from app.models.language import ger_tokenizer
+from app.schemas import AnnotFrequencies, AnnotFreq, WordFrequencies, WordFreq, Document
+from app.file_storage.file import get_file_for_doc
+import librosa
 
 def check_doc_in_docs(doc_ids: List[int], annot_doc_id: int) -> bool:
     #LOG.info(annot_doc_id)
@@ -75,6 +77,16 @@ def transform_word_freqs(freq_list: List) -> WordFrequencies:
 
     return WordFrequencies(words=word_freqs)
 
+def transform_docs_to_dict(documents: Document) -> dict:
+    """Transform the document data structure (app logic) to document data structure (jouresearch-nlp logic)."""
+    docs = []
+    for document in documents:
+        doc = {"text": document.fulltext,
+        "id": document.id}
+        docs.append(doc)
+
+    return docs
+
 def gather_fulltext_for_tm(documents: List[Document]):
     """ Gather the fulltext from documents, calculate the number of documents and provide a flag if the 
     number of documents was artificially increased or not.
@@ -98,3 +110,32 @@ def gather_fulltext_for_tm(documents: List[Document]):
         artif_increased = "Y"
     
     return docs, numd, artif_increased
+
+
+def get_duration(document: Document):
+    """Get the audio duration of a audio file.
+    """
+    audio_file = get_file_for_doc(document)
+    
+    return librosa.get_duration(filename=audio_file.path)
+
+
+def get_stats(documents: List[Document]):
+    """Get the average audio duration and the average length of text and count the document.
+    """
+    tmp_duration_list = []
+    tmp_length_text = []
+    num_documents = len(documents)
+
+    for document in documents:
+        duration = get_duration(document)
+        tmp_duration_list.append(duration)
+
+        # get fulltext as list of words
+        fulltext = [token for token in ger_tokenizer(document.fulltext)]
+        tmp_length_text.append(len(fulltext))
+
+    avg_duration = sum(tmp_duration_list) / len(tmp_duration_list)
+    avg_len_text = sum(tmp_length_text) / len(tmp_length_text)
+
+    return avg_duration, avg_len_text, num_documents
