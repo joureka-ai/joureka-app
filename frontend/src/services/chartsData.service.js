@@ -7,7 +7,8 @@ export const chartsDataService = {
     getPinPlotData,
     getTopicPlotData,
     getTopics,
-    updateTopicName
+    updateTopicName,
+    gettProjectStats
 };
 
 function getWordcloudWords(projectId, threshold) {
@@ -30,3 +31,6 @@ function updateTopicName(projectId, topicId, topicLabel) {
   return fetchWrapper.put(`${baseUrl}/${projectId}/topicmodel/${topicId}`, JSON.stringify(topicLabel))
 }
 
+function gettProjectStats(projectId, percentile) {
+  return fetchWrapper.post(`${baseUrl}/${projectId}/stats/?percentile=${percentile}`)
+}

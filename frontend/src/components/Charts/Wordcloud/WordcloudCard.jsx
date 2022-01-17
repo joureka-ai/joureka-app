@@ -33,7 +33,7 @@ const WordcloudCard = () => {
               </div>
             </div>
         </div>
-        <div className="custom-card-body">
+        <div className="custom-card-body d-flex flex-column justify-content-center align-items-center">
             {!words && <LoadingSpinner text={"Grafik wird erstellt."}/>}
             {words && <ParentSize>{({ width, height }) => <CustomWordcloud width={width} height={height} words={words} setRecordingsList={setSelectedWord} showControls={false}/>}</ParentSize>}
         </div>
