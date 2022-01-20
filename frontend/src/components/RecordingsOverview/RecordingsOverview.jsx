@@ -8,52 +8,37 @@ import {faChevronLeft, faChevronRight, faPager, faPlus} from "@fortawesome/free-
 
 const ITEMS_PER_PAGE = 10;
 
-const RecordingsOverview = () => {
+const RecordingsOverview = ({recs, onDeleteRecording}) => {
   const router = useRouter();
   const { pid } = router.query;
-  const [recordings, setRecordings] = useState(null);
   const [pageIndex, setPageIndex] = useState(0);
-
-  const pageRecordings = getPageData(recordings, pageIndex);
+  const [pageRecordings, setPageRecordings] = useState([])
 
   useEffect(() => {
-    projectService.getAllDocuments(pid).then((recordings) => {
-      setRecordings(recordings)
-    });
-    let interval = setInterval(function(){ 
-      projectService.getAllDocuments(pid).then((recordings) => {
-        setRecordings(recordings)
-      });
-    }, 30000);
-    return () => {
-      clearInterval(interval)
-    };
-  }, []);
+    setPageRecordings(getPageData(recs, pageIndex));
+  }, [recs]);
 
   function recordingDeleted(){
-    projectService.getAllDocuments(pid).then((recordings) => {
-      setRecordings(recordings)
-    });
+    onDeleteRecording();
   }
 
   return (
     <React.Fragment>
-      {!recordings && <LoadingSpinnerOverlay text={"Audiodateien werden geladen!"}/> }
       <button className="border-button border-button-blue full-width" onClick={() =>  router.push({pathname: `/project/${pid}/update`, query: {step: 2}})}><FontAwesomeIcon icon={faPlus} /><span className="px-3">Aufnahme hinzufügen</span></button>
-      {recordings && pageRecordings.map(recording => (
+      {recs && pageRecordings.map(recording => (
         <RecordingOverviewBar onRecordingDeleted={recordingDeleted} recording={recording} key={recording.id}/>
       ))}
-      {recordings && recordings.length === 0 &&
+      {recs && recs.length === 0 &&
       <div className="d-flex justify-content-center align-items-center vh-80 flex-column">
         <h5 className="text-center">Sie haben kein Aufnahmen hochgeladen!</h5>
       </div>
       }
-      {recordings && <div
+      {recs && <div
         className={`d-flex flex-row pt-4 ${!showPrevArrow(pageIndex) ? 'justify-content-end' : 'justify-content-between'}`}>
         {showPrevArrow(pageIndex) &&
         <button onClick={() => setPageIndex(pageIndex - 1)} className="icon-button-round mx-2">
           <FontAwesomeIcon icon={faChevronLeft}/></button>}
-        {showNextArrow(pageIndex, recordings) &&
+        {showNextArrow(pageIndex, recs) &&
         <button onClick={() => setPageIndex(pageIndex + 1)} className="icon-button-round mx-2">
           <FontAwesomeIcon icon={faChevronRight}/></button>}
       </div>

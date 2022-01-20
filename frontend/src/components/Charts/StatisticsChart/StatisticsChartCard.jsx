@@ -78,7 +78,6 @@ const StatisticsChartCard = () => {
       for(let i = 0; i < statistics.labelled_entities.labelled_entities.length; i++) {
         let currentCategory = statistics.labelled_entities.labelled_entities[i];
         if (currentCategory.label == catogory) {
-          console.log(currentCategory)
           return currentCategory.entities;
         }
       }
@@ -94,15 +93,15 @@ const StatisticsChartCard = () => {
           {!loadingData && <div className="custom-card-body">
             <div className="d-flex flex-row justify-content-between py-1">
               <span>Anzahl der Aufnahmen:</span>
-              <span className="fw-bolder">{statistics.number_documents}</span>
+              <span className="text-end fw-bolder">{statistics.number_documents}</span>
             </div>
             <div className="d-flex flex-row justify-content-between py-1">
               <span>Durchschnittliche Länge der Aufnahmen:</span>
-              <span className="fw-bolder">{getTimeFromSeconds(Math.ceil(statistics.avg_duration))}</span>
+              <span className="text-end fw-bolder">{getTimeFromSeconds(Math.ceil(statistics.avg_duration))}</span>
             </div>
             <div className="d-flex flex-row justify-content-between py-1">
               <span>Durchschnittliche Wörteranzahl der Aufnahmen:</span>
-              <span className="fw-bolder">{Math.ceil(statistics.avg_len_text)} Wörter</span>
+              <span className="text-end fw-bolder">{Math.ceil(statistics.avg_len_text)} Wörter</span>
             </div>
             <div className="d-flex flex-column flex-lg-row justify-content-center pt-4 pb-1">
               <button disabled={placesData.length == 0} className={`${showPlacesChart ? "active": ""} custom-button custom-button-blue mx-1 my-1`} onClick={() => {hideAllCharts(); setShowPlacesChart(!showPlacesChart)}}>

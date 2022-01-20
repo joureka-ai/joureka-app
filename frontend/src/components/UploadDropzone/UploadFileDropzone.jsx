@@ -19,7 +19,7 @@ function UploadFileDropzone(props) {
 
   const { getRootProps, getInputProps} = useDropzone({
     accept: "audio/mpeg",
-    maxFiles: 4,
+    maxFiles: 3,
     multiple: true,
     onDrop: files => setFiles(files)
   });
@@ -83,11 +83,11 @@ function UploadFileDropzone(props) {
 
   return (
     <section className="container">
-      {savingFiles && <LoadingSpinnerOverlay text={"Audiodateien werden gespeichert!"}/>
+      {savingFiles && <LoadingSpinnerOverlay text={"Audiodateien werden hochgeladet! Abhängig von der Dauer der Aufnahmen kann es länger dauern."}/>
       }
       <div {...getRootProps({className: 'dropzone'})}>
         <input {...getInputProps()} multiple/>
-        <p>Aufnahmen hier ziehen, oder hier klicken um Ausnahmen auszuwählen.</p>
+        <p className="text-center">Aufnahmen hier ziehen, oder hier klicken um Ausnahmen auszuwählen. Es können maximal <b>3</b> Aufnahmen auf einmal hochgeladet werden.</p>
         <p><em>Nur <b>*.mp3</b>-Dateien werden unterstützt!</em></p>
         {files && files.map((file, index) => (
           <div key={index} className="d-flex justify-content-between align-items-center">
