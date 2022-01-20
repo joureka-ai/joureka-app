@@ -1,0 +1,151 @@
+@import "variables";
+
+button {
+  font-size: 0.9rem;
+}
+.custom-button {
+  border-radius: $border-radius-pill;
+  min-width: 150px;
+  text-transform: uppercase;
+  padding: 0.5rem;
+  font-size: 00.8rem;
+
+  &-sm {
+    min-width: 100px;
+    font-size: 0.7rem;
+  }
+
+  &-orange {
+     border: none;
+     background-color: $Orange;
+     color: $White;
+
+     &:hover {
+       background-color: $Light_Blue;
+       color: $Blue;
+       font-weight: $font-general-weight-bold;
+     }
+
+     &.active {
+      background-color: $Light_Blue;
+      color: $Blue;
+      font-weight: $font-general-weight-bold;
+     }
+   }
+
+  &-blue {
+    border: none;
+    background-color: $Blue;
+    color: $White;
+
+    &:hover {
+      background-color: $Light_Orange;
+      color: $Orange;
+      font-weight: $font-general-weight-bold;
+    }
+
+    &.active {
+      background-color: $Light_Orange;
+      color: $Orange;
+      font-weight: $font-general-weight-bold;
+     }
+  }
+
+  &-transparent {
+    border: none;
+    background-color: transparent;
+    color: $Black;
+  }
+
+  &:disabled {
+    opacity: .5;
+
+    &:hover {
+      background-color: $Orange;
+    }
+  }
+}
+
+.icon-button-transparent {
+  border: none;
+  background: transparent;
+
+  &.icon-orange {
+    color: $Orange;
+
+    &:hover {
+      color: $Blue;
+    }
+  }
+
+  &.icon-gray {
+    color: $Gray;
+
+    &:hover {
+      color: $Blue;
+    }
+  }
+
+  &.icon-blue {
+    color: $Blue;
+
+    &:hover {
+      color: $Orange;
+    }
+  }
+}
+
+.icon-button-round {
+  border-radius: 50%;
+  background: $Blue;
+  border: none;
+  color: $White;
+  height: 2rem;
+  width: 2rem;
+
+  &:hover {
+    background: $Orange;
+  }
+}
+
+.border-button {
+  border-radius: $border-radius-default;
+  background-color: transparent;
+  text-transform: uppercase;
+  height: 2.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  &.border-button-blue {
+    color: $Blue;
+    border: 2px solid $Blue;
+
+    &:hover {
+      border-color: $Orange;
+      color: $Orange;
+      font-weight: $font-general-weight-bold;
+    }
+  }
+
+  &.border-button-orange {
+    color: $Orange;
+    border: 2px solid $Orange;
+
+    &:hover {
+      border-color: $Blue;
+      color: $Blue;
+      font-weight: $font-general-weight-bold;
+    }
+  }
+
+  span {
+    font-size: 0.8rem;
+    font-weight: $font-general-weight-semibold;
+  }
+}
+
+.button-text-blue {
+  color: $Blue;
+}

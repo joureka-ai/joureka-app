@@ -1,4 +1,4 @@
-# soundquest
+# joureka - Mit mehr Muße vom Interview zum Artikel
 
 # Wireframes for Prototype Fund application
 The following wireframes relates to the Prototype Fund application "joureka - Mit mehr Muße vom Interview zum Artikel".
@@ -57,9 +57,9 @@ Development URLs, for local development:
 
 - Frontend: `http://localhost:3000`
 
-- Backend: `http://localhost:8888`
+- Backend: `http://localhost:8889`
 
-- API documentation: `http://localhost:8888/docs`
+- API documentation: `http://localhost:8889/docs`
 
 - Traefik UI: `http://localhost:8090`
 

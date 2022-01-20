@@ -1,0 +1,26 @@
+@import "variables";
+
+.chart-recordings-list {
+    overflow-y: scroll;
+    max-height: 150px;
+}
+
+.network-chart-input {
+    background-color: transparent;
+    border: none;
+    line-height: 19px;
+    width: inherit;
+    color: $White;
+    padding: 5px;
+
+    &:read-only {
+        background-color: transparent;
+        border: none;
+    }
+
+    &:focus {
+        border: none;
+        background-color: $Light-Orange;
+        color: $Black;
+    }
+}

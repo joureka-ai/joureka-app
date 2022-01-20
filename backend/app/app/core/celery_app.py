@@ -1,5 +1,5 @@
 from celery import Celery
+from celery.concurrency import asynpool
 
-celery_app = Celery("worker", broker="amqp://guest@queue//")
 
-celery_app.conf.task_routes = {"app.worker.test_celery": "main-queue"}
+celery_app = Celery("worker", backend="rpc://", broker="amqp://guest@queue//", include=["app.worker.transcribe"])

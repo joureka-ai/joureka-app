@@ -1,21 +1,11 @@
 from typing import Optional, List
-import enum
 
 from pydantic import BaseModel
 
 from .word import Word
+from app.models import Language
 
-
-class Language(enum.Enum):
-    """Enum for the languages we support"""
-
-    de_DE = "de-DE"
-    en_GB = "en-GB"
-    en_US = "en-US"
-    es_ES = "es-ES"
-
-
-class AWSTranscription(BaseModel):
+class Transcription(BaseModel):
 
     id: int
 
@@ -29,11 +19,11 @@ class AWSTranscription(BaseModel):
 class DocumentBase(BaseModel):
     title: Optional[str] = None
     language: Optional[Language] = Language.de_DE
-
+    fk_project: Optional[int] = None
 
 # Properties to receive via API on creation
 class DocumentCreate(DocumentBase):
-    pass
+    fk_project: Optional[int]
 
 
 # Properties to receive via API on update
@@ -43,7 +33,7 @@ class DocumentUpdate(DocumentBase):
 
 class DocumentInDBBase(DocumentBase):
     id: Optional[int] = None
-    filename: Optional[str]
+    audio_file_key: Optional[str]
     fulltext: Optional[str]
     fulltext_regconfig: Optional[str]
     words: List[Word] = []

@@ -1,0 +1,79 @@
+{
+  "description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat.</p>",
+  "categories": [
+    {
+      "category_name": "Ihre Betroffenenrechte",
+      "category_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat. Proin pretium consectetur pulvinar. Cras rhoncus magna sit amet urna laoreet accumsan. Fusce a ullamcorper nunc. Suspendisse venenatis blandit purus at euismod. Cras risus turpis, aliquam vel luctus non, volutpat nec erat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris feugiat, lacus ac tristique bibendum, quam arcu feugiat dui, in sollicitudin enim orci vel odio. Vivamus lacus ipsum, maximus eu diam sed, interdum lacinia metus.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat. Proin pretium consectetur pulvinar. Cras rhoncus magna sit amet urna laoreet accumsan. Fusce a ullamcorper nunc. Suspendisse venenatis blandit purus at euismod. Cras risus turpis, aliquam vel luctus non, volutpat nec erat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris feugiat, lacus ac tristique bibendum, quam arcu feugiat dui, in sollicitudin enim orci vel odio. Vivamus lacus ipsum, maximus eu diam sed, interdum lacinia metus.</p>"
+    },
+    {
+      "category_name": "Erfassung allgemeiner Informationen beim Besuch unserer Website",
+      "category_description": "",
+      "subcategories": [
+        {
+          "subcategory_name": "Art und Zweck der Verarbeitung",
+          "subcategory_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat.</p>"
+        },
+        {
+          "subcategory_name": "Rechtsgrundlage",
+          "subcategory_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat.</p><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat.</p>"
+        },
+        {
+          "subcategory_name": "Empfänger",
+          "subcategory_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat.</p>"
+        },
+        {
+          "subcategory_name": "Speicherdauer",
+          "subcategory_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat.</p>"
+        },
+        {
+          "subcategory_name": "Bereitstellung vorgeschrieben oder erforderlich",
+          "subcategory_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat.</p>"
+        }
+      ]
+    },
+    {
+      "category_name": "Cookies",
+      "category_description": "",
+      "subcategories": [
+        {
+          "subcategory_name": "Art und Zweck der Verarbeitung",
+          "subcategory_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat.</p>"
+        },
+        {
+          "subcategory_name": "Speicherdauer und eingesetzte Cookies",
+          "subcategory_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat.</p>"
+        }
+      ]
+    },
+    {
+      "category_name": "Kontaktformular",
+      "category_description": "",
+      "subcategories": [
+        {
+          "subcategory_name": "Art und Zweck der Verarbeitung",
+          "subcategory_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat.</p>"
+        },
+        {
+          "subcategory_name": "Rechtsgrundlage",
+          "subcategory_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat.</p>"
+        },
+        {
+          "subcategory_name": "Empfänger",
+          "subcategory_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat.</p>"
+        },
+        {
+          "subcategory_name": "Speicherdauer",
+          "subcategory_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat.</p>"
+        },
+        {
+          "subcategory_name": "Bereitstellung vorgeschrieben oder erforderlich",
+          "subcategory_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat.</p>"
+        },
+        {
+          "subcategory_name": "Speicherdauer und eingesetzte Cookies",
+          "subcategory_description": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque fringilla facilisis urna sit amet ornare. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam rutrum elit arcu, at iaculis erat placerat consequat.</p>"
+        }
+      ]
+    }
+  ]
+}

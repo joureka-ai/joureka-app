@@ -28,6 +28,7 @@ def get_filtered_documents(
     skip: int = 0,
     limit: int = 100,
     db: Session = Depends(deps.get_db),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
 ) -> List[FilteredDocument]:
     """
     Retrieve documents.

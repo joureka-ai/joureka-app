@@ -4,13 +4,15 @@ import time
 import json
 from datetime import timedelta
 
+from sqlalchemy.orm import Session
 
 import boto3, botocore
 
 from fastapi import Depends
-from app import file_store
+from app import file_storage
 from app.models import Document, Word
-from app.models.transcript.aws import AWSTranscription
+from app.models.transcript import Transcription
+from app import crud
 
 LOG = logging.getLogger(__name__)
 
@@ -23,11 +25,12 @@ def transcribe(
     """
     transcribe a file with AWS transcribe
     """
-    document_file = file_store.get_file_for_key(filekey)
+    document_file = file_storage.get_file_for_key(filekey)
     assert document_file.is_file()
 
-    transcript_key = file_store.get_transcript_key(filekey, lang=lang, platform="aws")
-    transcript_file = file_store.get_transcript_path(filekey, lang=lang, platform="aws")
+    #TODO verify if this delete is correct
+    transcript_key = file_storage.get_transcript_key(filekey, lang=lang, model="aws")
+    transcript_file = file_storage.get_transcript_path(transcript_key)
     if transcript_file.is_file():
         return json.load(transcript_file.open())
 
@@ -43,7 +46,7 @@ def transcribe(
     transcript_obj = s3.Object(aws_bucket_name, transcript_key)
 
     # try to download the transcript. If this succeeds, we store it in
-    # the file_store and and return the transcript
+    # the file_storage and and return the transcript
 
     try:
         transcript_obj.download_file(str(transcript_file))
@@ -95,32 +98,18 @@ def transcribe_document(
     document: Document,
     aws_bucket_name: str,
     lang: str,
+    db: Session
 ):
 
-    filekey = document.filename
+    filekey = document.audio_file_key
 
     job_raw = transcribe(
         filekey=filekey,
         aws_bucket_name=aws_bucket_name,
         lang=lang,
     )
-    full_text = job_raw["results"]["transcripts"][0]["transcript"]
 
-    transcription = AWSTranscription(raw=job_raw, full_text=full_text)
-    document.words = []
+    crud.document.update_transcription(db, document, job_raw)
 
-    for i, item in enumerate(job_raw["results"]["items"]):
-        if item["type"] == "punctuation":
-            continue
-        alternative = item["alternatives"][0]
-        assert "start_time" in item, item
-        word = Word(
-            word=alternative["content"],
-            order=i,
-            start_time=timedelta(seconds=float(item["start_time"])),
-            end_time=timedelta(seconds=float(item["end_time"])),
-            confidence=float(alternative["confidence"]),
-        )
-        document.words.append(word)
+    crud.document.update_words(db, document, job_raw)
 
-    document.transcription = transcription
