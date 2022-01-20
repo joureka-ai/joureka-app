@@ -28,7 +28,7 @@ ARG INSTALL_JUPYTER=false
 RUN bash -c "if [ $INSTALL_JUPYTER == 'true' ] ; then pip install jupyterlab ; fi"
 
 # Install german de_core_new_sm pipeline
-RUN python -m spacy download de_core_news_sm
+RUN python -m spacy download de_core_news_md
 RUN python -c 'from sentence_transformers import SentenceTransformer; SentenceTransformer("all-MiniLM-L6-v2")'
 
 COPY ./app /app
