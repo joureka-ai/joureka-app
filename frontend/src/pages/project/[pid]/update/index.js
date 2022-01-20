@@ -14,8 +14,12 @@ const UpdateProject = () => {
 
   useEffect(() => {
     if(pid) projectService.getProject(pid).then(p => {
-      setProject(p);
-      setCurrentStep(step);
+      if(p) {
+        setProject(p);
+        setCurrentStep(step);
+      } else {
+        router.push('/')
+      }
     });
   }, []);
 

@@ -20,9 +20,15 @@ const Recording = () => {
 
   useEffect(() => {
     if(pid && rid) {
-      projectService.getProject(pid).then(project => setCurrentProject(project))
-      projectService.getDocumentById(pid, rid).then(rec => setRecording(rec));
-      projectService.getFileOfDocument(pid, rid).then(url => setFileUrl(url));
+      projectService.getProject(pid).then(project => {
+        if(project) {
+          setCurrentProject(project)
+          projectService.getDocumentById(pid, rid).then(rec => setRecording(rec));
+          projectService.getFileOfDocument(pid, rid).then(url => setFileUrl(url));
+        } else {
+          router.push('/')
+        }
+      })
     }
   }, []);
 

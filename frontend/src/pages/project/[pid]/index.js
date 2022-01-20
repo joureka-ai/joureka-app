@@ -19,8 +19,14 @@ const Project = () => {
   const [options, setOptions] = useState([])
 
   useEffect(() => {
-   if(pid) projectService.getProject(pid).then(pro => setProject(pro));
-   projectService.getAllProjects().then(projects => setOptions(projects));
+    if(pid) projectService.getProject(pid).then((pro) => {
+      if(pro) {
+        setProject(pro)
+      } else {
+        router.push('/')
+      }
+    });
+    projectService.getAllProjects().then(projects => setOptions(projects));
   }, []);
 
   const handleChange = (event) => {
