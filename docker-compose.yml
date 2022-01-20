@@ -37,22 +37,11 @@ services:
       - app-db-data:/var/lib/postgresql/data/pgdata
     env_file:
       - .env
+      - user.env
     environment:
       - PGDATA=/var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
-
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   ports:
-  #     - "5050:5050"
-  #   networks:
-  #     - ${TRAEFIK_PUBLIC_NETWORK?Variable not set}
-  #     - default
-  #   depends_on:
-  #     - db
-  #   env_file:
-  #     - .env
   
   #schemaspy:
   #  image: schemaspy/schemaspy:latest
@@ -70,6 +59,7 @@ services:
       - db
     env_file:
       - .env
+      - user.env
     volumes:
       - file_store:/file_store
       - ./backend/app:/app
@@ -121,11 +111,9 @@ services:
     volumes:
       - minio-data:/data
     env_file:
+      - user.env
       - .env
     command: server /data
-    environment:
-      MINIO_ROOT_USER: ${FIRST_SUPERUSER}
-      MINIO_ROOT_PASSWORD: ${FIRST_SUPERUSER_PASSWORD}
     labels:
       - traefik.enable=true
       - traefik.constraint-label-stack=${TRAEFIK_TAG?Variable not set}
@@ -142,6 +130,7 @@ services:
       - queue
     env_file:
       - .env
+      - user.env
     volumes:
       - ./backend/app:/app
     environment:
@@ -162,7 +151,8 @@ services:
   #    - ${TRAEFIK_PUBLIC_NETWORK?Variable not set}
   #    - default
   #  env_file:
-  #    - .env
+  #    - .env 
+  #    - user.env 
   #  command: ["flower", "--address=0.0.0.0", "--broker=amqp://guest@queue:5672/", "--broker_api=http://guest:guest@queue:15672/api//" ,"--port=5555", "--logging=DEBUG"]
   #  ports:
   #    - "5555:5555"
