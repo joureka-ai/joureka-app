@@ -70,3 +70,7 @@ class FilteredDocument(BaseModel):
 
     document: Document
     headlines: List[Headline]
+
+class FileUpload(BaseModel):
+    document_id: int
+    filename: str
