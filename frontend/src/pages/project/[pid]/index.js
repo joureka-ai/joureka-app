@@ -19,14 +19,16 @@ const Project = () => {
   const [options, setOptions] = useState([])
 
   useEffect(() => {
+    let isMounted = true;
     if(pid) projectService.getProject(pid).then((pro) => {
-      if(pro) {
+      if(pro && isMounted) {
         setProject(pro)
       } else {
         router.push('/')
       }
     });
-    projectService.getAllProjects().then(projects => setOptions(projects));
+    projectService.getAllProjects().then(projects => {if (isMounted) setOptions(projects)});
+    return () => { isMounted = false };
   }, []);
 
   const handleChange = (event) => {

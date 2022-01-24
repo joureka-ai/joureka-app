@@ -20,13 +20,13 @@ function login(username, password) {
   let paramsObj = {username: username, password: password};
 
   return fetchWrapper.post(`${baseUrl}/login/access-token`, 'application/x-www-form-urlencoded', new URLSearchParams(paramsObj))
-    .then(accessToken => {
+    .then((accessToken) => {
       sessionStorage.setItem('access-token', accessToken.access_token);
       accessTokenSubject.next(accessToken.access_token);
       fetchWrapper.get(`${baseUrl}/users/me`).then(user => {
           sessionStorage.setItem('user', JSON.stringify(user));
           userSubject.next(user)
-        });
+      });
     });
 }
 

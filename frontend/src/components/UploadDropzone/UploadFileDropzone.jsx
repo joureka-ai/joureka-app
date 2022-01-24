@@ -13,6 +13,7 @@ function UploadFileDropzone(props) {
   const [files, setFiles] = useState([]);
   const [savingFiles, setSavingFiles] = useState(false);
   const [currentProject, setCurrentProject] = useState(JSON.parse(sessionStorage.getItem('created-project')));
+  const [currentDocuments, setCurrentDocuments] = useState(null);
   const [showingDocumentDeleteModal, setShowingDocumentDeleteModal] = useState(false);
   const [toBeRemovedDocument, setToBeRemovedDocument] = useState(null);
   const [uploadError, setUploadError] = useState(false);
@@ -36,8 +37,7 @@ function UploadFileDropzone(props) {
   }
 
   function saveFiles() {
-    let filesUploaded = 0;
-    let createdDoc;
+    let createdDocuments = new Array();
     files.forEach(file => {
       setSavingFiles(true);
 
@@ -46,25 +46,41 @@ function UploadFileDropzone(props) {
         "language": "de-DE",
         "fk_project": currentProject.id
       };
-      projectService.createDocument(currentProject.id, fileData).then(document => {
-        setFiles([]);
-        createdDoc = document;
-        projectService.saveFile(currentProject.id, document.id, file).then(() => {
-          projectService.startTranskriptionJob(currentProject.id, document.id).then(res => console.log(res))
-          projectService.getAllDocuments(currentProject.id).then(docs => setUploadedDocuments(docs));
-          filesUploaded++;
-          if (filesUploaded === files.length) {
+
+      projectService.createDocument(currentProject.id, fileData).then((document) => {
+        createdDocuments.push({"document_id": document.id, "filename": document.title})
+        if(createdDocuments.length == files.length) {
+          projectService.saveFiles(currentProject.id, files, createdDocuments).then((resp) => {
+            projectService.getAllDocuments(currentProject.id).then((docs) => {
+              setUploadedDocuments(docs)
+              docs.forEach(doc => {
+                projectService.startTranskriptionJob(currentProject.id, doc.id)
+                .then(response => { console.log(response)})
+                .catch((error) => { 
+                  if(error.status = 200) {
+                    console.log("Transcription already exists!")
+                  } else {
+                    console.log("Failed to start transcription task!")
+                  }
+                })
+              })
+            });
+            setFiles([]);
             setSavingFiles(false);
-          }
-        }).catch(error => {
-          setSavingFiles(false);
-          setUploadError(true);
-          /*projectService.deleteDocument(createdDoc.id).then(() => {
-            projectService.getAllDocuments(currentProject.id).then(docs => setUploadedDocuments(docs));
-          })*/
-        });
+          })
+        }
       });
-      });
+     
+    });
+    
+    /*projectService.saveFiles(currentProject.id, files, setCurrentDocuments).then((resp) => {
+      console.log(resp);
+      setFiles([]);
+      projectService.getAllDocuments(currentProject.id).then(docs => setUploadedDocuments(docs));
+      console.log("FILES SAVED");
+      setSavingFiles(false);
+    })*/
+    
   }
 
   function removeUploadedDoc(docId) {

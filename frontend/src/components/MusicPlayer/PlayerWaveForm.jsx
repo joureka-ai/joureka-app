@@ -60,7 +60,7 @@ const PlayerWaveForm = ({ url }) => {
   const [togglePinForm, setTogglePinForm] = useState(false);
 
   useEffect(() => {
-
+    let isMounted = true;
     setPlaying(false);
     setLoading(true);
 
@@ -72,25 +72,29 @@ const PlayerWaveForm = ({ url }) => {
     wavesurfer.current.on("ready", function () {
       setLoading(false);
       waveformAnnotationService.getRegions(pid, rid).subscribe(r => {
-        setNewRegion(null);
-        setToggleRegionForm(false);
-        wavesurfer.current.regions.maxRegions = r.length + 1;
-        setRegions([...r]);
-        if(r){
-          wavesurfer.current.clearRegions();
-          r.forEach(function(region) {
-            wavesurfer.current.addRegion(region);
-          });
+        if (isMounted) {
+          setNewRegion(null);
+          setToggleRegionForm(false);
+          wavesurfer.current.regions.maxRegions = r.length + 1;
+          setRegions([...r]);
+          if(r){
+            wavesurfer.current.clearRegions();
+            r.forEach(function(region) {
+              wavesurfer.current.addRegion(region);
+            });
+          }
         }
       });
 
       waveformAnnotationService.getPins(pid, rid).subscribe(p => {
-        setPins([...p]);
-        if(p){
-          wavesurfer.current.clearMarkers();
-          p.forEach(function(pin) {
-            wavesurfer.current.addMarker(pin);
-          });
+        if (isMounted) {
+          setPins([...p]);
+          if(p){
+            wavesurfer.current.clearMarkers();
+            p.forEach(function(pin) {
+              wavesurfer.current.addMarker(pin);
+            });
+          }
         }
       });
 
@@ -132,27 +136,35 @@ const PlayerWaveForm = ({ url }) => {
       setNewRegion({...region});
     });
 
-    return () => wavesurfer.current.destroy();
+    return () => {
+      isMounted = false
+      wavesurfer.current.destroy()
+    };
   }, []);
 
   useEffect(() => {
+    let isMounted = true;
+
     if(toggleRegionForm) {
       wavesurfer.current.enableDragSelection({});
     } else {
       wavesurfer.current.disableDragSelection();
       waveformAnnotationService.getRegions(pid, rid).subscribe(r => {
-        setNewRegion(null);
-        setToggleRegionForm(false);
-        wavesurfer.current.regions.maxRegions = r.length + 1;
-        setRegions([...r]);
-        if(r){
-          wavesurfer.current.clearRegions();
-          r.forEach(function(region) {
-            wavesurfer.current.addRegion(region);
-          });
+        if (isMounted) {
+          setNewRegion(null);
+          setToggleRegionForm(false);
+          wavesurfer.current.regions.maxRegions = r.length + 1;
+          setRegions([...r]);
+          if(r){
+            wavesurfer.current.clearRegions();
+            r.forEach(function(region) {
+              wavesurfer.current.addRegion(region);
+            });
+          }
         }
       });
     }
+    return () => { isMounted = false };
   }, [toggleRegionForm]);
 
   const handlePlayPause = () => {

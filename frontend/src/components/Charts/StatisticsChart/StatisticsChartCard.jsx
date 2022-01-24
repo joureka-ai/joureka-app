@@ -1,4 +1,4 @@
-import { faBuilding, faCalendar, faChevronUp, faMapMarkedAlt, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faBuilding, faCalendar, faChevronUp, faMagic, faMapMarkedAlt, faUsers } from "@fortawesome/free-solid-svg-icons";
 import React, {useState, useEffect} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PackChart from "./PackChart";
@@ -120,9 +120,9 @@ const StatisticsChartCard = () => {
                 <span>{orgData.length}</span>
               </button>
               <button disabled={datesData.length == 0} className={`${showDatesChart ? "active": ""} custom-button custom-button-blue mx-1 my-1`} onClick={() => {hideAllCharts(); setShowDatesChart(!showDatesChart)}}>
-                <FontAwesomeIcon icon={faCalendar}/>
-                <span className="px-1">Daten:</span>
-                <span>{datesData.length}</span>
+                <FontAwesomeIcon icon={faMagic}/>
+                <span className="px-1">Diverses:</span>
+                <span className="fw-bold">{datesData.length}</span>
               </button>
             </div>
             {showPlacesChart && <div className="vh-70">

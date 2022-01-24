@@ -8,23 +8,10 @@ import TopicStackedBarChart from "./TopicStackedBarChart";
 import IntertopicDistanceMap from "./IntertopicDistanceMap";
 import { chartsDataService } from "../../../services/chartsData.service";
 import { projectService } from "../../../services/project.service";
+import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
-const NR_OF_TOPICS = 3;
-const NR_OF_RECORDING_NEEDED = 10; 
-
-const data = [
-  { frequency: 11, name: "Auto", reference: 15 },
-  { frequency: 12, name: "VW", reference: 12 },
-  { frequency: 13, name: "Lenkrad", reference: 23 },
-  { frequency: 23, name: "LKW", reference: 26 },
-  { frequency: 5, name: "Zug", reference: 6 },
-  { frequency: 17, name: "ICE", reference: 20 },
-  { frequency: 4, name: "Bus", reference: 8 },
-  { frequency: 20, name: "Flughzeug", reference: 20 },
-  { frequency: 15, name: "Boot", reference: 20 },
-  { frequency: 13, name: "Fahrrad", reference: 30 },
-  { frequency: 17, name: "U-Boot", reference: 25 },
-];
+const NR_OF_TOPICS = 10;
+const NR_OF_RECORDING_NEEDED = 5; 
 
 const TopicChartCard = () => {
   const [activeChart, setActiveChart] = useState(1)
@@ -32,7 +19,8 @@ const TopicChartCard = () => {
   const router = useRouter();
   const { pid } = router.query;
   const [topics, setTopics] = useState(null);
-  const [sufficientRecordings, setSufficientRecodings] = useState(false)
+  const [sufficientRecordings, setSufficientRecodings] = useState(true);
+  const [loadingData, setLoadingData] = useState(true);
 
   useEffect(() => {
     projectService.getAllDocuments(pid).then((docs) => {
@@ -40,7 +28,11 @@ const TopicChartCard = () => {
         setSufficientRecodings(true)
         chartsDataService.getTopics(pid, NR_OF_TOPICS).then((t) => {
           setTopics(t);
+          setLoadingData(false);
         });
+      } else {
+        setSufficientRecodings(false);
+        setLoadingData(false);
       }
     })
     
@@ -76,18 +68,19 @@ const TopicChartCard = () => {
             </div>
           </div>
         </div>
-        {sufficientRecordings && <div className="custom-card-body d-flex flex-row justify-content-center">
-            {(activeChart == 3 || activeChart == 2)  && <button className="icon-button-transparent icon-orange mx-2" onClick={navigateToPreviousChart}>
+        {loadingData && <div className="custom-card-body d-flex flex-row justify-content-center"><LoadingSpinner text={"Grafik wird erstellt."}/></div>}
+        {!loadingData && sufficientRecordings && <div className="custom-card-body d-flex flex-row justify-content-center">
+            {activeChart == 2  && <button className="icon-button-transparent icon-orange mx-2" onClick={navigateToPreviousChart}>
               <FontAwesomeIcon size="lg" icon={faChevronLeft} />
             </button>}
             {activeChart == 1 && topics && !selectedTopic && <ParentSize>{({ width, height }) => <IntertopicDistanceMap width={width} height={height} topics={topics}  setSelectedTopic={setTopic}/>}</ParentSize>}
             {activeChart == 2 && selectedTopic && <ParentSize>{({ width, height }) => <TopicNetworkChart width={width} height={height} topic={selectedTopic}/>}</ParentSize>}
-            {activeChart == 3 && selectedTopic && <ParentSize>{({ width, height }) => <TopicStackedBarChart width={width} height={height} words={data} topic={selectedTopic}/>}</ParentSize>}
-            {activeChart == 2 && <button className="icon-button-transparent icon-orange mx-2" onClick={() => setActiveChart(3)}>
+            {/*activeChart == 3 && selectedTopic && <ParentSize>{({ width, height }) => <TopicStackedBarChart width={width} height={height} words={data} topic={selectedTopic}/>}</ParentSize>*/}
+            {/*activeChart == 2 && <button className="icon-button-transparent icon-orange mx-2" onClick={() => setActiveChart(3)}>
               <FontAwesomeIcon size="lg" icon={faChevronRight} />
-            </button>}
+  </button>*/}
         </div>}
-        {!sufficientRecordings && <div className="custom-card-body custom-card-body-no-content d-flex flex-row justify-content-center">
+        {!loadingData && !sufficientRecordings && <div className="custom-card-body custom-card-body-no-content d-flex flex-row justify-content-center">
           <div className="alert alert-danger d-flex align-items-center" role="alert">
             <FontAwesomeIcon icon={faInfoCircle} />
             <div className="px-3">

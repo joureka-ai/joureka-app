@@ -120,10 +120,10 @@ const TopicNetworkChart = ({ width, height, topic }) => {
                     />
                     {r > 10 && name == topic.label &&  
                     <foreignObject x="-45" y="-12" width="90" height="30">
-                        <input readOnly={!editMode} id="network-input" autoFocus={editMode} class="network-chart-input" type="text" onDoubleClick={() => setEditmode(true)} onChange={handleChange} value={topicName}/>
+                        <input readOnly={!editMode} id="network-input" autoFocus={editMode} className="network-chart-input" type="text" onDoubleClick={() => setEditmode(true)} onChange={handleChange} value={topicName}/>
                     </foreignObject>}
  
-                    {r > 10 && name != topic.label && <text text-anchor="middle" font-size="12px" dy=".3em">{name}</text>}
+                    {r > 10 && name != topic.label && <text textAnchor="middle" fontSize="12px" dy=".3em">{name}</text>}
                 </g>}
                 linkComponent={({ link: { source, target, dashed } }) => (
                 <line

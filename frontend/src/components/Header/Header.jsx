@@ -24,12 +24,12 @@ const Header = () => {
         {showNavigationHome &&  <Link href="/"><button className="icon-button-transparent icon-orange mx-2">
           <FontAwesomeIcon icon={faHome} />
         </button></Link>}
-        <button className="icon-button-transparent icon-orange mx-2">
+        {/*<button className="icon-button-transparent icon-orange mx-2">
           <FontAwesomeIcon icon={faUser} />
         </button>
         <button className="icon-button-transparent icon-orange mx-2">
           <FontAwesomeIcon icon={faCog} />
-        </button>
+        </button>*/}
         <button onClick={logout} className="icon-button-round mx-2">
           <FontAwesomeIcon icon={faSignOutAlt} />
         </button>

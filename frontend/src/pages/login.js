@@ -12,6 +12,7 @@ const LogIn = () => {
     password: ""
   });
   const [loginFormErrors, setLoginFormErrors] = useState({});
+  const [loginError, setLoginError] = useState(null);
   const [isSubmittingLogin, setIsSubmittingLogin] = useState(false);
 
 
@@ -48,13 +49,12 @@ const LogIn = () => {
   const submitLogin = () => {
     return userService.login(loginFormValues.username, loginFormValues.password)
       .then(() => {
-        // get return url from query parameters or default to '/'
         setIsSubmittingLogin(false)
         router.push("/");
+      }).catch(error => {
+        setLoginError("Eingegebener Nutzername oder Passwort ist falsch.");
+        setIsSubmittingLogin(false)
       })
-      .catch(error => {
-        console.log('apiError', { message: error });
-      });
   }
 
   return (
@@ -96,6 +96,9 @@ const LogIn = () => {
                   <span className="input-error">{loginFormErrors.password}</span>
                 )}
               </div>
+              {loginError && (
+                  <span className="input-error">{loginError}</span>
+              )}
               <div className="d-flex flex-row justify-content-end">
                 <button onClick={handleSubmitLogin} disabled={isSubmittingLogin} className="custom-button custom-button-orange mt-3">
                   {isSubmittingLogin && <span className="spinner-border spinner-border-sm mr-1"/>}

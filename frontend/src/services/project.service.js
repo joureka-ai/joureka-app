@@ -17,6 +17,7 @@ export const projectService = {
   createDocument,
   deleteDocument,
   saveFile,
+  saveFiles,
   getTranscriptionWords,
   getTranscriptionFulltext,
   updateTranscription,
@@ -65,8 +66,11 @@ function deleteDocument(projectId, documentId) {
 }
 
 function saveFile(projectId, documentId, file) {
-  return fetchWrapper.postFile(`${baseUrl}/projects/${projectId}/docs/${documentId}/file`, file)
+  console.log("Not implemented")
+}
 
+function saveFiles(projectId, files, docIds) {
+  return fetchWrapper.postFiles(`${baseUrl}/projects/${projectId}/docs/files`, files, docIds)
 }
 
 function getTranscriptionWords(projectId, documentId) {

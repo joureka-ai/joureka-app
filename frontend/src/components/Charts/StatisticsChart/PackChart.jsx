@@ -90,7 +90,8 @@ export default function PackChart({ width, height, data, polygonSides, polygonRo
                         onMouseOut={hideTooltip}
                         onClick={() => {getCategoryItemDocuments(circle.data)}}
                         ></Polygon>
-                        {circle.r > 30 && <text x={circle.x} y={circle.y} textAnchor="middle" dy=".3em" fontSize="14px">{circle.data.name}</text>}
+                        {circle.r >= 30 && <text x={circle.x} y={circle.y} textAnchor="middle" dy=".3em" fontSize="14px">{circle.data.name}</text>}
+                        {circle.r > 20 && circle.r < 30 &&<text x={circle.x} y={circle.y} textAnchor="middle" dy=".3em" fontSize="10px">{circle.data.name}</text>}
                         </g>
                     ))}
                 {/*circles.map((circle, i) => (
