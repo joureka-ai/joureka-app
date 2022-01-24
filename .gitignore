@@ -9,3 +9,6 @@ docker-stack.yml
 
 # directories created by docker-compose
 file_store
+
+# env stuff
+user.env
