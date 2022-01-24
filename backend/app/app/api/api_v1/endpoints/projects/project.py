@@ -1,19 +1,20 @@
 import logging
 from typing import List, Any, Union
+import json
 
 from sqlalchemy.orm import Session
 
-from fastapi import File, UploadFile, Depends, HTTPException
+from fastapi import File, UploadFile, Depends, HTTPException, Form
 from fastapi.responses import FileResponse
 
 from app import crud, models, schemas, file_storage
 from app.api import deps
 from app.core.config import settings
-from app.schemas import AnnotTopicIn, AnnotTopicOut, AnnotPin
+from app.schemas import AnnotTopicIn, AnnotTopicOut, AnnotPin, FileUpload
 from app.models.language import language_to_tokenizer, Language
 
 from .router import router
-from .helper import transform_to_annots, transform_annot_in
+from .helper import transform_to_annots, transform_annot_in, check_doc_for_upload
 
 from datetime import timedelta
 
@@ -139,6 +140,62 @@ def read_documents(
     """
     documents = crud.document.get_multi_by_p_id(db, skip=skip, limit=limit, fk_project=project_id)
     return documents
+
+
+@router.post("/{project_id}/docs/files")
+async def upload_files(
+    project_id: int,
+    doc_ids_with_name: str = Form(...),
+    db: Session = Depends(deps.get_db),
+    files: List[UploadFile] = File(...),
+    current_user: models.User = Depends(deps.get_current_active_superuser),
+):
+    """
+    Upload multiple files in a batch. The doc_ids_with_name parameters is needed as a string but in a json like format.
+    Args: doc_ids_with_name ... mapping for document_id and filename in this format [{\"document_id\": 1, \"filename\": \"test.mp3\"}]
+    """
+
+    try: 
+        # Parse the string to json
+        doc_ids_with_name = json.loads(doc_ids_with_name)
+        
+        doc_ids_wn = []
+        for doc in doc_ids_with_name:
+            doc_ids_wn.append(FileUpload(**doc))
+
+    except Exception as e:
+        LOG.info(e)
+        raise HTTPException(
+            status_code=422,
+            detail="Please provide the data as a string but in a json like format: [{\"document_id\": 1, \"filename\": \"test.mp3\"}]"
+        )
+    
+    for doc in doc_ids_wn:
+        document_id = doc.document_id
+
+        if not isinstance(document_id, int):
+            document_id = int(document_id)
+            
+        filename = doc.filename
+
+         
+        # Get the file we want to upload via its filename
+        tmp_files = [file for file in files if file.filename==filename]
+        if len(tmp_files) > 1:
+            raise HTTPException(
+                status_code=409,
+                detail="There are duplicated filenames! Please review the provided document_id to filename mapping.",
+            )
+        file = tmp_files[0]
+
+
+        document, suffix = check_doc_for_upload(
+            db=db,
+            document_id=document_id,
+            project_id=project_id,
+            file=file)
+
+        await crud.document.create_audio_file(db, document, file, suffix)
 
 
 @router.get("/{project_id}/docs/{document_id}", response_model=schemas.Document)
@@ -329,33 +386,14 @@ async def upload_file(
     file: UploadFile = File(...),
     current_user: models.User = Depends(deps.get_current_active_superuser),
 ):
-    document = crud.document.get_by_p_id(db, id=document_id, fk_project=project_id)
-    if not document:
-        raise HTTPException(
-            status_code=404,
-            detail="The document with this id does not exist in the system",
-        )
-
-    if document.audio_file_key:
-        raise HTTPException(
-            status_code=409,
-            detail="There is already a file attached to this document. Please delete the attached file first!",
-        )
-    
-    suffix = file_storage.create_suffix(file.filename)
-    if not suffix in [".mp3"]:
-        raise HTTPException(
-            status_code=422,
-            detail="The file you provided is not supported. Please only upload mp3 files",
-        )
-
-    LOG.warning(
-        "Processing uploaded file %s of content type %s.",
-        file.filename,
-        file.content_type,
-    )
+    document, suffix = check_doc_for_upload(
+            db=db,
+            document_id=document_id,
+            project_id=project_id,
+            file=file)
 
     await crud.document.create_audio_file(db, document, file, suffix)
+
 
 
 @router.post("/{project_id}/docs/{document_id}/annots")

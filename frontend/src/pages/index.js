@@ -30,7 +30,7 @@ const Home = () => {
       {!projects && <LoadingSpinnerOverlay text={"Projete werden geladen!"}/>
       }
       <div className="main-container d-flex flex-column">
-        <div className="d-flex flex-row justify-content-between align-items-center py-4">
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-start py-4">
           <h2>Mein Arbeitsplatz</h2>
           <SearchBar searchQuery={searchQuery}
                      setSearchQuery={setSearchQuery}

@@ -5,10 +5,12 @@ import theme from '../utils/theme';
 import "../styles/global.scss";
 import {useRouter} from "next/router";
 import {userService} from "../services/user.service";
+import MobileOverlay from "../components/MobileOverlay/MobileOverlay";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
   const [authorized, setAuthorized] = useState(false);
+  const [onLoginPage, setOnLoginPage] = useState(false)
 
   useEffect(() => {
     // run auth check on initial load
@@ -32,6 +34,11 @@ export default function App({ Component, pageProps }) {
     // redirect to login page if accessing a private page and not logged in
     const publicPaths = ['/login'];
     const path = url.split('?')[0];
+    if(publicPaths.includes(path)) {
+      setOnLoginPage(true);
+    } else {
+      setOnLoginPage(false);
+    }
     if (!userService.accessTokenValue && !publicPaths.includes(path)) {
       setAuthorized(false);
       router.push({
@@ -48,6 +55,7 @@ export default function App({ Component, pageProps }) {
       {authorized &&
       <Layout>
         <Component {...pageProps} />
+        {!onLoginPage && <MobileOverlay show={true}></MobileOverlay>}
       </Layout>
       }
     </ThemeProvider>

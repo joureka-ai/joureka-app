@@ -5,23 +5,11 @@ import { GridRows, GridColumns } from '@visx/grid';
 import { Group } from '@visx/group';
 import { Circle } from '@visx/shape';
 import { useTooltip, Tooltip, defaultStyles } from "@visx/tooltip";
-import { useRouter } from 'next/router';
 
-const data = [
-    {x: 10, y: 305, Topic: "topic 1", Words: ["word 1", "word 2", "word 3", "word 4", "word 5", "word 6", "word 7", "word 8", "word 9", "word 2"], Size: 10},
-    {x: 104, y: 45, Topic: "topic 2", Words: ["word 1", "word 2", "word 1", "word 2", "word 1"], Size: 5}, 
-    {x: 40, y: 145, Topic: "topic 3", Words: ["word 1", "word 2", "word 1", "word 2", "word 1", "word 2"], Size: 6},
-    {x: 123, y: 315, Topic: "topic 4", Words: ["word 1", "word 2", "word 1", "word 2", "word 1", "word 2"], Size: 6},
-    {x: 30, y: 50, Topic: "topic 5", Words: ["word 1", "word 2", "word 1", "word 2", "word 1"], Size: 5},
-    {x: 100, y: 10, Topic: "topic 6", Words: ["word 1", "word 2", "word 1", "word 2", "word 1", "word 2", "word 1", "word 1", "word 2", "word 1"], Size: 9},
-]
+const IntertopicDistanceMap = ({ width, height, topics, setSelectedTopic }) => {
 
-const IntertopicDistanceMap = ({ width, height, setSelectedTopic }) => {
-    const router = useRouter();
-    const { pid } = router.query;
-
-    data.sort((firstEl, secondEl) => {
-        return secondEl.Size - firstEl.Size
+    topics.sort((firstEl, secondEl) => {
+        return secondEl.size - firstEl.size
     })
     // margins
     const margin = { top: 10, right: 100, bottom: 50, left: 100 };
@@ -33,20 +21,22 @@ const IntertopicDistanceMap = ({ width, height, setSelectedTopic }) => {
 
     // scales
     const xScale = scaleLinear({
-        domain: [0, Math.max(...data.map((d) => d.x))],
+        domain: [
+            Math.min(...topics.map((d) => d.x)) - 1, 
+            Math.max(...topics.map((d) => d.x)) + 1,
+        ],
         nice: true,
         range: [0, xMax]
     });
     const yScale = scaleLinear({
         domain: [
-            0,
-            Math.max(...data.map((d) => d.y)),
+            Math.min(...topics.map((d) => d.y)) - 1,
+            Math.max(...topics.map((d) => d.y)) + 1,
         ],
         nice: true,
         range: [yMax, 0]
     });
   
-
     const {
     tooltipData,
     tooltipLeft,
@@ -116,25 +106,25 @@ const IntertopicDistanceMap = ({ width, height, setSelectedTopic }) => {
                 strokeOpacity={0.2}
                 stroke="#1E8F9E"/>
             <Group left={margin.left}>
-                {data.map((point, i) => (
+                {topics.map((point, i) => (
                 <g key={i}><Circle
-                    key={`point-${point.Topic}-${i}`}
+                    key={`point-${point.id}-${i}`}
                     className="dot"
                     cx={xScale(point.x)}
                     cy={yScale(point.y)}
-                    r={tooltipData && tooltipData.Topic === point.Topic ? point.Size*5.5 : point.Size*5}
-                    filter={tooltipData && tooltipData.Topic === point.Topic ? "url(#f2)" : ""}
-                    fill={tooltipData && tooltipData.Topic === point.Topic ? '#1E8F9E' : '#EB8F49'}
+                    r={tooltipData && tooltipData.label === point.label ? point.size*1.5 : point.size*1}
+                    filter={tooltipData && tooltipData.label === point.label ? "url(#f2)" : ""}
+                    fill={tooltipData && tooltipData.label === point.label ? '#1E8F9E' : '#EB8F49'}
                     onMouseOver={(e) => {
                            handleMouseOver(e, point)
                     }}
                     onMouseOut={hideTooltip}
                     onClick={() => {
-                        setSelectedTopic(2)
+                        setSelectedTopic(point)
                     }}
                     opacity={0.7}
                 />
-                <text x={xScale(point.x)} y={yScale(point.y)} textAnchor="middle" dy=".3em" fontSize="14px">{point.Topic}</text>
+                <text x={xScale(point.x)} y={yScale(point.y)} textAnchor="middle" dy=".3em" fontSize="14px">{point.label}</text>
                 <defs>
                     <filter id="f2" x="0" y="0" width="200%" height="200%">
                     <feOffset result="offOut" in="SourceGraphic" dx="5" dy="5" />
@@ -157,8 +147,8 @@ const IntertopicDistanceMap = ({ width, height, setSelectedTopic }) => {
             left={tooltipLeft }
             style={tooltipStyles}
             >
-            <div><strong>{tooltipData.Topic}</strong> (Size: {tooltipData.Size})</div>
-            <div className="py-2 lh-base">{tooltipData.Words.map((w, i) => <span key={i}> {w} |</span>)}</div>
+            <div><strong>{tooltipData.label}</strong> (Size: {tooltipData.size})</div>
+            <div className="py-2 lh-base">{tooltipData.words.map((w, i) => <span key={i}> {w.word} |</span>)}</div>
             <div className="lh-base"><i>Klicken Sie auf den Kreis, um mehr über das Thema zu erfahren!</i></div>
             </Tooltip>
         )}

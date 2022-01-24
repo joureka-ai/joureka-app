@@ -3,9 +3,13 @@ import { DefaultNode, Graph } from '@visx/network';
 import { useTooltip, Tooltip, defaultStyles } from "@visx/tooltip";
 import { scaleOrdinal } from '@visx/scale';
 import ChartLegend from '../Legends/ChartLegends';
+import { chartsDataService } from '../../../services/chartsData.service';
+import { useRouter } from "next/router";
 
-const TopicNetworkChart = ({ width, height, words, topic }) => {
-    const [topicName, setTopicName] = useState(topic);
+const TopicNetworkChart = ({ width, height, topic }) => {
+    const router = useRouter();
+    const { pid } = router.query;
+    const [topicName, setTopicName] = useState(topic.label);
     const [editMode, setEditmode] = useState(false);
     height = height - 100
 
@@ -48,44 +52,52 @@ const TopicNetworkChart = ({ width, height, words, topic }) => {
         let nodes = []
         for (var i = 0; i < elements.length; i++) {
             let r = radius + ((i % 2) * 20)
-            nodes.push({
+            /*nodes.push({
                 color: "#F5E8DF",
                 r: elements[i].reference,
                 x: (x + r * Math.cos((2 * Math.PI) * i/elements.length) * 1.5),
                 y: (y + r * Math.sin((2 * Math.PI) * i/elements.length)),
                 name: elements[i].name,
-            })
+            })*/
             nodes.push({
                 color: "#EB8F49",
-                r: elements[i].frequency,
+                r: elements[i].frequency * 100,
                 x: (x + r * Math.cos((2 * Math.PI) * i/elements.length) * 1.5),
                 y: (y + r * Math.sin((2 * Math.PI) * i/elements.length)),
-                name: elements[i].name,
+                name: elements[i].word,
             })
         }
-        nodes.push({x: width/2, y: height/2, r: 50, color: '#1E8F9E', name: topic})
+        nodes.push({x: width/2, y: height/2, r: 50, color: '#1E8F9E', name: topic.label})
         return nodes;
     }
 
     const createLinks = (elements) => {
         let links = []
         for (var i = 0; i < elements.length - 1; i++) {
-            if(i%2 != 0){
+            /*if(i%2 != 0){
                 links.push({ source: elements[elements.length - 1 ], target: elements[i] })
-            }
+            }*/
+            links.push({ source: elements[elements.length - 1 ], target: elements[i] })
+
         }
         return links
     }
-    let nodes = arrangeElementsInCircle(words, (width/2), (height/2), (height/2 - 70));
+    let nodes = arrangeElementsInCircle(topic.words, (width/2), (height/2), (height/2 - 70));
     let links = createLinks(nodes)
     const graph = {
         nodes,
         links
     };
 
+    const updateTopicName = () => {
+        chartsDataService.updateTopicName(pid, topic.id, {label: topicName}).then((topic) => {
+            setEditmode(false)
+        })
+    }
+
     return width < 10 ? null : (
         <div className="d-flex flex-column justify-content-center align-items-center">
-            <div>Relevante Begriffe für das Thema "{topic}"</div>
+            <div>Relevante Begriffe für das Thema "{topic.label}"</div>
             <svg width={width} height={height}>
             <Graph
                 graph={graph}
@@ -97,7 +109,7 @@ const TopicNetworkChart = ({ width, height, words, topic }) => {
                     fill={color} 
                     r={r}
                     onMouseOver={(e) => {
-                        if(name != topic) {
+                        if(name != topic.label) {
                             if(r <= 10) {
                                 handleMouseOver(e, `${name}: ${r} Vorkommnisse`);
                             } else {  handleMouseOver(e, `${r} Vorkommnisse`); }
@@ -106,12 +118,12 @@ const TopicNetworkChart = ({ width, height, words, topic }) => {
                         }}}
                     onMouseOut={hideTooltip}
                     />
-                    {r > 10 && name == topic &&  
+                    {r > 10 && name == topic.label &&  
                     <foreignObject x="-45" y="-12" width="90" height="30">
-                        <input readOnly={!editMode} id="network-input" autoFocus={editMode} class="network-chart-input" type="text" onDoubleClick={() => setEditmode(true)} onChange={handleChange} value={topicName}/>
+                        <input readOnly={!editMode} id="network-input" autoFocus={editMode} className="network-chart-input" type="text" onDoubleClick={() => setEditmode(true)} onChange={handleChange} value={topicName}/>
                     </foreignObject>}
  
-                    {r > 10 && name != topic && <text text-anchor="middle" font-size="12px" dy=".3em">{name}</text>}
+                    {r > 10 && name != topic.label && <text textAnchor="middle" fontSize="12px" dy=".3em">{name}</text>}
                 </g>}
                 linkComponent={({ link: { source, target, dashed } }) => (
                 <line
@@ -127,7 +139,8 @@ const TopicNetworkChart = ({ width, height, words, topic }) => {
                 )}
             />
             </svg>
-            <ChartLegend scale={ordinalColorScale} type={1} title={""}></ChartLegend>
+            <div><small>* Größe der Kreise gibt die Wichtigkeit der Wörter innerhalb des Themengebietes an.</small></div>
+            {/*<ChartLegend scale={ordinalColorScale} type={1} title={""}></ChartLegend>*/}
             {tooltipOpen && (
                 <Tooltip
                 key={Math.random()}
@@ -144,10 +157,10 @@ const TopicNetworkChart = ({ width, height, words, topic }) => {
                     <button onClick={() => 
                     {
                         setEditmode(false)
-                        setTopicName(topic)
+                        setTopicName(topic.label)
                     }
                     } className="custom-button custom-button-sm custom-button-transparent mx-1">Abbrechen</button>
-                    <button onClick={() => saveChanges()} className="custom-button custom-button-sm custom-button-blue">Änderungen speichern</button>
+                    <button onClick={() => updateTopicName()} className="custom-button custom-button-sm custom-button-blue">Änderungen speichern</button>
                     </div>
             </div>}
         </div>

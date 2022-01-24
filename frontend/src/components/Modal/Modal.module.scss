@@ -18,11 +18,13 @@
     padding: 1.5rem;
     max-width: 60%;
     min-width: 400px;
+    max-height: 300px;
 
     .modalHeader {
       display: flex;
       justify-content: space-between;
       font-size: 25px;
+      height: 20%;
 
       .modalTitle {
         font-weight: $font-general-weight-semibold;
@@ -30,12 +32,14 @@
     }
 
     .modalBody {
-      padding: 1rem 0;
+      padding: 0.5rem 0;
+      height: 70%;
     }
 
     .modalActions {
       display: flex;
       justify-content: end;
+      height: 10%;
     }
   }
 }

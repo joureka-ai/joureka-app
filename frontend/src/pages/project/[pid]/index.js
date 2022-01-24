@@ -19,8 +19,16 @@ const Project = () => {
   const [options, setOptions] = useState([])
 
   useEffect(() => {
-   if(pid) projectService.getProject(pid).then(pro => setProject(pro));
-   projectService.getAllProjects().then(projects => setOptions(projects));
+    let isMounted = true;
+    if(pid) projectService.getProject(pid).then((pro) => {
+      if(pro && isMounted) {
+        setProject(pro)
+      } else {
+        router.push('/')
+      }
+    });
+    projectService.getAllProjects().then(projects => {if (isMounted) setOptions(projects)});
+    return () => { isMounted = false };
   }, []);
 
   const handleChange = (event) => {
@@ -32,7 +40,7 @@ const Project = () => {
   return (
     <React.Fragment>
       <Head>
-        <title>Projektübersicht</title>
+        <title>joureka - Projektübersicht</title>
       </Head>
       <div className="d-flex flex-row">
         <div className="sideNavContainer">

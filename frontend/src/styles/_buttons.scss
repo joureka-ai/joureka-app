@@ -20,7 +20,7 @@ button {
      background-color: $Orange;
      color: $White;
 
-     &:hover {
+     &:hover:enabled {
        background-color: $Light_Blue;
        color: $Blue;
        font-weight: $font-general-weight-bold;
@@ -30,15 +30,15 @@ button {
       background-color: $Light_Blue;
       color: $Blue;
       font-weight: $font-general-weight-bold;
-     }
-   }
+    }
+  }
 
   &-blue {
     border: none;
     background-color: $Blue;
     color: $White;
 
-    &:hover {
+    &:hover:enabled {
       background-color: $Light_Orange;
       color: $Orange;
       font-weight: $font-general-weight-bold;
@@ -48,7 +48,7 @@ button {
       background-color: $Light_Orange;
       color: $Orange;
       font-weight: $font-general-weight-bold;
-     }
+    }
   }
 
   &-transparent {
@@ -59,10 +59,6 @@ button {
 
   &:disabled {
     opacity: .5;
-
-    &:hover {
-      background-color: $Orange;
-    }
   }
 }
 
