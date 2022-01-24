@@ -11,8 +11,8 @@ const devProxy = {
     pathRewrite: { "^/backend/": "/" },
     changeOrigin: true,
     logLevel: "debug",
-    timeout: 600000,
-    proxyTimeout: 600000,
+    //timeout: 600000,
+    //proxyTimeout: 600000,
   },
   // map all routes starting with /api unchanged to the backend
   "/api": {
@@ -20,8 +20,8 @@ const devProxy = {
     pathRewrite: { "^/": "/" },
     changeOrigin: true,
     logLevel: "info",
-    timeout: 600000,
-    proxyTimeout: 600000,
+    //timeout: 600000,
+    //proxyTimeout: 600000,
   },
 };
 

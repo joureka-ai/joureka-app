@@ -14,8 +14,12 @@ const UpdateProject = () => {
 
   useEffect(() => {
     if(pid) projectService.getProject(pid).then(p => {
-      setProject(p);
-      setCurrentStep(step);
+      if(p) {
+        setProject(p);
+        setCurrentStep(step);
+      } else {
+        router.push('/')
+      }
     });
   }, []);
 
@@ -23,7 +27,7 @@ const UpdateProject = () => {
   return (
     <React.Fragment>
       <Head>
-        <title>Projekt bearbeiten</title>
+        <title>joureka - Projekt bearbeiten</title>
       </Head>
       {project && <AddEditProjectForm project={project} currentStep={step}/>}
     </React.Fragment>

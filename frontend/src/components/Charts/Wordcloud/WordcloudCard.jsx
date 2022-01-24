@@ -22,7 +22,7 @@ const WordcloudCard = () => {
   }, []);
 
   return (
-    <div className="custom-card">
+    <div className="custom-card full-width">
         <div className="custom-card-header">
             <div className="custom-card-title">
               <span>Wortwolke nach Häufigkeit</span>
@@ -33,7 +33,7 @@ const WordcloudCard = () => {
               </div>
             </div>
         </div>
-        <div className="custom-card-body">
+        <div className="custom-card-body d-flex flex-column justify-content-center align-items-center">
             {!words && <LoadingSpinner text={"Grafik wird erstellt."}/>}
             {words && <ParentSize>{({ width, height }) => <CustomWordcloud width={width} height={height} words={words} setRecordingsList={setSelectedWord} showControls={false}/>}</ParentSize>}
         </div>
@@ -54,9 +54,6 @@ const WordcloudCard = () => {
           }</div>
         </div> }
         <style jsx>{`
-            .custom-card {
-              width: 100%;
-            }
             .custom-card-body {
               height: 350px;
             }

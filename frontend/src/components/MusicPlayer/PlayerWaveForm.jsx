@@ -60,7 +60,7 @@ const PlayerWaveForm = ({ url }) => {
   const [togglePinForm, setTogglePinForm] = useState(false);
 
   useEffect(() => {
-
+    let isMounted = true;
     setPlaying(false);
     setLoading(true);
 
@@ -72,25 +72,29 @@ const PlayerWaveForm = ({ url }) => {
     wavesurfer.current.on("ready", function () {
       setLoading(false);
       waveformAnnotationService.getRegions(pid, rid).subscribe(r => {
-        setNewRegion(null);
-        setToggleRegionForm(false);
-        wavesurfer.current.regions.maxRegions = r.length + 1;
-        setRegions([...r]);
-        if(r){
-          wavesurfer.current.clearRegions();
-          r.forEach(function(region) {
-            wavesurfer.current.addRegion(region);
-          });
+        if (isMounted) {
+          setNewRegion(null);
+          setToggleRegionForm(false);
+          wavesurfer.current.regions.maxRegions = r.length + 1;
+          setRegions([...r]);
+          if(r){
+            wavesurfer.current.clearRegions();
+            r.forEach(function(region) {
+              wavesurfer.current.addRegion(region);
+            });
+          }
         }
       });
 
       waveformAnnotationService.getPins(pid, rid).subscribe(p => {
-        setPins([...p]);
-        if(p){
-          wavesurfer.current.clearMarkers();
-          p.forEach(function(pin) {
-            wavesurfer.current.addMarker(pin);
-          });
+        if (isMounted) {
+          setPins([...p]);
+          if(p){
+            wavesurfer.current.clearMarkers();
+            p.forEach(function(pin) {
+              wavesurfer.current.addMarker(pin);
+            });
+          }
         }
       });
 
@@ -132,27 +136,35 @@ const PlayerWaveForm = ({ url }) => {
       setNewRegion({...region});
     });
 
-    return () => wavesurfer.current.destroy();
+    return () => {
+      isMounted = false
+      wavesurfer.current.destroy()
+    };
   }, []);
 
   useEffect(() => {
+    let isMounted = true;
+
     if(toggleRegionForm) {
       wavesurfer.current.enableDragSelection({});
     } else {
       wavesurfer.current.disableDragSelection();
       waveformAnnotationService.getRegions(pid, rid).subscribe(r => {
-        setNewRegion(null);
-        setToggleRegionForm(false);
-        wavesurfer.current.regions.maxRegions = r.length + 1;
-        setRegions([...r]);
-        if(r){
-          wavesurfer.current.clearRegions();
-          r.forEach(function(region) {
-            wavesurfer.current.addRegion(region);
-          });
+        if (isMounted) {
+          setNewRegion(null);
+          setToggleRegionForm(false);
+          wavesurfer.current.regions.maxRegions = r.length + 1;
+          setRegions([...r]);
+          if(r){
+            wavesurfer.current.clearRegions();
+            r.forEach(function(region) {
+              wavesurfer.current.addRegion(region);
+            });
+          }
         }
       });
     }
+    return () => { isMounted = false };
   }, [toggleRegionForm]);
 
   const handlePlayPause = () => {
@@ -222,11 +234,11 @@ const PlayerWaveForm = ({ url }) => {
           <div className="annotation-subtitle vw-50"></div>
           <div>{currentTime && <span>{getTimeFromSeconds(Math.round(currentTime))}</span>}/{duration && <span>{getTimeFromSeconds(Math.round(duration))}</span>}</div>
         </div>
-        <div className="d-flex flex-row pt-2">
-          <button className="custom-button custom-button-blue mx-2" onClick={showRegionForm}>
+        <div className="d-flex flex-column flex-md-row pt-2">
+          <button className="custom-button custom-button-blue my-1 mx-2" onClick={showRegionForm}>
             <FontAwesomeIcon className="mx-1" icon={faPlus}/>Themengebiet hinzufügen
           </button>
-          <button className="custom-button custom-button-orange" onClick={showPinForm}>
+          <button className="custom-button custom-button-orange my-1" onClick={showPinForm}>
             <FontAwesomeIcon className="mx-1" icon={faPlus}/>Pin hinzufügen
           </button>
         </div>

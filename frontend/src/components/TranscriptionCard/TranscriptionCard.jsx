@@ -103,10 +103,10 @@ const TranscriptionCard = () => {
     <React.Fragment>
       {saving && <LoadingSpinnerOverlay text={"Änderungen werden gespeichert!"}/> }
       <div className="custom-card">
-        <div className="custom-card-header d-flex flex-row justify-content-between align-items-center">
+        <div className="custom-card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
           <div className="custom-card-title">Transkription</div>
-          {!inEditMode && <div className="d-flex flex-row align-center">
-          <div className="mx-3">
+          {!inEditMode && <div className="d-flex flex-row justify-content-start justify-content-md-center align-items-start ">
+          <div className="mx-0 mx-md-3">
               <SearchBar searchQuery={searchQuery}
                         setSearchQuery={setSearchQuery} 
                         placeholder={"Suche nach..."}/>

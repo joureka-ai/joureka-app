@@ -9,7 +9,7 @@ const CreateProject = () => {
   return (
     <React.Fragment>
       <Head>
-        <title>Projekt erstellen</title>
+        <title>joureka - Projekt erstellen</title>
       </Head>
       <AddEditProjectForm/>
     </React.Fragment>

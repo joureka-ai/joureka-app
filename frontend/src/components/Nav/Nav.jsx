@@ -17,7 +17,11 @@ const Nav = () => {
   const [projects, setProjects] = useState(null);
 
   useEffect(() => {
-    projectService.getAllProjects().then(projects => setProjects(projects));
+    let isMounted = true;
+    projectService.getAllProjects().then(projects => {
+      if(isMounted) setProjects(projects)
+    });
+    return () => { isMounted = false };
   }, []);
 
   return (

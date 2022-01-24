@@ -178,7 +178,7 @@ const BubbleChart = ({ width, height, pins, topics, setSelectedAnnotation }) => 
             <strong>{tooltipData}</strong>
           </Tooltip>
         )}
-      <div className="d-flex flex-row justify-content-between pb-1">
+      <div className="d-flex flex-column flex-md-row justify-content-between pb-1">
         <ChartLegend scale={colorScaleTopics} type={0} title={"Themen"}></ChartLegend>
         <ChartLegend scale={colorScalePins} type={0} title={"Pins"}></ChartLegend>
       </div>

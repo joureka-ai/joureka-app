@@ -1,18 +1,17 @@
 import getConfig from 'next/config';
-
 import {userService} from "../services/user.service";
+import { useRouter } from "next/router";
 
 const { publicRuntimeConfig } = getConfig();
 
 import axios, { Axios } from 'axios';
-
 
 export const fetchWrapper = {
   get,
   post,
   put,
   delete: _delete,
-  postFile
+  postFiles
 };
 
 function get(url) {
@@ -29,9 +28,12 @@ function post(url, contentType, body) {
   return axios.post(url, body, requestOptions).then(handleResponse);
 }
 
-function postFile(url, file) {
+function postFiles(url, files, docIds) {
   let formData = new FormData();
-  formData.append('file', file);
+  files.forEach(file => {
+    formData.append('files', file);
+  });
+  formData.append('doc_ids_with_name', JSON.stringify(docIds))
   const requestOptions = {
     headers: { ...authHeader(url) },
   };
@@ -66,15 +68,21 @@ function authHeader(url) {
 }
 
 function handleResponse(response) {
-    if (response.status != 200) {
+    /*if (response.status != 200) {
       if ([401, 403].includes(response.status) && userService.userValue) {
         // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
         userService.logout();
       }
-
+      // navigate to error page
+      console.log(response.status)
       const error = (response && response.message) || response.statusText;
       return Promise.reject(error);
     } else {
       return response.data;
-    }
+    }*/
+    return response.data;
+}
+
+function handleError(error) {
+  return error;
 }

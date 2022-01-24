@@ -45,6 +45,10 @@ h1, h2 {
   @media only screen and (min-width: 1024px) {
     max-width: 75%;
   }
+
+  @media only screen and (max-width: 769px) {
+    max-width: 90%;
+  }
 }
 
 a, a:hover, a:focus, a:active {
@@ -281,15 +285,24 @@ a, a:hover, a:focus, a:active {
   border-radius: $border-radius-default 0  0 $border-radius-default;
   padding-top: 1rem;
 
-  .projectTitle {
+  .projectName {
     writing-mode: vertical-rl;  
     color: $White;
     font-size: 1.2rem;
     padding: 1rem 0;
-    margin-right: 1rem;
 
     button {
       color: $White;
+    }
+
+    span {
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+      -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
     }
 
   }

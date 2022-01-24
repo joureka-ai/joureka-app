@@ -20,12 +20,14 @@ const AnnotationsOverviewCard = () => {
 
 
   useEffect(() => {
+    let isMounted = true;
     waveformAnnotationService.getRegions(pid, rid).subscribe(r => {
-      setRegions([...r]);
+      if (isMounted) setRegions([...r]);
     });
     waveformAnnotationService.getPins(pid, rid).subscribe(p => {
-      setPins([...p]);
+      if (isMounted) setPins([...p]);
     });
+    return () => { isMounted = false };
   }, []);
 
   function showRegionDeleteModal(region) {
