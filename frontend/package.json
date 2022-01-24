@@ -56,8 +56,8 @@
     "http-proxy-middleware": "^1.0.4"
   },
   "scripts": {
-    "dev": "cross-env NODE_ENV=development PORT=3000 node server.js",
+    "dev": "cross-env NODE_ENV=development PORT=3000 node server.js --http-server-default-timeout=0",
     "build": "next build",
-    "prod": "cross-env NODE_ENV=production PORT=3000 node server.js"
+    "prod": "cross-env NODE_ENV=production PORT=3000 node server.js --http-server-default-timeout=0"
   }
 }
