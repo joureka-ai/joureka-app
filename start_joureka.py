@@ -14,7 +14,7 @@ class InstallStatus:
     backend: bool = False
     db: bool = False
     minio: bool = False
-    #frontend: bool = False
+    frontend: bool = False
 
 @dataclass
 class AppStatus:
@@ -22,7 +22,7 @@ class AppStatus:
     backend: bool = False
     db: bool = False
     minio: bool = False
-    #frontend: bool = False
+    frontend: bool = False
 
 install_status = InstallStatus()
 app_status = AppStatus()
@@ -132,8 +132,8 @@ def update_install_status(line: str, install_status: InstallStatus):
     if "minio_1" in line:
         install_status.minio = True
 
-    #if "frontend_1" in line:
-    #    install_status.frontend = True
+    if "frontend_1" in line:
+        install_status.frontend = True
 
 def update_status(line: str, app_status: AppStatus):
     if "backend_1" and "Application startup complete." in line:
@@ -145,8 +145,8 @@ def update_status(line: str, app_status: AppStatus):
     if "minio_1" and "Browser Access" in line:
         app_status.minio = True
 
-    #if "frontend_1" and "Browser Access" in line:
-    #    app_status.db = True
+    if "frontend_1" and "Ready on port" in line:
+        app_status.frontend = True
 
 
 def check_status(app_status: Union[AppStatus, InstallStatus]):
@@ -161,25 +161,25 @@ def stop_app():
     answer = input("Falls du die App beenden möchtest, antworte mit \"JA\": ")
     if answer == "JA":
         subprocess.check_call("docker-compose stop", shell=True)
+        exit()
 
 def print_status(app_status: AppStatus, c: int):
         if c % 100 == 0:
             if not app_status.backend:
                 print(2*"#" + " Das Rückgrat für die Datenverabeitung wird noch gestartet ... ")
             if app_status.backend:
-                print(2*"#" + " Das Rückgrat läuft bereits.")
+                print(2*"#" + " Das Rückgrat läuft!")
 
             if not app_status.minio or not app_status.db:
-                print(2*"#" + " Die Datenbank wird noch gestartet!")
+                print(2*"#" + " Die Datenbank wird noch gestartet ...")
             if app_status.minio and app_status.db:
-                print(2*"#" + " Die Datenbank läuft bereits.")
+                print(2*"#" + " Die Datenbank läuft!")
 
-            """
             if not app_status.frontend:
-                print(2*"#" + " Die grafische Oberfläche wird noch gestartet!")
+                print(2*"#" + " Die grafische Oberfläche wird noch gestartet ...")
             if app_status.frontend:
-                print(2*"#" + " Das grafische Oberfläche läuft bereits.")
-            """
+                print(2*"#" + " Das grafische Oberfläche läuft!")
+
 
 def install_status(line: str, c: int, installed: bool):
     
@@ -211,6 +211,7 @@ if __name__ == "__main__":
         print(12*"!!"+" Leider fehlen nötige Dateien um joureka App zu starten, bitte kopiere den joureka-App Ordner neu mit dem Befehl in der Kommandozeile: \"git clone git@github.com:joureka-ai/joureka-app.git\" " + 12*"!!")   
 
     else:
+        #print("Test")
         operating_system = platform.system()
         if "Linux" in operating_system:
             ops = "Linux"
@@ -242,12 +243,19 @@ if __name__ == "__main__":
             exit()
 
         else:
-            
+            print("Test")
             # s = subprocess.check_output("docker-compose up", shell=True)
             popen = subprocess.Popen(["docker-compose", "up"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
             c = 0
             installed = False
+
+            """
+            if popen.stderr.write():
+                print("Leider ist ein Fehler aufgetreten")
+                print(popen.stderr.write())
+            """
+            
             for line in iter(popen.stdout.readline, ''):
                 
                 if not installed:
@@ -266,12 +274,11 @@ if __name__ == "__main__":
                         print("\n")
                         print(64*"#")
                         print(12*"#"+" joureka App läuft jetzt! " + 12*"#")
-                        print(12*"#"+" Bitte gebe die folgende Adresse in deinem Browser ein: http://localhost:8888 " + 12*"#")
+                        print(12*"#"+" Bitte gebe die folgende Adresse in deinem Browser ein: http://localhost:3000 " + 12*"#")
                         print(64*"#")
 
-                        stop_app()
-
                         popen.stdout.close()
+                        stop_app()
                     
                 c += 1            
 
