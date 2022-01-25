@@ -186,10 +186,12 @@ def install_status(line: str, c: int, installed: bool):
     update_install_status(line, install_status)
     installed = check_status(install_status)
 
+    if c == 0:
+        print(2*"#"+" Es wird geschaut, ob joureka installiert werden muss. " + 2*"#")
+    
     if c % 300 == 0 and not installed:
         print(2*"#"+" joureka wird installiert, dies kann eine Weile dauern! " + 2*"#")
-        print(2*"#"+" Du hast wahrscheinlich Zeit einen oder zwei Kaffee zu trinken! " + 2*"#")
-    
+        print(2*"#"+" Du hast wahrscheinlich Zeit einen oder zwei Kaffee zu trinken. " + 2*"#")
     
     if installed:
         print(2*"#"+" joureka ist installiert! " + 2*"#")
@@ -245,17 +247,19 @@ if __name__ == "__main__":
         else:
             print("Test")
             # s = subprocess.check_output("docker-compose up", shell=True)
-            popen = subprocess.Popen(["docker-compose", "up"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+            popen = subprocess.Popen(["docker-compose", "up"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, encoding="utf-8")
 
             c = 0
             installed = False
 
-            """
-            if popen.stderr.write():
-                print("Leider ist ein Fehler aufgetreten")
-                print(popen.stderr.write())
-            """
-            
+            if ops == "Windows":
+                for line in iter(popen.stderr.readline, ''):
+                    print(f"NNNIII: {line}")
+                    installed = install_status(line, c, installed)  
+
+                    c += 1  
+
+
             for line in iter(popen.stdout.readline, ''):
                 
                 if not installed:
