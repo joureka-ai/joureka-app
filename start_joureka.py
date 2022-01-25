@@ -252,14 +252,19 @@ if __name__ == "__main__":
             c = 0
             installed = False
 
+            """
             if ops == "Windows":
                 for line in iter(popen.stderr.readline, ''):
-                    print(f"NNNIII: {line}")
+                    
                     installed = install_status(line, c, installed)  
+                    #if c % 100 == 0:
+                    print(f"installing: {line}")
+
 
                     c += 1  
-
-
+                
+                popen.stderr.close()
+            """
             for line in iter(popen.stdout.readline, ''):
                 
                 if not installed:
