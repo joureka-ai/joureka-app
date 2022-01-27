@@ -3,8 +3,7 @@ import {waveformAnnotationService} from "../../services/waveformAnnotation.servi
 import {v4 as uuidv4} from "uuid";
 import { useRouter } from 'next/router'
 import AutoSuggestInput from "../AutosuggestInput/AutosuggestInput";
-
-const regions = ['Thema 1', 'Thema 2', 'Dissonanzen', 'Thema 1', 'Thema 2', 'Dissonanzen', 'Thema 1', 'Thema 2', 'Dissonanzen', 'Thema 1', 'Thema 2', 'Dissonanzen'];
+import { projectService } from "../../services";
 
 
 const RegionCreationForm = ({region, onCancel}) => {
@@ -18,6 +17,7 @@ const RegionCreationForm = ({region, onCancel}) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [regionLabel, setRegionLabel] = useState("");
   const [regionDescription, setRegionDescription] = useState("");
+  const [regions, setRegions] = useState([])
 
 
   const submitForm = () => {
@@ -57,6 +57,15 @@ const RegionCreationForm = ({region, onCancel}) => {
     }
     return errors;
   };
+
+  useEffect(() => {
+    projectService.getProjectTopics(pid).then(topics => {
+      if(topics.length > 0 || topics.annots) {
+        const topicNames = topics.annots.map(t => t.name);
+        setRegions(topicNames);
+      }
+    }) 
+  }, []);
 
   useEffect(() => {
     if (Object.keys(regionFormErrors).length === 0 && isSubmitting) {

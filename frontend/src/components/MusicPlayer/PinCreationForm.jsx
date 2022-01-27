@@ -3,14 +3,14 @@ import {waveformAnnotationService} from "../../services/waveformAnnotation.servi
 import {v4 as uuidv4} from "uuid";
 import { useRouter } from 'next/router';
 import AutoSuggestInput from "../AutosuggestInput/AutosuggestInput";
-
-const pins = ['Pin 1', 'Pin 2', 'Pause', 'test'];
+import { projectService } from "../../services";
 
 const PinCreationForm = ({currentTime, onCancel}) => {
   const router = useRouter();
   const { pid, rid } = router.query;
   const [pinLabel, setPinLabel] = useState("")
   const [pinTime, setPinTime] = useState({});
+  const [pins, setPins] = useState([]);
   const [pinFormErrors, setPinFormErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -45,6 +45,15 @@ const PinCreationForm = ({currentTime, onCancel}) => {
     }
     return errors;
   };
+
+  useEffect(() => {
+    projectService.getProjectPins(pid).then(pins => {
+      if(pins.length > 0 || pins.annots) {
+        const pinNames = pins.annots.map(p => p.name);
+        setPins(pinNames);
+      }
+    }) 
+  }, []);
 
   useEffect(() => {
     setPinTime(getTimeFromSeconds(currentTime));
