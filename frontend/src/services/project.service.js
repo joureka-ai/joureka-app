@@ -21,7 +21,9 @@ export const projectService = {
   getTranscriptionWords,
   getTranscriptionFulltext,
   updateTranscription,
-  startTranskriptionJob
+  startTranskriptionJob,
+  getProjectTopics,
+  getProjectPins
 };
 
 function getAllProjects() {
@@ -88,3 +90,12 @@ function updateTranscription(projectId, documentId, transcriptionData) {
 function startTranskriptionJob(projectId, documentId) {
   return fetchWrapper.post(`${baseUrl}/infer/${projectId}/docs/${documentId}`)
 }
+
+function getProjectPins(projectId) {
+  return fetchWrapper.get(`${baseUrl}/visuals/${projectId}/pinplot/`)
+}
+
+function getProjectTopics(projectId) {
+  return fetchWrapper.get(`${baseUrl}/visuals/${projectId}/topicplot/`)
+}
+
