@@ -1,5 +1,5 @@
 import logging
-from asrecognition import ASREngine
+#from asrecognition import ASREngine
 from app.file_storage.file import get_file_for_key
 from app.core.config import settings
 
@@ -15,8 +15,9 @@ from vosk import Model, KaldiRecognizer, SetLogLevel
 
 LOG = logging.getLogger(__name__)
 
+"""
 class Wav2Vec2Engine:
-    """ Wrapper for loading and serving trained Wav2Vec2 model"""
+    \""" Wrapper for loading and serving trained Wav2Vec2 model \"""
 
     def __init__(self):
         self.model = ASREngine("de", model_path="jonatasgrosman/wav2vec2-large-xlsr-53-german")
@@ -27,15 +28,15 @@ class Wav2Vec2Engine:
         return model
 
     def transcribe(self, audio_path):
-        """
+        \"""
         Predict on a single audio file.
-        """
+        \"""
         audio_file = get_file_for_key(audio_path)
         assert audio_file
 
         audio_paths = [str(audio_file.path)]
         return self.model.transcribe(audio_paths)
-
+"""
 class VoskEngine:
     """ Wrapper for loading and serving trained Vosk model"""
 

@@ -43,8 +43,6 @@ def store_username_password(username, password, db_password):
         print(36*"!")
         print(f"!!! Falls dies nicht der Ordner sein sollte, wo auch die joureka App (Ordner mit dem Namen joureka-app) liegt, musst du die Datei {filename} dort hin verschieben! !!!")
 
-
-
 def in_username():
     print("\n")
     username = input("Bitte gib deinen Benutzernamen in Form einer Email ein: ")
@@ -76,7 +74,6 @@ def in_db_password():
         in_password()
 
 
-
 def check_for_docker_compose(ops: str):
     try:
     
@@ -88,7 +85,7 @@ def check_for_docker_compose(ops: str):
     except Exception as e:
         print(e)
         print(12*"!!"+" Es wird docker und docker-compose benötigt! " + 12*"!!")    
-        print(12*"!!"+" Bitte installiere für deine jeweiliges Betriebssystem! " + 12*"!!")   
+        print(12*"!!"+" Bitte installiere es für dein jeweiliges Betriebssystem! " + 12*"!!")   
         if ops == "Mac":
             print(12*"!!"+" Docker - Installation für MAC: https://docs.docker.com/desktop/mac/install/  " + 12*"!!")   
 
@@ -98,8 +95,6 @@ def check_for_docker_compose(ops: str):
         if ops == "Linux":
             print(12*"!!"+" Docker - Installation für Ubuntu (Linux): https://docs.docker.com/engine/install/ubuntu/  " + 12*"!!")   
             print(12*"!!"+" Docker-Compose - Installation für Ubuntu (Linux) unter dem Reiter Linux: https://docs.docker.com/compose/install/  " + 12*"!!")   
-
-
 
 def check_for_user_env():
     list_files = os.listdir()
@@ -112,15 +107,6 @@ def check_repo_integ():
     tmp_bool = [f in list_files for f in nec_files]
 
     return set(tmp_bool) == {True}
-
-def install_joureka():
-    subprocess.run(
-            [
-                "docker-compose",
-                "up"
-            ],
-            capture_output=True,
-        )
 
 def update_install_status(line: str, install_status: InstallStatus):
     if "backend_1" in line:
