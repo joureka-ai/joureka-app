@@ -1,206 +1,131 @@
 # joureka - Mit mehr Muße vom Interview zum Artikel
 
 # Installationsanleitung für Journalist*innen
-The following wireframes relates to the Prototype Fund application "joureka - Mit mehr Muße vom Interview zum Artikel".
-The first wireframe depicts a view on a Sammlung and the second a view on a Aufnahme. Both wireframes were created by
-Ana-Maria Tomi and will be as well realised, from a frontend perspective, by Ana-Maria Tomi.
-![Wireframe of View on Sammlung](Wireframe_-_View_of_Sammlung.png)
 
-![Wireframe of View on Aufnahme](Wireframe_-_View_of_Aufnaehme.png)
+Da joureka lediglich begrenzt finanziert ist, setzt die Installation ein wenig digitale Handwerklichkeit. Um die Installation durchzuführen solltest du schon einmal von Kommandozeile, Git, Docker und Python gehört haben. Alles weitere läuft im Hintergrund und automatisiert! 
+Wir nehmen dich so gut es geht an die Hand und erklären jeden einzelnen Schritt im Detail! 
 
-### Table of Contents
+Was sind die Voraussetzungen für die Installation? Dein Rechner sollte eine der drei Betriebssystem verwenden Windows 10, Max OS X und Ubuntu 20.04. und im Optimalfall - nicht zwingend - jünger als 3 Jahre sein.
+Wie bereits erwähnt benötigst du für die Installation Git, DOcker und Python!
 
-1. [Requirements](#requirements)
-2. [Dev setup](#dev-setup)
+## Übersicht der Installation
 
-   2.1. [Starting the backend](#starting-the-backend)
+1. [Git installieren](#git-installieren)
+2. [Python installieren](#python-installieren)
+3. [Docker installieren](#docker-installieren)
+4. [Kommandozeile öffnen](#kommandozeile-öffnen)
+5. [Kopieren der joureka-Dateien](#kopieren-der-joureka-dateien)
+6. [Installieren und starten der joureka App](#installieren-und-starten-der-joureka-app)
 
-   2.2. [Starting the frontend in development mode](#starting-the-frontend-in-development-mode)
 
-   2.3. [Development URLs](#development-urls)
+### **Git installieren**
 
-   2.4. [Development frontend proxy](#development-frontend-proxy)
+Windows 10
+> Git installieren: \
+> [Deutsche Anleitung auf Heise.de](https://www.heise.de/tipps-tricks/Git-auf-Windows-installieren-und-einrichten-5046134.html#Kurzanleitung)
 
-3. [General docker compose setup](#general-docker-compose-setup)
 
-   3.1. [Files and env vars](#files-and-env-vars)
+Mac OS X
+> Git installieren - siehe Unterpunkt "Installation unter macOS": \
+> [Deutsche Anleitung der Git Webseite](https://www.heise.de/tipps-tricks/Git-auf-Windows-installieren-und-einrichten-5046134.html#Kurzanleitung)
 
-   3.2. [The .env file](#the-.env-file)
 
-4. [Production URLs](#production-urls)
-5. [Programming Ethics](#programming-ethics)
+Ubuntu 20.04.
+> Git installieren - siehe Unterpunkt "Installation unter Linux": \
+> [Deutsche Anleitung der Git Webseite](https://www.heise.de/tipps-tricks/Git-auf-Windows-installieren-und-einrichten-5046134.html#Kurzanleitung)
 
-## Requirements
 
-The needed tools are:
+### **Python installieren**
 
-- [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
-- [Pre-Commit](https://pre-commit.com/)
+Für alle Plattformen kann Python heruntergeladen werden - wichtig ist, dass es eine Python 3 Version ist.
+> [Python herunterladen](https://www.python.org/downloads/)
 
-The used docker images are:
+Windows 10
+> [Deutsche Installationsanleitung via Blog](https://bodo-schoenfeld.de/installation-von-python-unter-windows-10/)
 
-- PostgreSQL - as data warehouse
-- Traefik - as proxy server
-- Frontend - own build React App
-- Backend - own build REST API
+Mac OS X
+> [Deutsche Anleitung via Blog](https://www.davidkehr.com/python-3-auf-dem-mac-installieren/)
 
-The use of FAST API and PostgreSQL result from this [base template](https://github.com/tiangolo/full-stack-fastapi-postgresql)
 
-# Dev Setup
+Ubuntu 20.04.
+> Git installieren - siehe Unterpunkt "installation unter macOS": \
+> [Deutsche Anleitung via Blog](https://technoguru.istocks.club/so-installieren-sie-python-in-ubuntu/2021-02-03/)
 
-There is a detailed documentation in the _frontend_ and _backend_ folder.
+### **Docker installieren**
 
-### Development URLs
+Windows 10
+> Für die Verwendung von Docker auf Windows ist auch das Windows Subsystem for Linux 2 (WSL 2) nötig: \
+> [Anleitung für die Installation von Docker](https://docs.docker.com/desktop/windows/install/) \
+> [Anleitung für die Installation von WSL 2](https://docs.microsoft.com/de-de/windows/wsl/install)
 
-Development URLs, for local development:
+Mac OS X
+> [Anleitung via Docker](https://docs.docker.com/desktop/mac/install/)
 
-- Frontend: `http://localhost:3000`
 
-- Backend: `http://localhost:8889`
+Ubuntu 20.04.
+> Für die Verwendung von joureka ist Docker und Docker-Compose nötig: \
+> [Anleitung für die Installation von Docker](https://docs.docker.com/engine/install/ubuntu/) \
+> [Anleitung für die Installation von Docker Compose - unter Reiter Linux](https://docs.docker.com/compose/install/)
 
-- API documentation: `http://localhost:8889/docs`
+Super, falls diese Sachen jetzt auf deinem Rechner laufen, können wir weiter machen!
 
-- Traefik UI: `http://localhost:8090`
+### **Kommandozeile öffnen**
 
-### Starting the backend
+Jetzt geht es an's Eingemachte! Als erstes solltest du die Kommandozeile - auch genannt Terminal oder Shell - öffnen:
 
-Start the backend stack with Docker Compose silently:
+Windows 10
+> 1. Windows Taste drücken  \
+> 2. "PowerShell" eingeben und Enter 
 
+Mac OS X
+> 1. Spotlight-Suche via "Command + Leertaste" öffnen
+> 2. "Terminal" eingeben und Enter
+
+
+Ubuntu 20.04.
+> 1. Systemweite Suche öffnen \
+> 2. "Terminal" eingeben und Enter \
+> oder \
+> Alternativ: "Steuerung" + "Umschalttaste" + "t"
+
+Jetzt kannst du mittels Git die Dateien der joureka App auf deinen Rechner kopieren!
+
+### **Kopieren der joureka-Dateien**
+
+Auf allen Plattformen in die Kommandozeile eingeben:
 ```bash
-docker-compose up -d
+ git clone https://github.com/joureka-ai/joureka-app.git
 ```
 
-If you want to see the logging of the build process:
+Die Dateien der joureka-app befinden sich jetzt in deinem Home-Ordner:
 
+Windows 10
+> C:/Users/Nutzer*innenname/joureka-app
+
+Mac OS X
+> /Users/Nutzer*innenname/joureka-app
+
+Ubuntu 20.04.
+> /home/Nutzer*innenname/joureka-app
+
+Da alle nötigen Dateien auf deinem Rechner nun vorhanden sind, kannst du die Installation nun mittels Python und der Kommandozeile starten.
+
+Dafür musst du in der offenen Kommandozeile in den joureka-app Ordner gehen.
+
+Auf allen Plattformen in die Kommandozeile eingeben:
 ```bash
-docker-compose up
+ cd joureka-app
 ```
 
-Now you can open your browser and interact with these URLs:
+Als nächstes kannst du joureka installieren!
 
-- Backend server: http://localhost:8888
-- API documentation: http://localhost:8888/docs
-
-### Starting the frontend in development mode
-
-Enter the `frontend` directory, install the NPM packages and start
-the live server using the `npm` scripts:
+### **Installieren und starten der joureka App**
+Nun kannst du die joureka App mittels eines Befehls installieren bzw. starten:
 
 ```bash
- cd frontend npm install npm run dev
+python start-joureka.py
 ```
 
-Go to http://localhost:3000
+Jetzt startet die Installation, dies wird eine Weile dauern.
 
-Notice that this live server is not running inside Docker, it is for
-local development, and that is the recommended workflow. Once you are
-happy with your frontend, you can build the frontend Docker image and
-start it, to test it in a production-like environment. But compiling
-the image at every change will not be as productive as running the
-local development server with live reload.
-
-Check the file `package.json` to see other available options.
-
-### Development frontend proxy
-
-In development mode, the frontend also acts as a proxy to the backend
-servers. Since allows us to not worry about CORS for the moment, since
-we can always point to the frontend urls.
-
-The following proxies are in place.
-
-- Paths `http://localhost:3000/backend/<path>` will be forwarded
-  to the backend path `<path>`.
-
-- Paths `http://localhost:3000/api/<path>` will be forwarded to backend
-  `api/<path>`, i.e. without rewriting.
-
-Test the proxy e.g. by viewing the api docs on
-`http://localhost:3000/backend/docs` (mapping to
-`http://localhost:8888/docs`).
-
-In the normal setup, traefik serves as proxy to all these backend
-services.
-
-## General docker compose setup
-
-### Docker Compose files and env vars
-
-There is a main `docker-compose.yml` file with all the configurations
-that apply to the whole stack, it is used automatically by
-`docker-compose`.
-
-And there's also a `docker-compose.override.yml` with overrides for
-development, for example to mount the source code as a volume. It is
-used automatically by `docker-compose` to apply overrides on top of
-`docker-compose.yml`.
-
-These Docker Compose files use the `.env` file containing
-configurations to be injected as environment variables in the
-containers.
-
-They also use some additional configurations taken from environment
-variables set in the scripts before calling the `docker-compose`
-command.
-
-It is all designed to support several "stages", like:
-
-- development,
-- building,
-- testing,
-- and deployment.
-
-Also, allowing the deployment to
-different environments like staging and production (and you can add
-more environments very easily).
-
-They are designed to have the minimum repetition of code and
-configurations, so that if you need to change something, you have to
-change it in the minimum amount of places. That's why files use
-environment variables that get auto-expanded. That way, if for
-example, you want to use a different domain, you can call the
-`docker-compose` command with a different `DOMAIN` environment
-variable instead of having to change the domain in several places
-inside the Docker Compose files.
-
-Also, if you want to have another deployment environment, say
-`preprod`, you just have to change environment variables, but you can
-keep using the same Docker Compose files.
-
-### The .env file
-
-The `.env` file is the one that contains all your configurations,
-generated keys and passwords, etc.
-
-Depending on your workflow, you could want to exclude it from Git, for
-example if your project is public. In that case, you would have to
-make sure to set up a way for your CI tools to obtain it while
-building or deploying your project.
-
-One way to do it could be to add each environment variable to your
-CI/CD system, and updating the `docker-compose.yml` file to read that
-specific env var instead of reading the `.env` file.
-
-## Production URLs (future work)
-
-These are the URLs that will be used and generated by the project.
-
-Production URLs, from the branch `production`.
-
-- Frontend: https://open.aureka.ai
-
-- Backend: https://open.aureka.ai/api/
-
-- Automatic Interactive Docs (Swagger UI): https://open.aureka.ai/docs
-
-- Automatic Alternative Docs (ReDoc): https://open.aureka.ai/redoc
-
-This is so far not supported:
-
-- PGAdmin: https://pgadmin.open.aureka.ai
-- Flower: https://flower.soundquest.com
-
-## Programming Ethics
-
-Our programming ethics follow the [Twelver-Factor App](https://12factor.net/) idea.
+Nach der einmaligen Installation kannst du den gleichen Befehl verwenden um joureka als App zu starten.
