@@ -2,7 +2,7 @@
 
 # Installationsanleitung für Journalist*innen
 
-Da joureka lediglich begrenzt finanziert ist, setzt die Installation ein wenig digitale Handwerklichkeit vorraus. Um die Installation durchzuführen solltest, du schon einmal von Kommandozeile, Git, Docker und Python gehört haben. Alles weitere läuft im Hintergrund und automatisiert. 
+Da joureka lediglich begrenzt finanziert ist, setzt die Installation ein wenig digitale Handwerklichkeit vorraus. Um die Installation durchzuführen, solltest du schon einmal von Kommandozeile, Git, Docker und Python gehört haben. Alles weitere läuft im Hintergrund und automatisiert. 
 Wir nehmen dich so gut es geht an die Hand und erklären jeden einzelnen Schritt im Detail! 
 
 Was sind die Voraussetzungen für die Installation? Dein Rechner sollte eine der drei Betriebssystem verwenden Windows 10, Max OS X und Ubuntu 20.04. und im Optimalfall - nicht zwingend - jünger als 3 Jahre sein.
@@ -130,7 +130,7 @@ Als nächstes kannst du joureka installieren!
 Nun kannst du die joureka App mittels eines Befehls installieren bzw. starten:
 
 ```bash
-python start-joureka.py
+python start_joureka.py
 ```
 
 Jetzt startet die Installation, dies wird eine Weile dauern. Je nachdem wie alt dein Rechner ist und wie schnell dein Internet kann dies unter Umständen bis zu 1,5 h dauern.
