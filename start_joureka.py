@@ -205,7 +205,7 @@ if __name__ == "__main__":
     print("\n")
     print("\n")
     print(64*"#")
-    print(12*"#"+" Willkommen bei der joureka App! " + 12*"#")
+    print(15*"#"+" Willkommen bei der joureka App! " + 16*"#")
     print(64*"#")
     print("\n")
 
@@ -245,7 +245,7 @@ if __name__ == "__main__":
             exit()
 
         else:
-            print("Test")
+            #print("Test")
             # s = subprocess.check_output("docker-compose up", shell=True)
             popen = subprocess.Popen(["docker-compose", "up"], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, encoding="utf-8")
 
@@ -282,8 +282,8 @@ if __name__ == "__main__":
                     if check_status(app_status):
                         print("\n")
                         print(64*"#")
-                        print(12*"#"+" joureka App läuft jetzt! " + 12*"#")
-                        print(12*"#"+" Bitte gebe die folgende Adresse in deinem Browser ein: http://localhost:3000 " + 12*"#")
+                        print(19*"#"+" joureka App läuft jetzt! " + 19*"#")
+                        print(2*"#"+" Bitte gebe die folgende Adresse in deinem Browser ein: http://localhost:3000 " + 2*"#")
                         print(64*"#")
 
                         popen.stdout.close()

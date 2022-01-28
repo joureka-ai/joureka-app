@@ -2,13 +2,15 @@
 
 # Installationsanleitung für Journalist*innen
 
-Da joureka lediglich begrenzt finanziert ist, setzt die Installation ein wenig digitale Handwerklichkeit. Um die Installation durchzuführen solltest du schon einmal von Kommandozeile, Git, Docker und Python gehört haben. Alles weitere läuft im Hintergrund und automatisiert! 
+Da joureka lediglich begrenzt finanziert ist, setzt die Installation ein wenig digitale Handwerklichkeit vorraus. Um die Installation durchzuführen solltest, du schon einmal von Kommandozeile, Git, Docker und Python gehört haben. Alles weitere läuft im Hintergrund und automatisiert. 
 Wir nehmen dich so gut es geht an die Hand und erklären jeden einzelnen Schritt im Detail! 
 
 Was sind die Voraussetzungen für die Installation? Dein Rechner sollte eine der drei Betriebssystem verwenden Windows 10, Max OS X und Ubuntu 20.04. und im Optimalfall - nicht zwingend - jünger als 3 Jahre sein.
-Wie bereits erwähnt benötigst du für die Installation Git, DOcker und Python!
+Wie bereits erwähnt benötigst du für die Installation Git, Docker und Python!
 
 ## Übersicht der Installation
+
+Dies sind die Schritte, welche du durchführen wirst: 
 
 1. [Git installieren](#git-installieren)
 2. [Python installieren](#python-installieren)
@@ -19,6 +21,8 @@ Wie bereits erwähnt benötigst du für die Installation Git, DOcker und Python!
 
 
 ### **Git installieren**
+
+Git ist ein Tool für die Verwaltung von Code. Du benötigst es, um den Quellcode von joureka zu beziehen.
 
 Windows 10
 > Git installieren: \
@@ -37,6 +41,7 @@ Ubuntu 20.04.
 
 ### **Python installieren**
 
+Die Installation von joureka auf deinem Recher wird mittels Python durchgeführt.
 Für alle Plattformen kann Python heruntergeladen werden - wichtig ist, dass es eine Python 3 Version ist.
 > [Python herunterladen](https://www.python.org/downloads/)
 
@@ -52,6 +57,8 @@ Ubuntu 20.04.
 > [Deutsche Anleitung via Blog](https://technoguru.istocks.club/so-installieren-sie-python-in-ubuntu/2021-02-03/)
 
 ### **Docker installieren**
+
+Docker wird die Installation auf deinem Rechner in sogenannten Containern verwalten.
 
 Windows 10
 > Für die Verwendung von Docker auf Windows ist auch das Windows Subsystem for Linux 2 (WSL 2) nötig: \
@@ -71,10 +78,10 @@ Super, falls diese Sachen jetzt auf deinem Rechner laufen, können wir weiter ma
 
 ### **Kommandozeile öffnen**
 
-Jetzt geht es an's Eingemachte! Als erstes solltest du die Kommandozeile - auch genannt Terminal oder Shell - öffnen:
+Jetzt geht es an's Eingemachte! Zuallererst solltest du die Kommandozeile - auch genannt Terminal oder Shell - öffnen:
 
 Windows 10
-> 1. Windows Taste drücken  \
+> 1. Windows Taste drücken  
 > 2. "PowerShell" eingeben und Enter 
 
 Mac OS X
@@ -83,10 +90,10 @@ Mac OS X
 
 
 Ubuntu 20.04.
-> 1. Systemweite Suche öffnen \
+> 1. Systemweite Suche öffnen 
 > 2. "Terminal" eingeben und Enter \
-> oder \
-> Alternativ: "Steuerung" + "Umschalttaste" + "t"
+>  \
+> **Alternativ**: "Steuerung" + "Umschalttaste" + "t"
 
 Jetzt kannst du mittels Git die Dateien der joureka App auf deinen Rechner kopieren!
 
@@ -97,20 +104,20 @@ Auf allen Plattformen in die Kommandozeile eingeben:
  git clone https://github.com/joureka-ai/joureka-app.git
 ```
 
-Die Dateien der joureka-app befinden sich jetzt in deinem Home-Ordner:
+Die Dateien der joureka app befinden sich jetzt in deinem Home-Ordner:
 
-Windows 10
+Dein Ordner auf Windows 10:
 > C:/Users/Nutzer*innenname/joureka-app
 
-Mac OS X
+Dein Ordner auf Mac OS X:
 > /Users/Nutzer*innenname/joureka-app
 
-Ubuntu 20.04.
+Dein Ordner auf Ubuntu 20.04. :
 > /home/Nutzer*innenname/joureka-app
 
 Da alle nötigen Dateien auf deinem Rechner nun vorhanden sind, kannst du die Installation nun mittels Python und der Kommandozeile starten.
 
-Dafür musst du in der offenen Kommandozeile in den joureka-app Ordner gehen.
+Dafür musst du in der offenen Kommandozeile in den "joureka-app" Ordner gehen.
 
 Auf allen Plattformen in die Kommandozeile eingeben:
 ```bash
@@ -126,6 +133,6 @@ Nun kannst du die joureka App mittels eines Befehls installieren bzw. starten:
 python start-joureka.py
 ```
 
-Jetzt startet die Installation, dies wird eine Weile dauern.
+Jetzt startet die Installation, dies wird eine Weile dauern. Je nachdem wie alt dein Rechner ist und wie schnell dein Internet kann dies unter Umständen bis zu 1,5 h dauern.
 
 Nach der einmaligen Installation kannst du den gleichen Befehl verwenden um joureka als App zu starten.
