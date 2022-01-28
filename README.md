@@ -115,7 +115,7 @@ Dein Ordner auf Mac OS X:
 Dein Ordner auf Ubuntu 20.04. :
 > /home/Nutzer*innenname/joureka-app
 
-Da alle nötigen Dateien auf deinem Rechner nun vorhanden sind, kannst du die Installation nun mittels Python und der Kommandozeile starten.
+Da alle nötigen Dateien auf deinem Rechner nun vorhanden sind, kannst du die Installation mittels Python und der Kommandozeile starten.
 
 Dafür musst du in der offenen Kommandozeile in den "joureka-app" Ordner gehen.
 
