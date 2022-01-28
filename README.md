@@ -31,12 +31,12 @@ Windows 10
 
 Mac OS X
 > Git installieren - siehe Unterpunkt "Installation unter macOS": \
-> [Deutsche Anleitung der Git Webseite](https://www.heise.de/tipps-tricks/Git-auf-Windows-installieren-und-einrichten-5046134.html#Kurzanleitung)
+> [Deutsche Anleitung der Git Webseite](https://git-scm.com/book/de/v2/Erste-Schritte-Git-installieren)
 
 
 Ubuntu 20.04.
 > Git installieren - siehe Unterpunkt "Installation unter Linux": \
-> [Deutsche Anleitung der Git Webseite](https://www.heise.de/tipps-tricks/Git-auf-Windows-installieren-und-einrichten-5046134.html#Kurzanleitung)
+> [Deutsche Anleitung der Git Webseite](https://git-scm.com/book/de/v2/Erste-Schritte-Git-installieren)
 
 
 ### **Python installieren**
@@ -63,10 +63,10 @@ Docker wird die Installation auf deinem Rechner in sogenannten Containern verwal
 Windows 10
 > Für die Verwendung von Docker auf Windows ist auch das Windows Subsystem for Linux 2 (WSL 2) nötig: \
 > [Anleitung für die Installation von Docker](https://docs.docker.com/desktop/windows/install/) \
-> [Anleitung für die Installation von WSL 2](https://docs.microsoft.com/de-de/windows/wsl/install)
+> [Deutsche Anleitung für die Installation von WSL 2](https://docs.microsoft.com/de-de/windows/wsl/install)
 
 Mac OS X
-> [Anleitung via Docker](https://docs.docker.com/desktop/mac/install/)
+> [Anleitung für die Installation von Docker](https://docs.docker.com/desktop/mac/install/)
 
 
 Ubuntu 20.04.
@@ -99,7 +99,7 @@ Jetzt kannst du mittels Git die Dateien der joureka App auf deinen Rechner kopie
 
 ### **Kopieren der joureka-Dateien**
 
-Auf allen Plattformen in die Kommandozeile eingeben:
+Das Kopieren der Dateien führst du auf allen Plattformen durch das Eingeben des folgenden Befehles in die Kommandozeile aus:
 ```bash
  git clone https://github.com/joureka-ai/joureka-app.git
 ```
