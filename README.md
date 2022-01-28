@@ -135,4 +135,8 @@ python start_joureka.py
 
 Jetzt startet die Installation, dies wird eine Weile dauern. Je nachdem wie alt dein Rechner ist und wie schnell dein Internet kann dies unter Umständen bis zu 1,5 h dauern.
 
-Nach der einmaligen Installation kannst du den gleichen Befehl verwenden um joureka als App zu starten.
+Nach der einmaligen Installation kannst du den gleichen Befehl verwenden, um joureka als App zu starten.
+
+Wenn die App gestartet ist, wird das folgende in deiner Kommandozeile angezeigt:
+
+![Erfolgreich gestartete App](start_joureka.png)
