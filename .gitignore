@@ -9,3 +9,6 @@ docker-stack.yml
 
 # directories created by docker-compose
 file_store
+
+# disable user.env for real usage
+user.env
