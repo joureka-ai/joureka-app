@@ -56,7 +56,7 @@ def in_username():
 def in_password():
     print("\n")
     password = input("Bitte gib dein Passwort - länger als 8 Zeichen - ein: ")
-    if len(password) > 8:
+    if len(password) >= 8:
         print(2*"#"+" Perfekt, dass hat geklappt. " + 2*"#")
         return password
     else:
@@ -66,7 +66,7 @@ def in_password():
 def in_db_password():
     print("\n")
     password = input("Bitte gib dein Passwort für die Datenbank - länger als 16 Zeichen - ein: ")
-    if len(password) > 16:
+    if len(password) >= 16:
         print(2*"#"+" Perfekt, dass hat geklappt. " + 2*"#")
         return password
     else:
