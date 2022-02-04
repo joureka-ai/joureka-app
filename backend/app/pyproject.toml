@@ -35,6 +35,7 @@ regex = "^2021.11.10"
 numpy = "^1.22.1"
 pip = "^22.0.3"
 asrecognition = "^0.0.4"
+cryptography = "^36.0.1"
 
 
 [tool.poetry.dev-dependencies]
