@@ -1,0 +1,35 @@
+@import "variables";
+
+.stepper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  .step {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $Orange;
+    width: 50px;
+    height: 50px;
+    border-radius: $border-radius-circle;
+    margin: 0 1rem;
+    opacity: 0.5;
+
+    &.active {
+      opacity: 1;
+    }
+
+    span {
+      font-weight: $font-general-weight-semibold;
+      color: $White;
+    }
+  }
+
+  hr {
+    width: 30%;
+    color: $Orange;
+    opacity: 1;
+  }
+}

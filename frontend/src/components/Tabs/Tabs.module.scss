@@ -1,0 +1,48 @@
+@import "../../styles/variables";
+.tabContainer {
+  height: 100%;
+  width: 100%;
+  background-color: $Light_Blue;
+  border-radius: $border-radius-default 0  0 $border-radius-default;
+
+  .tabHeader {
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+
+    .tab {
+      padding: 1em;
+      background-color: $Light_Blue;
+      width: 100%;
+      text-align: center;
+      font-weight: $font-general-weight-semibold;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+      -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none;
+      
+      &:nth-of-type(1)
+      {
+        border-radius: $border-radius-default 0  0 0;
+      }
+
+      &.inactive {
+        background-color: $Gray;
+        opacity: 0.2;
+      }
+    }
+  }
+}
+
+.tabBody {
+  margin: 5%;
+}
+
+
+

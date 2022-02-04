@@ -8,3 +8,10 @@ force_auto_coercion()
 from .user import User
 from .document import Document
 from .word import Word
+from .project import Project
+from .annot import Annot
+from .transcript import Transcription
+from .engines import Engines
+from .language import Language
+from .topic_model import TopicModel
+from .topic_word import TopicWord

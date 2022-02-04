@@ -1,0 +1,49 @@
+@import "variables";
+
+.split {
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  display: flex;
+  justify-content: center;
+
+
+  &.left {
+    left: 0;
+    width: 60%;
+    background-color: $Light_Blue;
+
+    @media only screen and (max-width: 600px) {
+      width: 45%;
+    }
+
+    @media only screen and (max-width: 500px) {
+      width: 0%;
+    }
+  }
+
+  &.right {
+    right: 0;
+    width: 40%;
+    background-color: $White;
+
+    .logoMobile {
+      display: none;
+      margin-bottom: 6rem;
+    }
+
+    @media only screen and (max-width: 600px) {
+      width: 55%;
+    }
+
+    @media only screen and (max-width: 500px) {
+      width: 100%;
+
+      .logoMobile {
+        display: flex;
+      }
+    }
+  }
+}
+

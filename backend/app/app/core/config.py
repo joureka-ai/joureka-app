@@ -82,6 +82,9 @@ class Settings(BaseSettings):
     FIRST_SUPERUSER_PASSWORD: str
     USERS_OPEN_REGISTRATION: bool = False
 
+    ASR_MODEL_DIR: str = "/app/.models/asr/"
+    NLP_MODEL_DIR: str = "/app/.models/nlp/"
+    AUDIO_SAMPLE_RATE: int = 16000
     class Config:
         case_sensitive = True
 
