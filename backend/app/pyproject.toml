@@ -26,6 +26,7 @@ python-jose = {extras = ["cryptography"], version = "^3.1.0"}
 aiofiles = "^0.6.0"
 boto3 = "^1.16.18"
 SQLAlchemy-Utils = "^0.36.8"
+pip = "^22.0.3"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.770"
