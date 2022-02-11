@@ -7,7 +7,7 @@ from sqlalchemy.orm import relationship
 
 from app.db.base_class import Base
 from .document import Document
-
+from .topic_model import TopicModel
 
 
 class Project(Base):
@@ -19,7 +19,9 @@ class Project(Base):
     name = Column(String, unique=True)
     description = Column(String)
     documents = relationship(Document, cascade="all, delete-orphan")
+    topic_models = relationship(TopicModel, cascade="all, delete-orphan")
 
     fk_user = Column(Integer, ForeignKey("user.id"))
 
 Document.project = relationship(Project, back_populates="documents")
+TopicModel.project = relationship(Project, back_populates="topic_models")
