@@ -29,7 +29,9 @@ const WordcloudCard = () => {
               <div className={`d-inline-block custom-tooltip`}><button className="icon-button-transparent icon-orange mx-2">
                 <FontAwesomeIcon icon={faInfoCircle} />
               </button>
-                {<span className="tooltiptext">Sed a posuere mi, et viverra orci. Fusce in dui et justo gravida egestas. Cras ullamcorper nisi vel bibendum aliquet. Vivamus viverra lacinia justo, eget imperdiet lacus feugiat sed. Aliquam a arcu in orci congue viverra. Aenean sed orci eu urna laoreet imperdiet. Aenean pulvinar massa velit, ac varius sem pharetra vel. Integer gravida placerat suscipit. Sed congue tincidunt arcu, at dapibus mi blandit at. Pellentesque maximus vulputate purus, sed vestibulum urna tristique vel. Nam et bibendum orci, posuere imperdiet velit. Maecenas volutpat tortor nisl, et accumsan felis fermentum eu. In vitae lobortis justo.</span>}
+                {<span className="tooltiptext">Diese Wortwolke zeigt Dir die 50 häufigsten Begriffe in diesem Projekt. 
+                Die dargestellte Größe des Wortes ist dabei proportional zu der Häufigkeit des Wortes. 
+                Klicke auf ein Wort, um eine Liste der Aufnahmen zu sehen, in denen dieses vorkommt.</span>}
               </div>
             </div>
         </div>

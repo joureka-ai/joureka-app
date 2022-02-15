@@ -42,9 +42,9 @@ const Home = () => {
         ))}
         {projects && projects.length === 0 &&
           <div className="d-flex justify-content-center align-items-center vh-80 flex-column">
-            <h5>Sie haben kein Projekt angelegt!</h5>
-            <p className="text-center">Beginnen Sie mit der Erkundung Ihrer Interviews, indem
-              Sie ein neues Projekt erstellen.</p>
+            <h5>Du hast kein Projekt angelegt!</h5>
+            <p className="text-center">Beginne mit der Erkundung Deiner Interviews, indem
+              Du ein neues Projekt erstellst.</p>
           </div>
         }
         {projects && <div

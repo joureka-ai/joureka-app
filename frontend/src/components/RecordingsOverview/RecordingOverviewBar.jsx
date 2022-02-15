@@ -41,7 +41,7 @@ const RecordingOverviewBar = ({recording, onRecordingDeleted}) => {
         onCloseButton={"Abbrechen"}
         onConfirmButton={"Löschen"}
       >
-        <div>Möchten Sie die ausgewählte Audiodatei wirklich löschen?</div>
+        <div>Möchtest Du die ausgewählte Audiodatei wirklich löschen?</div>
       </Modal> 
   </div>
   )

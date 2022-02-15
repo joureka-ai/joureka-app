@@ -79,7 +79,7 @@ const PinCreationForm = ({currentTime, onCancel}) => {
   return (
     <div className="p-4">
       <h4>Pin hinzufügen</h4>
-      <div>Markieren Sie den gewünschten Zeitpunkt in der Wellenform, um einen Pin zu definieren.</div>
+      <div>Markiere den gewünschten Zeitpunkt in der Wellenform, um einen Pin zu definieren.</div>
       <form onSubmit={e => { e.preventDefault(); }} role="form" name="add-pin-form" className="py-3">
         <div className="form-group full-width">
           <label htmlFor="time">Zeitpunkt</label>

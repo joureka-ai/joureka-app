@@ -33,7 +33,7 @@ const AddEditProjectForm = (props) => {
       sessionStorage.setItem('created-project', JSON.stringify(createdProject));
       setCurrentStep(2);
     }).catch(error => {
-      setProjectFormErrors({projectTitle: "Ein gleichnamiges Projekt existiert bereits! Versuchen Sie es mit einem anderen Titel."})
+      setProjectFormErrors({projectTitle: "Ein gleichnamiges Projekt existiert bereits! Versuche es mit einem anderen Titel."})
     });
   };
 
@@ -130,10 +130,10 @@ const AddEditProjectForm = (props) => {
               onCloseButton={"Abbrechen"}
               onConfirmButton={"Löschen"}
             >
-              <div>Möchten Sie das Projekt wirklich löschen?</div>
+              <div>Möchtest Du das Projekt wirklich löschen?</div>
             </Modal>
               </div>
-            <div className="pt-3">Mittels dem folgenden Formular können Sie ein neues Projekt erstellen oder bearbeiten. Im nächsten Schritt können Sie Audiodateien dem Projekt hinzufügen.</div>
+            <div className="pt-3">Mittels dem folgenden Formular kannst Du ein neues Projekt erstellen oder bearbeiten. Im nächsten Schritt kannst Du Audiodateien dem Projekt hinzufügen.</div>
           </div>
           <div className="custom-card-body">
             <form role="form" name="create-project-form">
@@ -171,7 +171,7 @@ const AddEditProjectForm = (props) => {
         {currentStep === 2 && <div className="fadeInEffect custom-card">
           <div className="custom-card-header">
             <div className="custom-card-title text-uppercase">Dateien hochladen</div>
-            <div className="pt-2">Laden Sie Audiodateien in Ihr Projekt hoch. Dies kann auch zu einem späteren Zeitpunkt erfolgen.</div>
+            <div className="pt-2">Lade Audiodateien in Dein Projekt hoch. Dies kann auch zu einem späteren Zeitpunkt erfolgen.</div>
           </div>
           <div className="custom-card-body">
             <UploadFileDropzone/>
