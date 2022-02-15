@@ -130,7 +130,7 @@ const AddEditProjectForm = (props) => {
               onCloseButton={"Abbrechen"}
               onConfirmButton={"Löschen"}
             >
-              <div>Möchtest DU das Projekt wirklich löschen?</div>
+              <div>Möchtest Du das Projekt wirklich löschen?</div>
             </Modal>
               </div>
             <div className="pt-3">Mittels dem folgenden Formular kannst Du ein neues Projekt erstellen oder bearbeiten. Im nächsten Schritt kannst Du Audiodateien dem Projekt hinzufügen.</div>

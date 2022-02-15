@@ -64,7 +64,13 @@ const TopicChartCard = () => {
               <button className="icon-button-transparent icon-orange mx-2">
                 <FontAwesomeIcon icon={faInfoCircle} />
               </button>
-                {<span className="tooltiptext">Sed a posuere mi, et viverra orci. Fusce in dui et justo gravida egestas. Cras ullamcorper nisi vel bibendum aliquet. Vivamus viverra lacinia justo, eget imperdiet lacus feugiat sed. Aliquam a arcu in orci congue viverra. Aenean sed orci eu urna laoreet imperdiet. Aenean pulvinar massa velit, ac varius sem pharetra vel. Integer gravida placerat suscipit. Sed congue tincidunt arcu, at dapibus mi blandit at. Pellentesque maximus vulputate purus, sed vestibulum urna tristique vel. Nam et bibendum orci, posuere imperdiet velit. Maecenas volutpat tortor nisl, et accumsan felis fermentum eu. In vitae lobortis justo.</span>}
+                {<span className="tooltiptext">Diese Grafik visualisiert für Dich die algorithmische erstellten Themen. 
+                Dabei handelt es sich um eine Methode, mit der alle Wörter in allen Transkripten eines Projektes in Gruppen 
+                geordnet werden, die sich wahrscheinlich auf ein ähnliches Thema beziehen. Der Algorithmus zählt hierfür unter 
+                anderem die Häufigkeit von Wörtern in jedem Dokument und im gesamten Projekt. Da Topic Modelling eine sogenannte 
+                unüberwachte (unsupervised) Methode ist, wird für jedes deiner Projekte ein eigenes Modell trainiert. 
+                Als Ergebnis beschreibt der Algorithmus ein Themengebiet anhand der Wörter, welcher er am einflussreichsten einschätzt. 
+                Klicke auf die Mitte eines Diagramms, um dem Thema einen Namen zu geben.</span>}
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { faBuilding, faCalendar, faChevronUp, faMagic, faMapMarkedAlt, faUsers } from "@fortawesome/free-solid-svg-icons";
+import { faBuilding, faCalendar, faChevronUp, faInfoCircle, faMagic, faMapMarkedAlt, faUsers } from "@fortawesome/free-solid-svg-icons";
 import React, {useState, useEffect} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import PackChart from "./PackChart";
@@ -87,7 +87,20 @@ const StatisticsChartCard = () => {
     return (
       <div className="custom-card vw-60">
           <div className="custom-card-header">
-              <div className="custom-card-title">Statistische Analyse</div>
+              <div className="custom-card-title">
+                <span>Statistische Analyse</span>
+                <div className={`d-inline-block custom-tooltip`}>
+                  <button className="icon-button-transparent icon-orange mx-2">
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                  </button>
+                  {<span className="tooltiptext">In diesem Abschnitt kannst Du projektbezogene Informationen - Anzahl, durchschnittliche 
+                  Länge und Wörteranzahl der Aufnahmen - finden. Zusätzlich wird ein Verfahren zur Erkennung von Eigennamen 
+                  durchlaufen. Die erkannten Eigennamen werden in vier unterschiedliche Kategorien aufgeteilt - Ort, Person, 
+                  Organisation und Divers - und in der Grafik dargestellt. Die Größe der Kreise ist hierbei proportional zur Häufigkeit des 
+                  Auftretens des Eigennamens in dem Projekt. 
+                  Klicke auf einen Eigennamen, um eine Liste der Aufnahmen zu sehen, in denen dieser vorkommt.</span>}
+                </div>
+              </div>
           </div>
           {loadingData && <LoadingSpinner text={"Grafik wird erstellt."}/>}
           {!loadingData && <div className="custom-card-body">
