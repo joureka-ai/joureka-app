@@ -15,7 +15,7 @@ const MobileOverlay = ({show}) => {
     <div className={styles.mobileOverlay}>
         <div className="alert alert-primary d-flex flex-row justify-content-center align-items-center vw-80" role="alert">
             <FontAwesomeIcon size="2x" icon={faRedo}></FontAwesomeIcon>
-            <div className="mx-2">Schalten Sie das Telefon  in den Querformatmodus für ein besseres Erlebnis!</div>
+            <div className="mx-2">Schalte das Telefon in den Querformatmodus für ein besseres Erlebnis!</div>
         </div>
     </div>
   ) : null;

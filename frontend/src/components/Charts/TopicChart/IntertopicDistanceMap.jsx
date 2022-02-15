@@ -149,7 +149,7 @@ const IntertopicDistanceMap = ({ width, height, topics, setSelectedTopic }) => {
             >
             <div><strong>{tooltipData.label}</strong> (Size: {tooltipData.size})</div>
             <div className="py-2 lh-base">{tooltipData.words.map((w, i) => <span key={i}> {w.word} |</span>)}</div>
-            <div className="lh-base"><i>Klicken Sie auf den Kreis, um mehr über das Thema zu erfahren!</i></div>
+            <div className="lh-base"><i>Klicke auf den Kreis, um mehr über das Thema zu erfahren!</i></div>
             </Tooltip>
         )}
         <div className="d-flex flex-row justify-content-between pb-1">

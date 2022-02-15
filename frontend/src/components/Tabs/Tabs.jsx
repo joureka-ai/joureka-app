@@ -85,7 +85,7 @@ const Tabs = () => {
             <FontAwesomeIcon icon={faInfoCircle} />
             <div className="px-3">
               <small>
-              Sobald alle Aufnahmen transkribiert sind, können Sie zurückkommen und sich deren statistische Analyse ansehen.
+              Sobald alle Aufnahmen transkribiert sind, kannst Du zurückkommen und dir deren statistische Analyse ansehen.
               </small>
             </div>
           </div>}

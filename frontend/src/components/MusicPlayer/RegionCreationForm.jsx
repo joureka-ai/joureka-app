@@ -87,7 +87,7 @@ const RegionCreationForm = ({region, onCancel}) => {
     return (
       <div className="p-4">
         <h4>Themengebiet hinzufügen</h4>
-        <div>Markieren Sie den gewünschten Bereich in der Wellenform, um einen Themenbereich zu definieren, und geben Sie unten die gewünschte Beschreibung ein.</div>
+        <div>Markiere den gewünschten Bereich in der Wellenform, um einen Themenbereich zu definieren, und gebe unten die gewünschte Beschreibung ein.</div>
         <form onSubmit={e => { e.preventDefault(); }} role="form" name="add-region-form" className="py-3">
           {regionFormErrors.region && (
             <span className="input-error">{regionFormErrors.region}</span>

@@ -66,7 +66,7 @@ const AnnotationsOverviewCard = () => {
             onCloseButton={"Abbrechen"}
             onConfirmButton={"Löschen"}
           >
-            <div>Möchten Sie das ausgewählte Themengebiet wirklich löschen?</div>
+            <div>Möchtest Du das ausgewählte Themengebiet wirklich löschen?</div>
           </Modal>
           {pins && pins.map((pin, index) => <div key={index}
               className={`${pinAnnotation} d-flex justify-content-between align-items-center`}>
@@ -81,12 +81,12 @@ const AnnotationsOverviewCard = () => {
             onCloseButton={"Abbrechen"}
             onConfirmButton={"Löschen"}
           >
-            <div>Möchten Sie das ausgewählte Pin wirklich löschen?</div>
+            <div>Möchtest Du das ausgewählte Pin wirklich löschen?</div>
           </Modal>
           {regions.length == 0 && pins.length == 0 &&
             <div className={noContent}>
               <FontAwesomeIcon icon={faThumbtack} size="2x"/>
-              <p>Sie haben noch keine Themengebiete oder Pins erstellt!</p>
+              <p>Du hast noch keine Themengebiete oder Pins erstellt!</p>
             </div>
           }
         </div>

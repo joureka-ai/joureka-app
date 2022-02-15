@@ -30,7 +30,7 @@ const RecordingsOverview = ({recs, onDeleteRecording}) => {
       ))}
       {recs && recs.length === 0 &&
       <div className="d-flex justify-content-center align-items-center vh-80 flex-column">
-        <h5 className="text-center">Sie haben kein Aufnahmen hochgeladen!</h5>
+        <h5 className="text-center">Du hast kein Aufnahmen hochgeladet!</h5>
       </div>
       }
       {recs && <div

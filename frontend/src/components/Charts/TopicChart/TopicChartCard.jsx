@@ -10,7 +10,7 @@ import { chartsDataService } from "../../../services/chartsData.service";
 import { projectService } from "../../../services/project.service";
 import LoadingSpinner from "../../LoadingSpinner/LoadingSpinner";
 
-const NR_OF_TOPICS = 10;
+const NR_OF_WORDS_TOPICS = 5;
 const NR_OF_RECORDING_NEEDED = 5; 
 
 const TopicChartCard = () => {
@@ -26,7 +26,7 @@ const TopicChartCard = () => {
     projectService.getAllDocuments(pid).then((docs) => {
       if(docs.length >= NR_OF_RECORDING_NEEDED) {
         setSufficientRecodings(true)
-        chartsDataService.getTopics(pid, NR_OF_TOPICS).then((t) => {
+        chartsDataService.getTopics(pid, NR_OF_WORDS_TOPICS).then((t) => {
           setTopics(t);
           setLoadingData(false);
         });
@@ -49,7 +49,7 @@ const TopicChartCard = () => {
     } else {
       setActiveChart(1)
       setSelectedTopic(null)
-      chartsDataService.getTopics(pid, NR_OF_TOPICS).then((t) => {
+      chartsDataService.getTopics(pid, NR_OF_WORDS_TOPICS).then((t) => {
         setTopics(t);
       });
     } 

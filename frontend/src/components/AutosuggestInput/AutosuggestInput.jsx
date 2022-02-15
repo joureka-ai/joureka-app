@@ -43,7 +43,7 @@ const AutoSuggestInput = ({suggestionsList, value, setValue}) => {
         };
 
     const inputProps = {
-        placeholder: 'Geben Sie einen Titel ein oder wählen Sie einen vorhandenen Titel aus.',
+        placeholder: 'Gebe einen Titel ein oder wähle einen vorhandenen Titel aus.',
         value,
         onChange: onChange,
     };
