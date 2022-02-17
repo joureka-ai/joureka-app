@@ -36,6 +36,7 @@ class DocumentInDBBase(DocumentBase):
     audio_file_key: Optional[str]
     fulltext: Optional[str]
     fulltext_regconfig: Optional[str]
+    task_id: Optional[str]
     words: List[Word] = []
 
     class Config:

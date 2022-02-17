@@ -166,6 +166,12 @@ class CRUDDocument(CRUDBase[Document, DocumentCreate, DocumentUpdate]):
         db.refresh(document)
     
     @staticmethod
+    def update_task_id(db: Session, document: Document, task_id: str) -> Document:
+        document.task_id = task_id
+        db.commit()
+        db.refresh(document)
+
+    @staticmethod
     def update_transcription(db: Session, document: Document, job_raw: TranscriptionResults) -> Document:
         document.transcription = Transcription(
             raw=job_raw,
