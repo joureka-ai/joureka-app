@@ -1,16 +1,16 @@
 
 ---
 
-   layout: joureka
-   title: joureka - Mit mehr Muße vom Interview zum Artikel!
-   image: 
+   - layout: joureka
+   - title: joureka - Mit mehr Muße vom Interview zum Artikel!
+   - image: ![Übersicht von Joureka](joureka_overview.png)
    authors:
    - author: Ana-Maria Tomi
-   link:
+   - link: [Ana's GithHub](https://github.com/anatomi)
    - author: Felix Mertineit
-   link: 
-   brief: Wir erleichtern die Arbeit von Journalist:innen!
-   summary: Mit joureka transkribieren Journalist:innen Interviews und Tonaufnahmen automatisch. Mittels Textanalyse werden die erhaltenen Inhalte zusammengefasst und visuell präsentiert!
+   - link: [Felix's GithHub](https://github.com/FelixMertin)
+   - brief: Wir erleichtern die Arbeit von Journalist:innen!
+   - summary: Mit joureka transkribieren Journalist:innen Interviews und Tonaufnahmen automatisch. Mittels Textanalyse werden die erhaltenen Inhalte zusammengefasst und visuell präsentiert!
 
 ---
 
