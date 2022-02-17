@@ -22,6 +22,7 @@ export const projectService = {
   getTranscriptionFulltext,
   updateTranscription,
   startTranskriptionJob,
+  getTranscriptionJobStatus,
   getProjectTopics,
   getProjectPins
 };
@@ -89,6 +90,10 @@ function updateTranscription(projectId, documentId, transcriptionData) {
 
 function startTranskriptionJob(projectId, documentId) {
   return fetchWrapper.post(`${baseUrl}/infer/${projectId}/docs/${documentId}`)
+}
+
+function getTranscriptionJobStatus(projectId, documentId, taskId) {
+  return fetchWrapper.get(`${baseUrl}/infer/${projectId}/docs/${documentId}/status/${taskId}`)
 }
 
 function getProjectPins(projectId) {

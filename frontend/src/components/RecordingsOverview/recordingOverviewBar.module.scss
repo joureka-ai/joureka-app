@@ -31,6 +31,10 @@
   &.success {
     border-left: 7px solid $Green;
   }
+
+  &.failed {
+    border-left: 7px solid $Red;
+  }
 }
 
 
