@@ -15,7 +15,7 @@ const RecordingsOverview = ({recs, onDeleteRecording}) => {
   const [pageRecordings, setPageRecordings] = useState([])
 
   useEffect(() => {
-    setPageRecordings(getPageData(recs, pageIndex));
+    setPageRecordings([...getPageData(recs, pageIndex)]);
   }, [recs]);
 
   function recordingDeleted(){

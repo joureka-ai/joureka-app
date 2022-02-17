@@ -57,7 +57,7 @@ function UploadFileDropzone(props) {
                 projectService.startTranskriptionJob(currentProject.id, doc.id)
                 .then(response => { console.log(response)})
                 .catch((error) => { 
-                  if(error.status = 200) {
+                  if(error.status = 409) {
                     console.log("Transcription already exists!")
                   } else {
                     console.log("Failed to start transcription task!")

@@ -25,14 +25,14 @@ const Tabs = () => {
     let isMounted = true;
     projectService.getAllDocuments(pid).then((recs) => {
       if (isMounted) {
-        setRecordings(recs);
+        setRecordings([...recs]);
         setNoStatsTab(!recordingTranscriptionDone(recs))
       }
     });
     let interval = setInterval(function(){ 
       projectService.getAllDocuments(pid).then((recs) => {
         if (isMounted) {
-          setRecordings(recs);
+          setRecordings([...recs]);
           setNoStatsTab(!recordingTranscriptionDone(recs))
         }
       });
@@ -109,7 +109,7 @@ const Tabs = () => {
 function recordingTranscriptionDone(recordings) {
   let done = true;
   for(let i = 0; i < recordings.length; i++) {
-    if(recordings[i].fulltext == null) {
+    if(recordings[i].transcriptionStatus != "SUCCESS" && recordings[i].transcriptionStatus != "FAILURE") {
       done = false;
       break;
     } else {
