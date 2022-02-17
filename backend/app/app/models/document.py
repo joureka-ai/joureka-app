@@ -13,7 +13,7 @@ from .annot import Annot
 
 class Document(Base):
     """ORM model for a document"""
-    
+
     __table_name__ = "document"
     __table_args__ = (
         Index(
@@ -27,6 +27,7 @@ class Document(Base):
     title = Column(String, index=True)
     audio_file_key = Column(String, nullable=True)
     peaks_file_key = Column(String, nullable=True)
+    task_id = Column(String, nullable=True)
     language = Column(String, nullable=True)
 
     fk_transcription = Column(Integer, ForeignKey("transcription.id"))
@@ -37,10 +38,11 @@ class Document(Base):
     fulltext_regconfig = deferred(Column(String, nullable=True))
 
     annotations = relationship(Annot, cascade="all, delete-orphan")
-    words = relationship(Word, cascade="all, delete-orphan", order_by=Word.current_order)
+    words = relationship(
+        Word, cascade="all, delete-orphan", order_by=Word.current_order
+    )
     fk_project = Column(Integer, ForeignKey("project.id"))
     edited = Column(Boolean, nullable=False, default=False)
-
 
 
 Word.document = relationship(Document, back_populates="words")
