@@ -14,12 +14,11 @@
 
 ---
 
-
 # Mit mehr Muße vom Interview zum Artikel!
-joureka macht die Arbeit von Journalist:innen leichter! Mit joureka transkribierst Du Deine Interviews automatisch und bereitest Deine Artikel vor: joureka bietet generierte Überblicke über die Textinhalte der Aufnahmen. Zum einen werden unterschiedliche Themengebiete identifiziert und zum anderen werden Dir Vorschläge für erkannte Personen, Orte, Organisationen und Daten geliefert. Auch wird ersichtlich, welche Wörter am häufigsten Vorkommen. All diese Funktionen verknüpfen die Ergebnisse mit dem einzelnen korrespondierenden Interview. Um Dich dabei zu unterstützen den Stift wirklich auf das Papier zu setze, haben wir die Möglichkeit eingebaut Interviews zu kommentieren und Notizen zu visualisieren. \
+joureka macht die Arbeit von Journalist:innen leichter! Mit joureka transkribierst Du Deine Interviews automatisch und bereitest Deine Artikel vor: joureka bietet generierte Überblicke über die Textinhalte der Aufnahmen. Zum einen werden unterschiedliche Themengebiete identifiziert und zum anderen werden Dir Vorschläge für erkannte Personen, Orte, Organisationen und Daten geliefert. Auch wird ersichtlich, welche Wörter am häufigsten Vorkommen. All diese Funktionen verknüpfen die Ergebnisse mit dem korrespondierendem Interview. Um Dich dabei zu unterstützen, den Stift wirklich auf das Papier zu setzen, haben wir die Möglichkeit eingebaut Interviews zu kommentieren und Notizen zu visualisieren. \
 In Zeiten, in denen investigativer Journalismus schwieriger und notwendiger wird, arbeitet joureka lediglich lokal auf Deinem eigenen Rechner und mit Verschlüsselung! Die Sicherheit Deiner Daten und Interviewpartner:innen werden so nicht gefährdet. 
  
-Neugierig geworden? Hier geht es zu der Installationanleitung! 
+Neugierig geworden? Hier geht es zu der Installationsanleitung! 
 - [Kurze Installationsanleitung](https://www.joureka.ai/#Install)
 - [Ausführliche Installationsanleitung](https://github.com/joureka-ai/joureka-app) 
 
@@ -41,16 +40,16 @@ Darüber hinaus war es uns bewusst, dass nicht jeder das gleiche Gerät mit der 
 
 # Woher kommt joureka?
 
-joureka ist Teil des aureka-Ökosystems. [aureka](https://aureka.ai) ist ein Startup, das digitale Tools für den Erhalt von audiovisuellem Erbe und der Wissensproduktion entwickelt. \
+joureka ist Teil des aureka-Ökosystems. [aureka](https://aureka.ai) ist ein Startup, das digitale Tools für den Erhalt von audiovisuellen Erbe und der Wissensproduktion entwickelt. \
 Cecilia Maas ist promovierte Medienhistorikerin und Ideengeberin für joureka als auch aureka. Sie unterstützt die Entwickler:innen in Kommunikation und liefert Feedback.
 Felix Mertineit ist studierter Wirtschaftsinformatiker (M.Sc.) und fungiert bei joureka als Projektmanager, Backend- und Deep-Learning-Entwickler. Ana-Maria Tomi ist als angehende Medienformatikerin für die Designkonzepte und -sprache sowie für die eigentliche Entwicklung eines interaktiven und ansprechenden Frontends zuständig. 
 
 
 # Was haben wir gelernt?
 Durch die in den Projektablauf eingegliederten Workshops konnten alle Beteiligten ein tieferes Verständnis für das Designen von Services nach Nutzer:innen-Perspektive gewinnen. Als eine weitere Methode in unserem digitalen Werkzeugkasten werden wir definitiv das Assumption Mappings mit nehmen! \
-Im Rahmen der Entwicklung haben wir unterschiedliche Modelle für die Transkription von Aufnahmen getestet. Hierbei griffen wir auch auf sehr neue, sogenannte Transformer, Modelle zurück. Diese behaupteten sich in ihrer Qualität, jedoch nicht in der benötigten Zeit. Insbesondere war dies der Fall, wenn diese nicht via einer Nvidia Grafikkarte beschleunigt wurden. Um allgemein rechenintensive Aufgaben bearbeiten zu können, haben beide Entwickler:innen erstmalig mit einem Message-Queue-System gearbeitet, welches Arbeitslasten intelligent aufgeteilt. Für Teile des Entwicklungsteams war auch der Einsatz von Docker als Tool für die Containerisierung sehr lehrreich und ein weitere Schritt hin zu modernen Praktiken des Web Developments. Das Frontend konnte desweiteren neue Frameworks erproben und nachhaltig integrieren wie beispielsweise Next.JS und das visx-Framework.
+Im Rahmen der Entwicklung haben wir unterschiedliche Modelle für die Transkription von Aufnahmen getestet. Hierbei griffen wir auch auf sehr neue, sogenannte Transformer, Modelle zurück. Diese behaupteten sich in ihrer Qualität, jedoch nicht in der benötigten Zeit. Insbesondere war dies der Fall, wenn diese nicht via einer Nvidia Grafikkarte beschleunigt wurden. Um allgemein rechenintensive Aufgaben bearbeiten zu können, haben beide Entwickler:innen erstmalig mit einem Message-Queue-System gearbeitet, welches Arbeitslasten intelligent orchestriert. Für Teile des Entwicklungsteams war auch der Einsatz von Docker als Tool für die Containerisierung sehr lehrreich und ein weiterer Schritt hin zu modernen Praktiken des Web Developments. Das Frontend konnte desweiteren neue Frameworks erproben und nachhaltig integrieren wie beispielsweise Next.JS und das visx-Framework.
 
 
 # Wie geht es weiter?
-Zum Zeitpunkt des Abschlusses von Prototype Fund holen  wir Feedback von Journalist:innen ein. Nachdem wir dieses Feedback katalogisiert und priorisiert haben, erfolgt die Anpassung der wichtigsten Punkte. Insbesondere erhoffe wir durch das Feedback zu verstehen, wie wichtig für Journalist:innen einzelne Funktionen wie Annotationen, Verwaltung von langen und vielen Interviews und eine Zusammenfassung von Textinhalten. \
-Da auch wir bei [joureka](https://www.joureka.ai/) nur eine begrenzte Zeit von Luft und Liebe leben können, suchen wir nach weiterer finanzieller Unterstützung, um joureka fortzuentwickeln. Eine Herzensangelegenheit wäre es für uns die jetzige prototypische Version zu einer vollumfänglichen Desktop App auszubauen, eine technische Installation mittels Docker & Co. , wissen wir, ist nicht für die Journalist:innen geeignet.
+Zum Zeitpunkt des Abschlusses von Prototype Fund holen wir Feedback von Journalist:innen ein. Nachdem wir dieses Feedback katalogisiert und priorisiert haben, erfolgt die Anpassung der wichtigsten Punkte. Insbesondere erhoffe wir durch das Feedback zu verstehen, wie wichtig für Journalist:innen einzelne Funktionen wie Annotationen, Verwaltung von langen und vielen Interviews und eine Zusammenfassung von Textinhalten ist. \
+Da auch wir bei [joureka](https://www.joureka.ai/) nur eine begrenzte Zeit von Luft und Liebe leben können, suchen wir nach weiterer finanzieller Unterstützung, um joureka fortzuentwickeln. Eine Herzensangelegenheit wäre es für uns die jetzige prototypische Version zu einer vollumfänglichen Desktop App auszubauen, eine technische Installation mittels Docker & Co. , wissen wir, ist nicht für Journalist:innen geeignet.
