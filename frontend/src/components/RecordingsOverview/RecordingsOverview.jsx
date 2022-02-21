@@ -8,37 +8,77 @@ import {faChevronLeft, faChevronRight, faPager, faPlus} from "@fortawesome/free-
 
 const ITEMS_PER_PAGE = 10;
 
-const RecordingsOverview = ({recs, onDeleteRecording}) => {
+const RecordingsOverview = ({onDeleteRecording}) => {
   const router = useRouter();
   const { pid } = router.query;
   const [pageIndex, setPageIndex] = useState(0);
+  const [loadingRecordings, setLoadingRecordings] = useState(false);
+  const [recordings, setRecordings] = useState([])
   const [pageRecordings, setPageRecordings] = useState([])
 
   useEffect(() => {
-    setPageRecordings([...getPageData(recs, pageIndex)]);
-  }, [recs]);
+    let isMounted = true;
+    setLoadingRecordings(true);
+    projectService.getAllDocuments(pid).then((recs) => {
+      if (isMounted) {
+        recs.forEach((r) => {
+          projectService.getTranscriptionJobStatus(pid, r.id, r.task_id).then(status => {
+            r.status = status;
+          });
+        })
+        setRecordings(recs)
+        setPageRecordings(getPageData(recs, pageIndex));
+        setLoadingRecordings(false);
+      }
+    });
+    let interval = setInterval(function(){ 
+      projectService.getAllDocuments(pid).then((recs) => {
+        if (isMounted) {
+          recs.forEach((r) => {
+            projectService.getTranscriptionJobStatus(pid, r.id, r.task_id).then(status => {
+              r.status = status;
+            });
+          })
+          setPageRecordings(getPageData(recs, pageIndex));
+        }
+      });
+    }, 30000);
+    return () => {
+      isMounted = false;
+      clearInterval(interval)
+    };
+  }, []); 
 
   function recordingDeleted(){
-    onDeleteRecording();
+    projectService.getAllDocuments(pid).then((recs) => {
+        recs.forEach((r) => {
+          projectService.getTranscriptionJobStatus(pid, r.id, r.task_id).then(status => {
+            r.status = status;
+          });
+        })
+        setRecordings(recs)
+        setPageRecordings(getPageData(recs, pageIndex));
+    });
   }
 
   return (
     <React.Fragment>
+      {loadingRecordings && <LoadingSpinnerOverlay text={"Audiodateien werden geladen!"}/> }
       <button className="border-button border-button-blue full-width" onClick={() =>  router.push({pathname: `/project/${pid}/update`, query: {step: 2}})}><FontAwesomeIcon icon={faPlus} /><span className="px-3">Aufnahme hinzufügen</span></button>
-      {recs && pageRecordings.map(recording => (
+      {pageRecordings.length > 0 && pageRecordings.map(recording => (
         <RecordingOverviewBar onRecordingDeleted={recordingDeleted} recording={recording} key={recording.id}/>
       ))}
-      {recs && recs.length === 0 &&
+      {pageRecordings.length == 0 &&
       <div className="d-flex justify-content-center align-items-center vh-80 flex-column">
         <h5 className="text-center">Du hast kein Aufnahmen hochgeladet!</h5>
       </div>
       }
-      {recs && <div
+      {recordings && <div
         className={`d-flex flex-row pt-4 ${!showPrevArrow(pageIndex) ? 'justify-content-end' : 'justify-content-between'}`}>
         {showPrevArrow(pageIndex) &&
         <button onClick={() => setPageIndex(pageIndex - 1)} className="icon-button-round mx-2">
           <FontAwesomeIcon icon={faChevronLeft}/></button>}
-        {showNextArrow(pageIndex, recs) &&
+        {showNextArrow(pageIndex, recordings) &&
         <button onClick={() => setPageIndex(pageIndex + 1)} className="icon-button-round mx-2">
           <FontAwesomeIcon icon={faChevronRight}/></button>}
       </div>
