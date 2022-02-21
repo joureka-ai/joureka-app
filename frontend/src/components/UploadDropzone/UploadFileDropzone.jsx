@@ -26,7 +26,7 @@ function UploadFileDropzone(props) {
   });
 
   useEffect(() => {
-   projectService.getAllDocuments(currentProject.id).then(docs => setUploadedDocuments(docs));
+    projectService.getAllDocuments(currentProject.id).then(docs => setUploadedDocuments(docs));
   }, []);
 
   function removeFiles(e, fileIndex) {
@@ -118,7 +118,7 @@ function UploadFileDropzone(props) {
       </div>
       <div className="d-flex flex-column justify-content-end align-items-end py-3">
         <button disabled={files?.length === 0} onClick={saveFiles} id="submit-dropzone-btn" className="full-width custom-button custom-button-sm custom-button-orange">
-          Dateien hochladen
+          Dateien hochladen und transkribieren lassen
         </button>
         {uploadedDocuments.length === 0 && <button onClick={() => { sessionStorage.removeItem('created-project'); router.push(`/project/${currentProject.id}`)}} className=" full-width custom-button custom-button-sm custom-button-transparent">Dateien Später hochladen</button>}
       </div>
@@ -141,7 +141,7 @@ function UploadFileDropzone(props) {
       {uploadedDocuments.length !== 0 && <div className="d-flex flex-column flex-md-row justify-content-end align-items-end pt-3">
         <button onClick={() => { 
           sessionStorage.removeItem('created-project'); 
-          router.push(`/project/${currentProject.id}`)}} className="custom-button custom-button-sm custom-button-blue">Bearbeitung beenden</button>
+          router.push(`/project/${currentProject.id}`)}} className="custom-button custom-button-sm custom-button-blue">Fertig</button>
       </div>}
       <Modal
         title={"Audiodatei löschen"}
