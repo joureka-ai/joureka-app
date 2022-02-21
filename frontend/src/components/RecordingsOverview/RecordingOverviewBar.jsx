@@ -62,7 +62,7 @@ const RecordingOverviewBar = ({recording, onRecordingDeleted}) => {
                 <FontAwesomeIcon icon={faTrash} />
         </button>
         <Link href={`/project/${recording.fk_project}/recording/${recording.id}`} className="disabled-link">
-        <button disabled={(status == "PENDING" || status == "STARTED" || status == "RETRY")} className="custom-button custom-button-sm custom-button-orange">Zum Projekt</button>
+        <button disabled={(status == "PENDING" || status == "STARTED" || status == "RETRY")} className="custom-button custom-button-sm custom-button-orange">Zur Aufnahme</button>
         </Link>
       </div>} 
       {status == "FAILED" && <div className="d-flex justify-content-end">
