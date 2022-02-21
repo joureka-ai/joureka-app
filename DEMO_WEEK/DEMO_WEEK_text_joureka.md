@@ -53,3 +53,6 @@ Im Rahmen der Entwicklung haben wir unterschiedliche Modelle für die Transkript
 # Wie geht es weiter?
 Zum Zeitpunkt des Abschlusses von Prototype Fund holen wir Feedback von Journalist:innen ein. Nachdem wir dieses Feedback katalogisiert und priorisiert haben, erfolgt die Anpassung der wichtigsten Punkte. Insbesondere erhoffe wir durch das Feedback zu verstehen, wie wichtig für Journalist:innen einzelne Funktionen wie Annotationen, Verwaltung von langen und vielen Interviews und eine Zusammenfassung von Textinhalten ist. \
 Da auch wir bei [joureka](https://www.joureka.ai/) nur eine begrenzte Zeit von Luft und Liebe leben können, suchen wir nach weiterer finanzieller Unterstützung, um joureka fortzuentwickeln. Eine Herzensangelegenheit wäre es für uns die jetzige prototypische Version zu einer vollumfänglichen Desktop App auszubauen, eine technische Installation mittels Docker & Co. , wissen wir, ist nicht für Journalist:innen geeignet.
+
+
+Wir danken dem Bundesministerium für Bildung und Forschung, dem Deutschen Zentrum für Luft- und Raumfahrt und  dem Prototype Fund für die finanzielle Förderung und umfangreiche Unterstützung!
