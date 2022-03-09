@@ -48,9 +48,6 @@ def gather_annots_by_type(db: Session, project_id: int, type: str, document_id: 
 
     if document_id:
         annots = crud.annot.get_by_d_type(db, document_id, type=type)
-        if annots:
-            if annots[0].fk_document != project_id:
-                annots = []
 
     if not document_id:
         # Get all pins / topics in the database
